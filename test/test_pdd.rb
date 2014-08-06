@@ -19,22 +19,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# PDD main module.
+require 'minitest/autorun'
+require 'pdd'
+
+# PDD main module test.
 # Author:: Yegor Bugayenko (yegor@teamed.io)
 # Copyright:: Copyright (c) 2014 Yegor Bugayenko
 # License:: MIT
-module PDD
-  # Code base abstraction
-  class Base
-    # Ctor.
-    # +dir+:: Directory with source code
-    def initialize(dir)
-      @dir = dir
-    end
-
-    # Generate XML.
-    def xml
-      '<xml/>'
-    end
+class TestPDD < Minitest::Test
+  def test_basic
+    PDD::Base.new('')
+    assert_equal 'A', 'A'
   end
 end

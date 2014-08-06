@@ -41,8 +41,8 @@ Gem::Specification.new do |s|
   s.test_files = s.files.grep(/{^(test|spec|features)\/}/)
   s.rdoc_options = ['--charset=UTF-8']
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt']
-  s.add_runtime_dependency('trollop', '2.0')
   s.add_development_dependency('rake', '~> 10.1')
+  s.add_development_dependency('minitest', '~> 5.4.0')
   s.add_development_dependency('rdoc', '~> 3.11')
   s.add_development_dependency('cucumber', '1.3.11')
   s.add_development_dependency('rubocop', '~> 0.24.1')
