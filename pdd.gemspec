@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = '2.2.2'
   s.required_ruby_version = '>= 1.9.3'
   s.name = 'pdd'
-  s.version = '1.0.pre'
+  s.version = '1.0.snapshot'
   s.license = 'MIT'
   s.summary = 'Puzzle Driven Development collector'
   s.description = 'Collects puzzles from source code base'
