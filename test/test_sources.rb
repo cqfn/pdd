@@ -19,43 +19,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+require 'minitest/autorun'
 require 'pdd/sources'
-require 'nokogiri'
+require 'tmpdir'
 
-# PDD main module.
+# Sources test.
 # Author:: Yegor Bugayenko (yegor@teamed.io)
 # Copyright:: Copyright (c) 2014 Yegor Bugayenko
 # License:: MIT
-module PDD
-  # Code base abstraction
-  class Base
-    # Ctor.
-    # +dir+:: Directory with source code
-    def initialize(dir)
-      @dir = dir
-    end
-
-    # Generate XML.
-    def xml
-      builder = Nokogiri::XML::Builder.new do |xml|
-        xml.puzzles do
-          Sources.new(@dir).fetch.each do |source|
-            source.puzzles.each { |puzzle| render puzzle, xml }
-          end
-        end
-      end
-      builder.to_xml
-    end
-
-    private
-
-    def render(puzzle, xml)
-      props = puzzle.props
-      xml.puzzle do
-        props.map do |k, v|
-          xml.send(:"#{k}", v)
-        end
-      end
+class TestSources < Minitest::Test
+  def test_iterator
+    Dir.mktmpdir 'test' do |dir|
+      File.write(File.join(dir, 'a.txt'), '@todo hello!')
+      File.write(File.join(dir, 'b.txt'), 'hello, again')
+      list = PDD::Sources.new(dir).fetch
+      assert list.size == 2
     end
   end
 end

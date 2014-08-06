@@ -19,43 +19,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-require 'pdd/sources'
-require 'nokogiri'
-
 # PDD main module.
 # Author:: Yegor Bugayenko (yegor@teamed.io)
 # Copyright:: Copyright (c) 2014 Yegor Bugayenko
 # License:: MIT
 module PDD
-  # Code base abstraction
-  class Base
+  # Puzzle.
+  class Puzzle
     # Ctor.
-    # +dir+:: Directory with source code
-    def initialize(dir)
-      @dir = dir
+    # +props+:: Properties
+    def initialize(props)
+      @props = props
     end
-
-    # Generate XML.
-    def xml
-      builder = Nokogiri::XML::Builder.new do |xml|
-        xml.puzzles do
-          Sources.new(@dir).fetch.each do |source|
-            source.puzzles.each { |puzzle| render puzzle, xml }
-          end
-        end
-      end
-      builder.to_xml
-    end
-
-    private
-
-    def render(puzzle, xml)
-      props = puzzle.props
-      xml.puzzle do
-        props.map do |k, v|
-          xml.send(:"#{k}", v)
-        end
-      end
-    end
+    attr_reader :props
   end
 end

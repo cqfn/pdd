@@ -6,5 +6,5 @@ branches:
 install:
   - travis_retry bundle install
 script:
-  - bundle exec rake
+  - rake
 

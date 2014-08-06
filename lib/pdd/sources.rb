@@ -19,8 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-require 'pdd/sources'
-require 'nokogiri'
+require 'pdd/puzzle'
 
 # PDD main module.
 # Author:: Yegor Bugayenko (yegor@teamed.io)
@@ -28,34 +27,39 @@ require 'nokogiri'
 # License:: MIT
 module PDD
   # Code base abstraction
-  class Base
+  class Sources
     # Ctor.
-    # +dir+:: Directory with source code
+    # +dir+:: Directory with source code files
     def initialize(dir)
       @dir = dir
     end
 
-    # Generate XML.
-    def xml
-      builder = Nokogiri::XML::Builder.new do |xml|
-        xml.puzzles do
-          Sources.new(@dir).fetch.each do |source|
-            source.puzzles.each { |puzzle| render puzzle, xml }
-          end
-        end
+    # Fetch all sources.
+    def fetch
+      Dir.glob(@dir + '/**').map do |file|
+        Source.new(file, file[@dir.length + 1, file.length])
       end
-      builder.to_xml
+    end
+  end
+
+  # Source.
+  class Source
+    # File.
+    # +file+:: Source file name, absolute
+    # +path+:: Path to show (without full file name)
+    def initialize(file, path)
+      @file = file
+      @path = path
     end
 
-    private
-
-    def render(puzzle, xml)
-      props = puzzle.props
-      xml.puzzle do
-        props.map do |k, v|
-          xml.send(:"#{k}", v)
-        end
-      end
+    # Fetch all puzzles.
+    def puzzles
+      [
+        Puzzle.new(
+          lines: 'test',
+          file: @path
+        )
+      ]
     end
   end
 end
