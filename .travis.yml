@@ -4,6 +4,7 @@ branches:
   only:
     - master
 install:
+  - sudo apt-get install libmagic1
   - travis_retry bundle install
 script:
   - rake

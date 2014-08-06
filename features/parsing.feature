@@ -18,4 +18,32 @@ Feature: Parsing
     """
     When I run pdd
     Then XML matches "/puzzles[count(puzzle)=1]"
-    And XML matches "/puzzles/puzzle[file='Sample.java']"
+    And XML matches "//puzzle[file='Sample.java']"
+    And XML matches "//puzzle[ticket='13']"
+    And XML matches "//puzzle[lines='3-4']"
+    And XML matches "//puzzle[starts-with(body,'Let')]"
+    And XML matches "//puzzle[role='IMP']"
+    And XML matches "//puzzle[estimate='30']"
+
+  Scenario: Multiple puzzles in one file
+    Given I have a "Sample.java" file with content:
+    """
+    public class Main {
+      /**
+       * @todo #13 This one later
+       * @todo #ABC-67:15min And this one ever later
+       * @todo #F-78-3:2h/DEV This is for a developer
+       *  who will join us later
+       */
+      public void main(String[] args) {
+        // later
+      }
+    }
+    """
+    When I run pdd
+    Then XML matches "/puzzles[count(puzzle)=3]"
+    And XML matches "//puzzle[ticket='13' and lines='3']"
+    And XML matches "//puzzle[ticket='ABC-67' and lines='4']"
+    And XML matches "//puzzle[ticket='F-78-3' and lines='5-6']"
+    And XML matches "//puzzle[ticket='ABC-67' and estimate='15']"
+    And XML matches "//puzzle[ticket='F-78-3' and estimate='120']"

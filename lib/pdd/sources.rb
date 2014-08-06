@@ -20,7 +20,7 @@
 # SOFTWARE.
 
 require 'filemagic'
-require 'pdd/puzzle'
+require 'pdd/source'
 
 # PDD main module.
 # Author:: Yegor Bugayenko (yegor@teamed.io)
@@ -43,27 +43,6 @@ module PDD
         .map do |file|
           Source.new(file, file[@dir.length + 1, file.length])
         end
-    end
-  end
-
-  # Source.
-  class Source
-    # File.
-    # +file+:: Source file name, absolute
-    # +path+:: Path to show (without full file name)
-    def initialize(file, path)
-      @file = file
-      @path = path
-    end
-
-    # Fetch all puzzles.
-    def puzzles
-      [
-        Puzzle.new(
-          lines: 'test',
-          file: @path
-        )
-      ]
     end
   end
 end

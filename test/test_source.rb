@@ -20,20 +20,33 @@
 # SOFTWARE.
 
 require 'minitest/autorun'
-require 'nokogiri'
-require 'pdd'
+require 'pdd/sources'
 require 'tmpdir'
 
-# PDD main module test.
+# Source test.
 # Author:: Yegor Bugayenko (yegor@teamed.io)
 # Copyright:: Copyright (c) 2014 Yegor Bugayenko
 # License:: MIT
-class TestPDD < Minitest::Test
-  def test_basic
+class TestSources < Minitest::Test
+  def test_parsing
     Dir.mktmpdir 'test' do |dir|
-      File.write(File.join(dir, 'a.txt'), '@todo #55 hello!')
-      xml = Nokogiri::XML::Document.parse(PDD::Base.new(dir).xml)
-      assert_equal xml.xpath('/puzzles/puzzle[file="a.txt"]').size, 1
+      file = File.join(dir, 'a.txt')
+      File.write(
+        file,
+        '
+        * @todo #44 hello,
+        *  how are you doing?
+        Something else
+        ~~ @todo #ABC-3 this is another puzzle
+        ~~  and it also has to work
+        '
+      )
+      list = PDD::Source.new(file, 'hey').puzzles
+      assert_equal 2, list.size
+      puzzle = list.first
+      assert_equal '2-3', puzzle.props[:lines]
+      assert_equal 'hello, how are you doing?', puzzle.props[:body]
+      assert_equal '44', puzzle.props[:ticket]
     end
   end
 end

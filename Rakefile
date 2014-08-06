@@ -51,7 +51,7 @@ Rake::RDocTask.new do |rdoc|
 end
 
 require 'rubocop/rake_task'
-desc 'Run RuboCop on the lib and test directories'
+desc 'Run RuboCop on all directories'
 RuboCop::RakeTask.new(:rubocop) do |task|
   task.fail_on_error = true
   task.requires << 'rubocop-rspec'
