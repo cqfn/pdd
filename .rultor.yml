@@ -3,6 +3,7 @@ assets:
 
 release:
   script:
+    - "rake"
     - "rm -rf *.gem"
     - "sed -i \"s/2.0-SNAPSHOT/${tag}/g\" jgd.gemspec"
     - "gem build jgd.gemspec"
