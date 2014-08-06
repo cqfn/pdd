@@ -25,4 +25,4 @@ STDOUT.sync = true
 
 require 'pdd'
 
-puts PDD::Base.new(Dir.pwd()).xml
+puts PDD::Base.new(Dir.pwd).xml
