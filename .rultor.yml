@@ -1,0 +1,11 @@
+assets:
+  rubygems.yml: "yegor256/home#assets/rubygems.yml"
+
+release:
+  script:
+    - "rm -rf *.gem"
+    - "sed -i \"s/2.0-SNAPSHOT/${tag}/g\" jgd.gemspec"
+    - "gem build jgd.gemspec"
+    - "chmod 0600 ../rubygems.yml"
+    - "gem push *.gem --config-file ../rubygems.yml"
+

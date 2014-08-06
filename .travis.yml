@@ -1,0 +1,10 @@
+language: ruby
+cache: bundler
+branches:
+  only:
+    - master
+install:
+  - travis_retry bundle install
+script:
+  - bundle exec rake
+
