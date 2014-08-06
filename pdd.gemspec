@@ -44,9 +44,9 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency('nokogiri', '~> 1.6.3.1')
   s.add_runtime_dependency('ruby-filemagic', '~> 0.6.0')
   s.add_development_dependency('rake', '~> 10.1')
-  s.add_development_dependency('minitest', '~> 5.4.0')
   s.add_development_dependency('rdoc', '~> 3.11')
   s.add_development_dependency('cucumber', '1.3.11')
+  s.add_development_dependency('minitest', '~> 5.4.0')
   s.add_development_dependency('rubocop', '~> 0.24.1')
   s.add_development_dependency('rubocop-rspec', '~> 1.1.0')
 end

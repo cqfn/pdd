@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-#
 # Copyright (c) 2014 TechnoPark Corp.
 # Copyright (c) 2014 Yegor Bugayenko
 #
@@ -21,8 +19,31 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-STDOUT.sync = true
-
 require 'pdd'
+require 'nokogiri'
+require 'tmpdir'
 
-puts PDD::Base.new(File.dirname(__FILE__)).xml
+Before do
+  @dir = Dir.mktmpdir('test')
+  FileUtils.mkdir_p(@dir) unless File.exist?(@dir)
+  Dir.chdir(@dir)
+end
+
+After do
+  FileUtils.rm_rf(@dir) if File.exist?(@dir)
+end
+
+Given(/^I have a "([^"]*)" file with content:$/) do |file, text|
+  FileUtils.mkdir_p(File.dirname(file)) unless File.exist?(file)
+  File.open(file, 'w') do |f|
+    f.write(text)
+  end
+end
+
+When(/^I run pdd$/) do
+  @xml = Nokogiri::XML.parse(PDD::Base.new(@dir).xml)
+end
+
+Then(/^XML matches "([^"]+)"$/) do |xpath|
+  fail "XML doesn't match \"#{xpath}\":\n#{@xml}" if @xml.xpath(xpath).empty?
+end
