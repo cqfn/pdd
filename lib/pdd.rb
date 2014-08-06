@@ -38,13 +38,13 @@ module PDD
     # Generate XML.
     def xml
       builder = Nokogiri::XML::Builder.new do |xml|
+        xml << '<?xml-stylesheet type="text/xsl" href="puzzles.xsl"?>'
         xml.puzzles do
           Sources.new(@dir).fetch.each do |source|
             source.puzzles.each { |puzzle| render puzzle, xml }
           end
         end
-      end
-      builder.to_xml
+      end.to_xml
     end
 
     private
