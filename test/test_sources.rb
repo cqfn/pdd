@@ -36,4 +36,13 @@ class TestSources < Minitest::Test
       assert list.size == 2
     end
   end
+
+  def test_ignores_binary_files
+    Dir.mktmpdir 'test' do |dir|
+      File.write(File.join(dir, 'c'), 'how are you?')
+      File.write(File.join(dir, 'd.png'), '')
+      list = PDD::Sources.new(dir).fetch
+      assert list.size == 1
+    end
+  end
 end

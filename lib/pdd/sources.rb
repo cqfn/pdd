@@ -19,6 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+require 'filemagic'
 require 'pdd/puzzle'
 
 # PDD main module.
@@ -32,13 +33,16 @@ module PDD
     # +dir+:: Directory with source code files
     def initialize(dir)
       @dir = dir
+      @magic = FileMagic.new(FileMagic::MAGIC_MIME)
     end
 
     # Fetch all sources.
     def fetch
-      Dir.glob(@dir + '/**').map do |file|
-        Source.new(file, file[@dir.length + 1, file.length])
-      end
+      Dir.glob(@dir + '/**')
+        .select { |f| @magic.file(f) =~ /^text\// }
+        .map do |file|
+          Source.new(file, file[@dir.length + 1, file.length])
+        end
     end
   end
 
