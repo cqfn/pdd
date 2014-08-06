@@ -31,9 +31,10 @@ class TestSources < Minitest::Test
   def test_iterator
     Dir.mktmpdir 'test' do |dir|
       File.write(File.join(dir, 'a.txt'), '@todo hello!')
-      File.write(File.join(dir, 'b.txt'), 'hello, again')
+      Dir.mkdir(File.join(dir, 'b'))
+      File.write(File.join(dir, 'b/c.txt'), 'hello, again')
       list = PDD::Sources.new(dir).fetch
-      assert list.size == 2
+      assert_equal 2, list.size
     end
   end
 
@@ -42,7 +43,7 @@ class TestSources < Minitest::Test
       File.write(File.join(dir, 'c'), 'how are you?')
       File.write(File.join(dir, 'd.png'), '')
       list = PDD::Sources.new(dir).fetch
-      assert list.size == 1
+      assert_equal 1, list.size
     end
   end
 end

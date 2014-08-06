@@ -38,7 +38,7 @@ module PDD
 
     # Fetch all sources.
     def fetch
-      Dir.glob(@dir + '/**')
+      Dir.glob(@dir + '/**/*')
         .select { |f| @magic.file(f) =~ /^text\// }
         .map do |file|
           Source.new(file, file[@dir.length + 1, file.length])

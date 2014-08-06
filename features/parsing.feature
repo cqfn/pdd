@@ -26,7 +26,7 @@ Feature: Parsing
     And XML matches "//puzzle[estimate='30']"
 
   Scenario: Multiple puzzles in one file
-    Given I have a "Sample.java" file with content:
+    Given I have a "test/a/b/c/Sample.java" file with content:
     """
     public class Main {
       /**
