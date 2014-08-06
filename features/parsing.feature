@@ -23,7 +23,7 @@ Feature: Parsing
     And XML matches "//puzzle[lines='3-4']"
     And XML matches "//puzzle[starts-with(body,'Let')]"
     And XML matches "//puzzle[role='IMP']"
-    And XML matches "//puzzle[estimate='30']"
+    And XML matches "//puzzle[estimate='0']"
 
   Scenario: Multiple puzzles in one file
     Given I have a "test/a/b/c/Sample.java" file with content:

@@ -84,7 +84,7 @@ module PDD
     # Parse minutes.
     def minutes(num, units)
       if num.nil?
-        min = 30
+        min = 0
       else
         min = Integer(num)
       end
