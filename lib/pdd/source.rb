@@ -21,15 +21,11 @@
 
 require 'pdd/puzzle'
 
-# PDD main module.
-# Author:: Yegor Bugayenko (yegor@teamed.io)
-# Copyright:: Copyright (c) 2014 Yegor Bugayenko
-# License:: MIT
 module PDD
   # Source.
   class Source
-    # File.
-    # +file+:: Source file name, absolute
+    # Ctor.
+    # +file+:: Absolute file name with source code
     # +path+:: Path to show (without full file name)
     def initialize(file, path)
       @file = file

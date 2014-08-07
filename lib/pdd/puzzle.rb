@@ -19,10 +19,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# PDD main module.
-# Author:: Yegor Bugayenko (yegor@teamed.io)
-# Copyright:: Copyright (c) 2014 Yegor Bugayenko
-# License:: MIT
 module PDD
   # Puzzle.
   class Puzzle

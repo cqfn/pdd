@@ -22,10 +22,6 @@
 require 'filemagic'
 require 'pdd/source'
 
-# PDD main module.
-# Author:: Yegor Bugayenko (yegor@teamed.io)
-# Copyright:: Copyright (c) 2014 Yegor Bugayenko
-# License:: MIT
 module PDD
   # Code base abstraction
   class Sources
