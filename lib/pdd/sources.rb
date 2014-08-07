@@ -36,8 +36,9 @@ module PDD
 
     # Fetch all sources.
     def fetch
+      types = [/^text\//, /application\/xml/]
       Dir.glob(@dir + '/**/*')
-        .select { |f| @magic.file(f) =~ /^text\// }
+        .select { |f| types.index { |re| @magic.file(f) =~ re } }
         .map do |file|
           Source.new(file, file[@dir.length + 1, file.length])
         end
