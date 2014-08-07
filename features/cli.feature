@@ -21,4 +21,18 @@ Feature: Command Line Processing
     }
     """
     When I run bin/pdd with "-v -s . -f out.xml"
-    Then XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
+    Then Exit code is zero
+    And Stdout contains "reading ."
+    And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
+
+  Scenario: Simple puzzles collecting into stdout
+    Given I have a "Sample.txt" file with content:
+    """
+    ~~
+    ~~ @todo #44 First
+    ~~  and second
+    ~~
+    """
+    When I run bin/pdd with " "
+    Then Exit code is zero
+    And Stdout contains "<puzzles>"
