@@ -49,5 +49,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'minitest', '~> 5.4', '>= 5.4.0'
   s.add_development_dependency 'rubocop', '~> 0.24', '>= 0.24.1'
   s.add_development_dependency 'rubocop-rspec', '~> 1.1', '>= 1.1.0'
-  s.add_development_dependency 'rspec-rails', '~> 2.14.0.rc1'
+  s.add_development_dependency 'rspec-rails', '~> 2.13'
 end
