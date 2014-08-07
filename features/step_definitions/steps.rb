@@ -50,14 +50,13 @@ Then(/^XML matches "([^"]+)"$/) do |xpath|
   fail "XML doesn't match \"#{xpath}\":\n#{@xml}" if @xml.xpath(xpath).empty?
 end
 
-
 When(/^I run pdd it fails with "([^"]*)"$/) do |txt|
   begin
     PDD::Base.new(@dir).xml
     passed = true
-  rescue Exception => ex
-    if !ex.message.include?(txt)
-      fail "PDD failed but exception doesn't contain \"#{txt}\": #{ex.message}"
+  rescue PDD::Error => ex
+    unless ex.message.include?(txt)
+      raise "PDD failed but exception doesn't contain \"#{txt}\": #{ex.message}"
     end
   end
   fail "PDD didn't fail" if passed

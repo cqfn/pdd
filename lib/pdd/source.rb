@@ -55,7 +55,7 @@ module PDD
             .strip
           puzzles << Puzzle.new(
             marker(match[2]).merge(
-              lines: total > 0 ? "#{idx + 1}-#{idx + total + 1}" : idx + 1,
+              lines: "#{idx + 1}-#{idx + total + 1}",
               body: body,
               file: @path
             )

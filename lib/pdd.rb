@@ -29,6 +29,12 @@ require 'nokogiri'
 # Copyright:: Copyright (c) 2014 Yegor Bugayenko
 # License:: MIT
 module PDD
+  # If it breaks.
+  class Error < StandardError
+  end
+  # If it violates XSD schema.
+  class SchemaError < Error
+  end
   # Code base abstraction
   class Base
     # Ctor.
@@ -39,14 +45,16 @@ module PDD
 
     # Generate XML.
     def xml
-      Nokogiri::XML::Builder.new do |xml|
-        xml << '<?xml-stylesheet type="text/xsl" href="puzzles.xsl"?>'
-        xml.puzzles do
-          Sources.new(@dir).fetch.each do |source|
-            source.puzzles.each { |puzzle| render puzzle, xml }
+      sanitize(
+        Nokogiri::XML::Builder.new do |xml|
+          xml << '<?xml-stylesheet type="text/xsl" href="puzzles.xsl"?>'
+          xml.puzzles do
+            Sources.new(@dir).fetch.each do |source|
+              source.puzzles.each { |puzzle| render puzzle, xml }
+            end
           end
-        end
-      end.to_xml
+        end.to_xml
+      )
     end
 
     private
@@ -58,6 +66,15 @@ module PDD
           xml.send(:"#{k}", v)
         end
       end
+    end
+
+    def sanitize(xml)
+      xsd = Nokogiri::XML::Schema(
+        File.read(File.join(File.dirname(__FILE__), '../asserts/puzzles.xsd'))
+      )
+      errors = xsd.validate(Nokogiri::XML(xml)).map { |error| error.message }
+      fail SchemaError, errors.join('; ') unless errors.empty?
+      xml
     end
   end
 end
