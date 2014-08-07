@@ -26,4 +26,13 @@ STDOUT.sync = true
 
 require 'pdd'
 
+opts = Slop.parse do
+  banner 'Usage: pdd [options]'
+  help
+  strict
+  on 'v', 'verbose', 'Enable verbose mode'
+  on 'v', 'verbose', 'Enable verbose mode'
+end
+
+
 puts PDD::Base.new(Dir.pwd).xml
