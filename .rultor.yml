@@ -3,6 +3,7 @@ assets:
 
 release:
   script:
+    - "sudo bundle install"
     - "rake"
     - "rm -rf *.gem"
     - "sed -i 's/1\\.0\\.snapshot/${tag}/g' jgd.gemspec"
