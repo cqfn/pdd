@@ -1,3 +1,5 @@
+# coding: utf-8
+#
 # Copyright (c) 2014 TechnoPark Corp.
 # Copyright (c) 2014 Yegor Bugayenko
 #
