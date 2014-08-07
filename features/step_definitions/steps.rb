@@ -81,6 +81,7 @@ Then(/^Stdout contains "([^"]*)"$/) do |txt|
 end
 
 Then(/^XML file "([^"]+)" matches "([^"]+)"$/) do |file, xpath|
+  fail "File #{file} doesn't exit" unless File.exist?(file)
   xml = Nokogiri::XML.parse(File.read(file))
   if xml.xpath(xpath).empty?
     fail "XML file #{file} doesn't match \"#{xpath}\":\n#{xml}"

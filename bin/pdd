@@ -38,6 +38,6 @@ end
 if opts.help?
   puts opts
 else
-  file = opts.file? ? opts[:file] : STDOUT
-  File.write(file, PDD::Base.new(opts).xml)
+  file = opts.file? ? File.new(opts[:file], 'w') : STDOUT
+  file << PDD::Base.new(opts).xml
 end

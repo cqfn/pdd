@@ -33,6 +33,6 @@ Feature: Command Line Processing
     ~~  and second
     ~~
     """
-    When I run bin/pdd with " "
+    When I run bin/pdd with "> out.xml"
     Then Exit code is zero
-    And Stdout contains "<puzzles>"
+    And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
