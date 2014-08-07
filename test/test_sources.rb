@@ -48,4 +48,15 @@ class TestSources < Minitest::Test
       assert_equal 1, list.size
     end
   end
+
+  def test_detects_all_text_files
+    Dir.mktmpdir 'test' do |dir|
+      exts = %w[(xsl java rb cpp apt)]
+      exts.each do |ext|
+        File.write(File.join(dir, "test.#{ext}"), 'text')
+      end
+      list = PDD::Sources.new(dir).fetch
+      assert_equal exts.size, list.size
+    end
+  end
 end
