@@ -5,7 +5,7 @@ release:
   script:
     - "rake"
     - "rm -rf *.gem"
-    - "sed -i 's/1\.0\.snapshot/${tag}/g' jgd.gemspec"
+    - "sed -i 's/1\\.0\\.snapshot/${tag}/g' jgd.gemspec"
     - "gem build jgd.gemspec"
     - "chmod 0600 ../rubygems.yml"
     - "gem push *.gem --config-file ../rubygems.yml"
