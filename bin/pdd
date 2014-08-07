@@ -35,6 +35,8 @@ opts = Slop.parse do
   on 'f', 'file', 'File to save XML into', argument: :required
 end
 
+fail '-f is mandatory when using -v' if opts.verbose? && !opts.file?
+
 if opts.help?
   puts opts
 else
