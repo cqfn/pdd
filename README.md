@@ -1,4 +1,4 @@
-[![Build Status](http://img.teamed.io/made.svg)](http://www.teamed.io)
+[![Build Status](http://img.teamed.io/button.svg)](http://www.teamed.io)
 
 [![Build Status](https://travis-ci.org/teamed/pdd.svg)](https://travis-ci.org/teamed/pdd)
 [![Gem Version](https://badge.fury.io/rb/pdd.svg)](http://badge.fury.io/rb/pdd)
@@ -17,3 +17,25 @@ Run it locally:
 ```bash
 pdd
 ```
+
+Every puzzle has to be formatted like this:
+
+```java
+/**
+ * @todo #234:15m/DEV This is something to do later
+ *  in one of the next releases
+ */
+```
+
+It starts with `@todo`, followed by a space and a puzzle marker.
+Possible formats of puzzle markers:
+
+```
+#224
+#TEST-13
+#55:45min
+#67/DES
+```
+
+Read this article about
+[Puzzle Drive Development](http://www.xdsd.org/2009/03/04/pdd.html).
