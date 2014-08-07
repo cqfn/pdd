@@ -40,7 +40,13 @@ module PDD
 
   # Get logger.
   def self.log
-    @log ||= Logger.new(STDOUT)
+    unless @log
+      @log = Logger.new(STDOUT)
+      @log.formatter = proc { |severity, _, _, msg|
+        puts "#{severity}: #{msg.dump}"
+      }
+    end
+    @log
   end
 
   class << self

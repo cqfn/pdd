@@ -23,5 +23,3 @@
 
 require 'simplecov'
 require 'pdd'
-
-PDD.log = Logger.new(STDOUT)
