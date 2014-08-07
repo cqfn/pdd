@@ -29,8 +29,7 @@ require 'slop'
 
 opts = Slop.parse do
   banner 'Usage: pdd [options]'
-  help
-  strict
+  on 'h', 'help', 'Print this page'
   on 'v', 'verbose', 'Enable verbose mode'
   on 's', 'source', 'Source directory to parse', argument: :required
   on 'f', 'file', 'File to save XML into', argument: :required

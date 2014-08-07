@@ -25,6 +25,7 @@ require 'pdd'
 require 'nokogiri'
 require 'tmpdir'
 require 'slop'
+require 'English'
 
 Before do
   @dir = Dir.mktmpdir('test')
@@ -65,4 +66,27 @@ When(/^I run pdd it fails with "([^"]*)"$/) do |txt|
     end
   end
   fail "PDD didn't fail" if passed
+end
+
+When(/^I run bin\/pdd with "([^"]*)"$/) do |arg|
+  home = File.join(File.dirname(__FILE__), '../..')
+  @stdout = `ruby -I#{home}/lib #{home}/bin/pdd #{arg}`
+  @exitstatus = $CHILD_STATUS.exitstatus
+end
+
+Then(/^Stdout contains "([^"]*)"$/) do |txt|
+  unless @stdout.include?(txt)
+    fail "STDOUT doesn't contain '#{txt}':\n#{@stdout}"
+  end
+end
+
+Then(/^XML file "([^"]+)" matches "([^"]+)"$/) do |file, xpath|
+  xml = Nokogiri::XML.parse(File.read(file))
+  if xml.xpath(xpath).empty?
+    fail "XML file #{file} doesn't match \"#{xpath}\":\n#{xml}"
+  end
+end
+
+Then(/^Exit code is zero$/) do
+  fail "Non-zero exit code #{@exitstatus}" unless @exitstatus == 0
 end
