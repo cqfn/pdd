@@ -59,4 +59,12 @@ class TestSources < Minitest::Test
       assert_equal exts.size, list.size
     end
   end
+
+  def test_detects_xml_file
+    Dir.mktmpdir 'test' do |dir|
+      File.write(File.join(dir, 'a.xml'), '<?xml version="1.0"?><hello/>')
+      list = PDD::Sources.new(dir).fetch
+      assert_equal 1, list.size
+    end
+  end
 end
