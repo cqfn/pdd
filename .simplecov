@@ -28,5 +28,5 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
     Coveralls::SimpleCov::Formatter
 ]
 SimpleCov.start do
-  # any custom configs like groups and filters can be here at a central place
+  minimum_coverage 100
 end
