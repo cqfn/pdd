@@ -1,3 +1,5 @@
+<img src="http://img.teamed.io/made-by.svg" style="float:right"/>
+
 [![Build Status](https://travis-ci.org/teamed/pdd.svg)](https://travis-ci.org/teamed/pdd)
 [![Gem Version](https://badge.fury.io/rb/pdd.svg)](http://badge.fury.io/rb/pdd)
 [![Dependency Status](https://gemnasium.com/teamed/pdd.svg)](https://gemnasium.com/teamed/pdd)
