@@ -43,9 +43,8 @@ module PDD
     @log ||= Logger.new(STDOUT)
   end
 
-  # Set logger.
-  def self.log=(log)
-    @log = log
+  class << self
+    attr_writer :log
   end
 
   # Code base abstraction
@@ -67,7 +66,9 @@ module PDD
           xml.puzzles do
             Sources.new(dir).fetch.each do |source|
               source.puzzles.each do |puzzle|
-                PDD.log.info "puzzle found at #{puzzle.props[:file]}"
+                PDD.log.info "puzzle #{puzzle.props[:ticket]}:" \
+                  "#{puzzle.props[:estimate]}/#{puzzle.props[:role]}" \
+                  " at #{puzzle.props[:file]}"
                 render puzzle, xml
               end
             end
