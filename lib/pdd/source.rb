@@ -45,14 +45,14 @@ module PDD
         re.match(line) do |match|
           prefix = match[1] + ' '
           total = 0
-          body = match[3] + ' ' + lines.drop(idx + 1)
+          body = (match[3] + ' ' + lines.drop(idx + 1)
             .take_while { |txt| txt.start_with?(prefix) }
             .map { |txt| txt[prefix.length, txt.length] }
             .map do |txt|
               total += 1
               txt
             end
-            .join(' ')
+            .join(' '))
             .gsub(/\s+/, ' ')
             .strip
           puzzles << Puzzle.new(
@@ -83,11 +83,7 @@ module PDD
 
     # Parse minutes.
     def minutes(num, units)
-      if num.nil?
-        min = 0
-      else
-        min = Integer(num)
-      end
+      min = num.nil? ? 0 : Integer(num)
       min *= 60 if !units.nil? && units.start_with?('h')
       min
     end

@@ -43,6 +43,7 @@ Feature: Parsing
     When I run pdd
     Then XML matches "/puzzles[count(puzzle)=3]"
     And XML matches "//puzzle[ticket='13' and lines='3']"
+    And XML matches "//puzzle[ticket='13' and body='This one later']"
     And XML matches "//puzzle[ticket='ABC-67' and lines='4']"
     And XML matches "//puzzle[ticket='F-78-3' and lines='5-6']"
     And XML matches "//puzzle[ticket='ABC-67' and estimate='15']"
