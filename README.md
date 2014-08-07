@@ -1,4 +1,4 @@
-<img src="http://img.teamed.io/made-by.svg" style="float:right"/>
+<a href="http://www.teamed.io"><img src="http://img.teamed.io/made-by.svg" style="float:right"/></a>
 
 [![Build Status](https://travis-ci.org/teamed/pdd.svg)](https://travis-ci.org/teamed/pdd)
 [![Gem Version](https://badge.fury.io/rb/pdd.svg)](http://badge.fury.io/rb/pdd)
