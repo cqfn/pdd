@@ -24,11 +24,16 @@
 require 'pdd'
 require 'nokogiri'
 require 'tmpdir'
+require 'slop'
 
 Before do
   @dir = Dir.mktmpdir('test')
   FileUtils.mkdir_p(@dir) unless File.exist?(@dir)
   Dir.chdir(@dir)
+  @opts = Slop.parse ['-v', '-s', @dir] do
+    on 'v', 'verbose'
+    on 's', 'source', argument: :required
+  end
 end
 
 After do
@@ -43,7 +48,7 @@ Given(/^I have a "([^"]*)" file with content:$/) do |file, text|
 end
 
 When(/^I run pdd$/) do
-  @xml = Nokogiri::XML.parse(PDD::Base.new(@dir).xml)
+  @xml = Nokogiri::XML.parse(PDD::Base.new(@opts).xml)
 end
 
 Then(/^XML matches "([^"]+)"$/) do |xpath|
@@ -52,7 +57,7 @@ end
 
 When(/^I run pdd it fails with "([^"]*)"$/) do |txt|
   begin
-    PDD::Base.new(@dir).xml
+    PDD::Base.new(@opts).xml
     passed = true
   rescue PDD::Error => ex
     unless ex.message.include?(txt)

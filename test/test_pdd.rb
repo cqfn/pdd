@@ -25,6 +25,7 @@ require 'minitest/autorun'
 require 'nokogiri'
 require 'pdd'
 require 'tmpdir'
+require 'slop'
 
 # PDD main module test.
 # Author:: Yegor Bugayenko (yegor@teamed.io)
@@ -33,9 +34,13 @@ require 'tmpdir'
 class TestPDD < Minitest::Test
   def test_basic
     Dir.mktmpdir 'test' do |dir|
+      opts = Slop.parse ['-v', '-s', dir] do
+        on 'v', 'verbose'
+        on 's', 'source', argument: :required
+      end
       File.write(File.join(dir, 'a.txt'), '@todo #55 hello!')
-      xml = Nokogiri::XML::Document.parse(PDD::Base.new(dir).xml)
-      assert_equal xml.xpath('/puzzles/puzzle[file="a.txt"]').size, 1
+      xml = Nokogiri::XML::Document.parse(PDD::Base.new(opts).xml)
+      assert_equal 1, xml.xpath('/puzzles/puzzle[file="a.txt"]').size
     end
   end
 end

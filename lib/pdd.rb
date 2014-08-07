@@ -23,6 +23,7 @@
 
 require 'pdd/sources'
 require 'nokogiri'
+require 'logger'
 
 # PDD main module.
 # Author:: Yegor Bugayenko (yegor@teamed.io)
@@ -32,25 +33,43 @@ module PDD
   # If it breaks.
   class Error < StandardError
   end
+
   # If it violates XSD schema.
   class SchemaError < Error
   end
+
+  # Get logger.
+  def self.log
+    @log ||= Logger.new(STDOUT)
+  end
+
+  # Set logger.
+  def self.log=(log)
+    @log = log
+  end
+
   # Code base abstraction
   class Base
     # Ctor.
-    # +dir+:: Directory with source code
-    def initialize(dir)
-      @dir = dir
+    # +opts+:: Options
+    def initialize(opts)
+      @opts = opts
+      PDD.log = Logger.new(File::NULL) unless @opts.verbose?
     end
 
     # Generate XML.
     def xml
+      dir = @opts.source? ? @opts[:source] : Dir.pwd
+      PDD.log.info "reading #{dir}"
       sanitize(
         Nokogiri::XML::Builder.new do |xml|
           xml << '<?xml-stylesheet type="text/xsl" href="puzzles.xsl"?>'
           xml.puzzles do
-            Sources.new(@dir).fetch.each do |source|
-              source.puzzles.each { |puzzle| render puzzle, xml }
+            Sources.new(dir).fetch.each do |source|
+              source.puzzles.each do |puzzle|
+                PDD.log.info "puzzle found at #{puzzle.props[:file]}"
+                render puzzle, xml
+              end
             end
           end
         end.to_xml
@@ -73,6 +92,7 @@ module PDD
         File.read(File.join(File.dirname(__FILE__), '../asserts/puzzles.xsd'))
       )
       errors = xsd.validate(Nokogiri::XML(xml)).map { |error| error.message }
+      errors.each { |e| PDD.log.error e }
       fail SchemaError, errors.join('; ') unless errors.empty?
       xml
     end

@@ -25,14 +25,20 @@
 STDOUT.sync = true
 
 require 'pdd'
+require 'slop'
 
 opts = Slop.parse do
   banner 'Usage: pdd [options]'
   help
   strict
   on 'v', 'verbose', 'Enable verbose mode'
-  on 'v', 'verbose', 'Enable verbose mode'
+  on 's', 'source', 'Source directory to parse', argument: :required
+  on 'f', 'file', 'File to save XML into', argument: :required
 end
 
-
-puts PDD::Base.new(Dir.pwd).xml
+if opts.help?
+  puts opts
+else
+  file = opts.file? ? opts[:file] : STDOUT
+  File.write(file, PDD::Base.new(opts).xml)
+end
