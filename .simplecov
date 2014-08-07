@@ -28,5 +28,7 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
     Coveralls::SimpleCov::Formatter
 ]
 SimpleCov.start do
+  add_filter "/test/"
+  add_filter "/features/"
   minimum_coverage 100
 end
