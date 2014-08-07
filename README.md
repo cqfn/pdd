@@ -1,4 +1,4 @@
-[![Build Status](http://img.teamed.io/btn/dark-125x25.svg)](http://www.teamed.io)
+[![Build Status](http://img.teamed.io/btn/125x25.svg)](http://www.teamed.io)
 
 [![Build Status](https://travis-ci.org/teamed/pdd.svg)](https://travis-ci.org/teamed/pdd)
 [![Gem Version](https://badge.fury.io/rb/pdd.svg)](http://badge.fury.io/rb/pdd)
