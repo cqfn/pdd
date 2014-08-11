@@ -29,8 +29,9 @@ module PDD
   class Sources
     # Ctor.
     # +dir+:: Directory with source code files
-    def initialize(dir)
+    def initialize(dir, ptns = [])
       @dir = dir
+      @exclude = ptns
       @magic = FileMagic.new(FileMagic::MAGIC_MIME)
     end
 
@@ -42,6 +43,10 @@ module PDD
         .map do |file|
           Source.new(file, file[@dir.length + 1, file.length])
         end
+    end
+
+    def exclude(ptn)
+      Sources.new(@dir, @exclude.push(ptn))
     end
   end
 end

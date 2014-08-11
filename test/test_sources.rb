@@ -31,26 +31,21 @@ require 'tmpdir'
 # License:: MIT
 class TestSources < Minitest::Test
   def test_iterator
-    Dir.mktmpdir 'test' do |dir|
-      File.write(File.join(dir, 'a.txt'), '@todo hello!')
-      Dir.mkdir(File.join(dir, 'b'))
-      File.write(File.join(dir, 'b/c.txt'), 'hello, again')
+    in_temp(['a.txt', 'b/c.txt']) do |dir|
       list = PDD::Sources.new(dir).fetch
       assert_equal 2, list.size
     end
   end
 
   def test_ignores_binary_files
-    Dir.mktmpdir 'test' do |dir|
-      File.write(File.join(dir, 'c'), 'how are you?')
-      File.write(File.join(dir, 'd.png'), '')
+    in_temp(['c', 'd.png']) do |dir|
       list = PDD::Sources.new(dir).fetch
       assert_equal 1, list.size
     end
   end
 
   def test_detects_all_text_files
-    Dir.mktmpdir 'test' do |dir|
+    in_temp([]) do |dir|
       exts = %w[(xsl java rb cpp apt)]
       exts.each do |ext|
         File.write(File.join(dir, "test.#{ext}"), 'text')
@@ -61,10 +56,29 @@ class TestSources < Minitest::Test
   end
 
   def test_detects_xml_file
-    Dir.mktmpdir 'test' do |dir|
+    in_temp(['a.xml']) do |dir|
       File.write(File.join(dir, 'a.xml'), '<?xml version="1.0"?><hello/>')
       list = PDD::Sources.new(dir).fetch
       assert_equal 1, list.size
     end
   end
+
+  def test_excludes_by_pattern
+    in_temp(['a/first.txt', 'b/c/d/second.txt']) do |dir|
+      list = PDD::Sources.new(dir).exclude("b/**/*.txt").fetch
+      assert_equal 1, list.size
+    end
+  end
+
+  def in_temp(files)
+    Dir.mktmpdir 'test' do |dir|
+      files.each do |path|
+        file = File.join(dir, path)
+        FileUtils.mkdir_p(File.dirname(file))
+        File.write(file, 'empty')
+      end
+      yield dir
+    end
+  end
+
 end
