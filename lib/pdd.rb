@@ -66,11 +66,16 @@ module PDD
     def xml
       dir = @opts.source? ? @opts[:source] : Dir.pwd
       PDD.log.info "reading #{dir}"
+      sources = Sources.new(dir)
+      @opts[:exclude].each do |p|
+        sources = sources.exclude(p)
+        PDD.log.info "excluding #{p}"
+      end unless @opts[:exclude].nil?
       sanitize(
         Nokogiri::XML::Builder.new do |xml|
           xml << '<?xml-stylesheet type="text/xsl" href="puzzles.xsl"?>'
           xml.puzzles do
-            Sources.new(dir).fetch.each do |source|
+            sources.fetch.each do |source|
               source.puzzles.each do |puzzle|
                 PDD.log.info "puzzle #{puzzle.props[:ticket]}:" \
                   "#{puzzle.props[:estimate]}/#{puzzle.props[:role]}" \

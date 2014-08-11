@@ -66,7 +66,7 @@ class TestSources < Minitest::Test
 
   def test_excludes_by_pattern
     in_temp(['a/first.txt', 'b/c/d/second.txt']) do |dir|
-      list = PDD::Sources.new(dir).exclude("b/**").fetch
+      list = PDD::Sources.new(dir).exclude("b/c/d/second.txt").fetch
       assert_equal 1, list.size
     end
   end
