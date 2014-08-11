@@ -39,6 +39,7 @@ class TestSources < Minitest::Test
 
   def test_ignores_binary_files
     in_temp(['c', 'd.png']) do |dir|
+      File.write(File.join(dir, 'd.png'), '')
       list = PDD::Sources.new(dir).fetch
       assert_equal 1, list.size
     end
@@ -65,17 +66,17 @@ class TestSources < Minitest::Test
 
   def test_excludes_by_pattern
     in_temp(['a/first.txt', 'b/c/d/second.txt']) do |dir|
-      list = PDD::Sources.new(dir).exclude("b/**/*.txt").fetch
+      list = PDD::Sources.new(dir).exclude("b/**").fetch
       assert_equal 1, list.size
     end
   end
 
   def in_temp(files)
-    Dir.mktmpdir 'test' do |dir|
+    Dir.mktmpdir 'x' do |dir|
       files.each do |path|
         file = File.join(dir, path)
         FileUtils.mkdir_p(File.dirname(file))
-        File.write(file, 'empty')
+        File.write(file, 'some test content')
       end
       yield dir
     end

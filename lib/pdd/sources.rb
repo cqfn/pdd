@@ -23,6 +23,7 @@
 
 require 'filemagic'
 require 'pdd/source'
+require 'rake/file_list'
 
 module PDD
   # Code base abstraction
