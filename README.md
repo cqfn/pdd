@@ -12,10 +12,10 @@ Install it first:
 gem install pdd
 ```
 
-Run it locally:
+Run it locally and read its output:
 
 ```bash
-pdd
+pdd --help
 ```
 
 Every puzzle has to be formatted like this:
@@ -35,7 +35,8 @@ Possible formats of puzzle markers:
 #TEST-13
 #55:45min
 #67/DES
+#678:40m/DEV
 ```
 
 Read this article about
-[Puzzle Drive Development](http://www.xdsd.org/2009/03/04/pdd.html).
+[Puzzle Drive Development](http://www.yegor256.com/2009/03/04/pdd.html).
