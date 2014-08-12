@@ -41,7 +41,8 @@ module PDD
       types = [/^text\//, /application\/xml/]
       Rake::FileList.new(@dir + '/**/*')
         .exclude(@exclude.map { |p| @dir + '/' + p })
-        .select({ |f| types.index { |re| @magic.file(f) =~ re } })
+        .to_a
+        .select { |f| types.index { |re| @magic.file(f) =~ re } }
         .map do |file|
           Source.new(file, file[@dir.length + 1, file.length])
         end
