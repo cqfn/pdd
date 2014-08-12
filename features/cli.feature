@@ -36,3 +36,12 @@ Feature: Command Line Processing
     When I run bin/pdd with "> out.xml"
     Then Exit code is zero
     And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
+
+  Scenario: Excluding unnecessary files
+    Given I have a "test.txt" file with content:
+    """
+    ~~ @todo #44 some puzzle to be excluded
+    """
+    When I run bin/pdd with "--exclude=text.txt > out.xml"
+    Then Exit code is zero
+    And XML file "out.xml" matches "/puzzles[count(puzzle)=0]"
