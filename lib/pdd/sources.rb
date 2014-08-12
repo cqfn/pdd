@@ -39,11 +39,9 @@ module PDD
     # Fetch all sources.
     def fetch
       types = [/^text\//, /application\/xml/]
-      puts "DIR: " + @dir
-      puts "EX: " + @exclude.map { |p| @dir + '/' + p }.join("; ")
-      FileList.new(@dir + '/**/*')
+      Rake::FileList.new(@dir + '/**/*')
         .exclude(@exclude.map { |p| @dir + '/' + p })
-        .select { |f| types.index { |re| @magic.file(f) =~ re } }
+        .select({ |f| types.index { |re| @magic.file(f) =~ re } })
         .map do |file|
           Source.new(file, file[@dir.length + 1, file.length])
         end
