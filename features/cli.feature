@@ -45,3 +45,10 @@ Feature: Command Line Processing
     When I run bin/pdd with "--exclude=text.txt > out.xml"
     Then Exit code is zero
     And XML file "out.xml" matches "/puzzles[count(puzzle)=0]"
+
+  Scenario: Rejects unknown options
+    Given I have a "test.txt" file with content:
+    """
+    """
+    When I run bin/pdd with "--some-unknown-option"
+    Then Exit code is not zero
