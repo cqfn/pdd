@@ -34,10 +34,6 @@ module PDD
       @path = path
     end
 
-    def to_s
-      @path
-    end
-
     # Fetch all puzzles.
     def puzzles
       re = /(.*(?:^|\s))@todo\s+#([\w\-\.:\/]+)\s+(.+)/

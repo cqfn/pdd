@@ -34,9 +34,10 @@ require 'slop'
 class TestPDD < Minitest::Test
   def test_basic
     Dir.mktmpdir 'test' do |dir|
-      opts = Slop.parse ['-v', '-s', dir] do
+      opts = Slop.parse ['-v', '-s', dir, '-e', '**/*.png'] do
         on 'v', 'verbose'
         on 's', 'source', argument: :required
+        on 'e', 'exclude', as: Array, argument: :required
       end
       File.write(File.join(dir, 'a.txt'), '@todo #55 hello!')
       xml = Nokogiri::XML::Document.parse(PDD::Base.new(opts).xml)
