@@ -41,6 +41,8 @@ fail '-f is mandatory when using -v' if opts.verbose? && !opts.file?
 if opts.help?
   puts opts
 else
+  Encoding.default_external = Encoding::UTF_8
+  Encoding.default_internal = Encoding::UTF_8
   file = opts.file? ? File.new(opts[:file], 'w') : STDOUT
   file << PDD::Base.new(opts).xml
 end
