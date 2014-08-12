@@ -22,6 +22,7 @@
 # SOFTWARE.
 
 require 'pdd/sources'
+require 'pdd/version'
 require 'nokogiri'
 require 'logger'
 
@@ -74,7 +75,7 @@ module PDD
       sanitize(
         Nokogiri::XML::Builder.new do |xml|
           xml << '<?xml-stylesheet type="text/xsl" href="puzzles.xsl"?>'
-          xml.puzzles do
+          xml.puzzles(version: PDD::VERSION) do
             sources.fetch.each do |source|
               source.puzzles.each do |puzzle|
                 PDD.log.info "puzzle #{puzzle.props[:ticket]}:" \
@@ -105,6 +106,7 @@ module PDD
       )
       errors = xsd.validate(Nokogiri::XML(xml)).map { |error| error.message }
       errors.each { |e| PDD.log.error e }
+      PDD.log.error(xml) unless errors.empty?
       fail SchemaError, errors.join('; ') unless errors.empty?
       xml
     end

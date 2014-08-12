@@ -41,6 +41,7 @@ class TestPDD < Minitest::Test
       end
       File.write(File.join(dir, 'a.txt'), '@todo #55 hello!')
       xml = Nokogiri::XML::Document.parse(PDD::Base.new(opts).xml)
+      assert_equal 1, xml.xpath('/puzzles/@version').size
       assert_equal 1, xml.xpath('/puzzles/puzzle[file="a.txt"]').size
     end
   end

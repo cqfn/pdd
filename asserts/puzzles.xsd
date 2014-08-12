@@ -73,6 +73,7 @@
       <xs:sequence>
         <xs:element name="puzzle" type="puzzle" minOccurs="0" maxOccurs="unbounded" />
       </xs:sequence>
+      <xs:attribute name="version" use="required" type="xs:string"/>
     </xs:complexType>
     <xs:unique name="puzzleBody">
       <xs:selector xpath="./puzzle" />
