@@ -27,9 +27,8 @@ STDOUT.sync = true
 require 'pdd'
 require 'slop'
 
-opts = Slop.parse do
+opts = Slop.parse(ARGV, strict: true, help: true) do
   banner 'Usage: pdd [options]'
-  on 'h', 'help', 'Print this page'
   on 'v', 'verbose', 'Enable verbose mode'
   on 's', 'source', 'Source directory to parse', argument: :required
   on 'f', 'file', 'File to save XML into', argument: :required
