@@ -92,7 +92,6 @@ Then(/^Exit code is zero$/) do
   fail "Non-zero exit code #{@exitstatus}" unless @exitstatus == 0
 end
 
-
 Then(/^Exit code is not zero$/) do
-  fail "Zero exit code" if @exitstatus == 0
+  fail 'Zero exit code' if @exitstatus == 0
 end
