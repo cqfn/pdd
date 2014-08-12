@@ -38,11 +38,15 @@ Feature: Command Line Processing
     And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
 
   Scenario: Excluding unnecessary files
-    Given I have a "test.txt" file with content:
+    Given I have a "a/b/c/test.txt" file with content:
     """
     ~~ @todo #44 some puzzle to be excluded
     """
-    When I run bin/pdd with "-e test.txt > out.xml"
+    And I have a "f/g/h/hello.md" file with content:
+    """
+    ~~ @todo #44 some puzzle to be excluded as well
+    """
+    When I run bin/pdd with "-e **/*.md -e **/*.txt > out.xml"
     Then Exit code is zero
     And XML file "out.xml" matches "/puzzles[count(puzzle)=0]"
 
