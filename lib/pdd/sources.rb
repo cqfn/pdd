@@ -44,9 +44,10 @@ module PDD
             list.exclude(f)
           end
         end
-      end
+      end.to_a
+      PDD.log.info "#{files.size} file(s) found"
       types = [/^text\//, /application\/xml/]
-      files.to_a
+      files
         .select { |f| types.index { |re| @magic.file(f) =~ re } }
         .map do |file|
           Source.new(file, file[@dir.length + 1, file.length])
