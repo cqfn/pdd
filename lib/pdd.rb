@@ -25,6 +25,7 @@ require 'pdd/sources'
 require 'pdd/version'
 require 'nokogiri'
 require 'logger'
+require 'time'
 
 # PDD main module.
 # Author:: Yegor Bugayenko (yegor@teamed.io)
@@ -75,7 +76,7 @@ module PDD
       sanitize(
         Nokogiri::XML::Builder.new do |xml|
           xml << '<?xml-stylesheet type="text/xsl" href="puzzles.xsl"?>'
-          xml.puzzles(version: PDD::VERSION) do
+          xml.puzzles(version: PDD::VERSION, date: Time.now.utc.iso8601) do
             sources.fetch.each do |source|
               source.puzzles.each do |puzzle|
                 PDD.log.info "puzzle #{puzzle.props[:ticket]}:" \
