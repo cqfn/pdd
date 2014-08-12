@@ -5,7 +5,7 @@ Feature: Command Line Processing
   Scenario: Help can be printed
     When I run bin/pdd with "-h"
     Then Exit code is zero
-    And Stdout contains "Usage: pdd"
+    And Stdout contains "-v, --verbose"
 
   Scenario: Simple puzzles collecting
     Given I have a "Sample.java" file with content:

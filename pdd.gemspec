@@ -21,6 +21,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'pdd/version'
+
 Gem::Specification.new do |s|
   s.specification_version = 2 if s.respond_to? :specification_version=
   if s.respond_to? :required_rubygems_version=
@@ -29,7 +33,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = '2.2.2'
   s.required_ruby_version = '>= 1.9.3'
   s.name = 'pdd'
-  s.version = '1.0.snapshot'
+  s.version = PDD::VERSION
   s.license = 'MIT'
   s.summary = 'Puzzle Driven Development collector'
   s.description = 'Collects puzzles from source code base'

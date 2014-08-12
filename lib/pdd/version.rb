@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # encoding: utf-8
 #
 # Copyright (c) 2014 TechnoPark Corp.
@@ -22,25 +21,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-STDOUT.sync = true
-
-require 'pdd'
-require 'slop'
-require 'pdd/version'
-
-opts = Slop.parse(ARGV, strict: true, help: true) do
-  banner "Usage (#{PDD::VERSION}): pdd [options]"
-  on 'v', 'verbose', 'Enable verbose mode'
-  on 's', 'source', 'Source directory to parse', argument: :required
-  on 'f', 'file', 'File to save XML into', argument: :required
-  on 'e', 'exclude', 'Glob pattern to exclude', as: Array, argument: :required
-end
-
-fail '-f is mandatory when using -v' if opts.verbose? && !opts.file?
-
-if opts.help?
-  puts opts
-else
-  file = opts.file? ? File.new(opts[:file], 'w') : STDOUT
-  file << PDD::Base.new(opts).xml
+# PDD main module.
+# Author:: Yegor Bugayenko (yegor@teamed.io)
+# Copyright:: Copyright (c) 2014 Yegor Bugayenko
+# License:: MIT
+module PDD
+  VERSION = '1.0.snapshot'
 end
