@@ -41,8 +41,8 @@ Gem::Specification.new do |s|
   s.email = 'yegor@teamed.io'
   s.homepage = 'http://github.com/teamed/pdd'
   s.files = `git ls-files`.split($RS)
-  s.executables = s.files.grep(/{^bin\/}/) { |f| File.basename(f) }
-  s.test_files = s.files.grep(/{^(test|spec|features)\/}/)
+  s.executables = s.files.grep(/^bin\//) { |f| File.basename(f) }
+  s.test_files = s.files.grep(/^(test|spec|features)\//)
   s.rdoc_options = ['--charset=UTF-8']
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt']
   s.add_runtime_dependency 'nokogiri', '~> 1.6', '>= 1.6.3.1'
