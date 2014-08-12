@@ -46,7 +46,7 @@ Feature: Command Line Processing
     """
     ~~ @todo #44 some puzzle to be excluded as well
     """
-    When I run bin/pdd with "-e **/*.md --exclude **/*.txt > out.xml"
+    When I run bin/pdd with "-e f/g/**/*.md --exclude a/**/*.txt > out.xml"
     Then Exit code is zero
     And XML file "out.xml" matches "/puzzles[count(puzzle)=0]"
 

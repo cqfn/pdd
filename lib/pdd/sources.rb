@@ -38,9 +38,9 @@ module PDD
 
     # Fetch all sources.
     def fetch
-      files = Rake::FileList.new(@dir + '/**/*') do |list|
+      files = Rake::FileList.new(File.join(@dir, '**/*')) do |list|
         @exclude.each do |ptn|
-          Rake::FileList.new(@dir + '/' + ptn).each do |f|
+          Rake::FileList.new(File.join(@dir, ptn)).each do |f|
             list.exclude(f)
           end
         end
