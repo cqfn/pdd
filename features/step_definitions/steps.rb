@@ -28,6 +28,7 @@ require 'slop'
 require 'English'
 
 Before do
+  @cwd = Dir.pwd
   @dir = Dir.mktmpdir('test')
   FileUtils.mkdir_p(@dir) unless File.exist?(@dir)
   Dir.chdir(@dir)
@@ -38,6 +39,7 @@ Before do
 end
 
 After do
+  Dir.chdir(@cwd)
   FileUtils.rm_rf(@dir) if File.exist?(@dir)
 end
 
@@ -94,4 +96,10 @@ end
 
 Then(/^Exit code is not zero$/) do
   fail 'Zero exit code' if @exitstatus == 0
+end
+
+When(/^I run bash with$/) do |text|
+  FileUtils.copy_entry(@cwd, File.join(@dir, 'pdd'))
+  @stdout = `#{text}`
+  @exitstatus = $CHILD_STATUS.exitstatus
 end
