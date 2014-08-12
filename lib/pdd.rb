@@ -62,6 +62,7 @@ module PDD
     def initialize(opts)
       @opts = opts
       PDD.log = Logger.new(File::NULL) unless @opts.verbose?
+      PDD.log.info "my version is #{PDD::VERSION}"
     end
 
     # Generate XML.
