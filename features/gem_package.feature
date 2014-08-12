@@ -13,7 +13,6 @@ Feature: Gem Package
     When I run bash with
     """
     set -e
-    set -o pipefail
     cd pdd
     gem build pdd.gemspec
     gem specification --ruby pdd-*.gem > ../spec.rb
