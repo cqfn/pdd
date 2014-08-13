@@ -121,7 +121,7 @@ module PDD
 
     def sanitize(xml)
       xsd = Nokogiri::XML::Schema(
-        File.read(File.join(File.dirname(__FILE__), '../asserts/puzzles.xsd'))
+        File.read(File.join(File.dirname(__FILE__), '../assets/puzzles.xsd'))
       )
       errors = xsd.validate(Nokogiri::XML(xml)).map { |error| error.message }
       errors.each { |e| PDD.log.error e }
