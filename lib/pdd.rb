@@ -96,18 +96,18 @@ module PDD
     def attrs
       {
         'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-        'xsi:noNamespaceSchemaLocation' => "#{host}/xsd/#{PDD::VERSION}.xsd",
+        'xsi:noNamespaceSchemaLocation' => "#{host('xsd')}/#{PDD::VERSION}.xsd",
         'version' => PDD::VERSION,
         'date' => Time.now.utc.iso8601
       }
     end
 
-    def host
-      'http://pdd.teamed.io'
+    def host(suffix)
+      "http://pdd-#{suffix}.teamed.io"
     end
 
     def xsl
-      "#{host}/xsl/#{PDD::VERSION}.xsl"
+      "#{host('xsl')}/#{PDD::VERSION}.xsl"
     end
 
     def render(puzzle, xml)
