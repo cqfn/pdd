@@ -1,10 +1,13 @@
 assets:
   rubygems.yml: "yegor256/home#assets/rubygems.yml"
+  s3cfg: "yegor256/home#assets/s3cfg"
+
+install:
+  - "sudo apt-get update"
+  - "sudo apt-get install -y --fix-missing libmagic1 libmagic-dev"
 
 release:
   script:
-    - "sudo apt-get update"
-    - "sudo apt-get install -y --fix-missing libmagic1 libmagic-dev"
     - "sudo bundle install"
     - "rake"
     - "rm -rf *.gem"
@@ -12,4 +15,6 @@ release:
     - "gem build pdd.gemspec"
     - "chmod 0600 ../rubygems.yml"
     - "gem push *.gem --config-file ../rubygems.yml"
-
+    - "gem install pdd"
+    - "pdd --source=$(pwd) --verbose --file=pdd.xml -e=test/** -e=features/** -e=README.md"
+    - "s3cmd --no-progress put pdd.xml --config=../s3cfg s3://pdd.teamed.io/pdd.xml > /dev/null"
