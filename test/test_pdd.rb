@@ -40,9 +40,20 @@ class TestPDD < Minitest::Test
         on 'e', 'exclude', as: Array, argument: :required
       end
       File.write(File.join(dir, 'a.txt'), '@todo #55 hello!')
-      xml = Nokogiri::XML::Document.parse(PDD::Base.new(opts).xml)
-      assert_equal 1, xml.xpath('/puzzles/@version').size
-      assert_equal 1, xml.xpath('/puzzles/puzzle[file="a.txt"]').size
+      matches(
+        Nokogiri::XML::Document.parse(PDD::Base.new(opts).xml),
+        [
+          '/processing-instruction("xml-stylesheet")[contains(.,".xsl")]',
+          '/puzzles/@version',
+          '/puzzles/puzzle[file="a.txt"]'
+        ]
+      )
+    end
+  end
+
+  def matches(xml, xpaths)
+    xpaths.each do |xpath|
+      fail "doesn't match '#{xpath}': #{xml}" unless xml.xpath(xpath).size == 1
     end
   end
 end

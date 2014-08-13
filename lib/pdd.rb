@@ -76,7 +76,7 @@ module PDD
       end unless @opts[:exclude].nil?
       sanitize(
         Nokogiri::XML::Builder.new do |xml|
-          xml << '<?xml-stylesheet type="text/xsl" href="puzzles.xsl"?>'
+          xml << "<?xml-stylesheet type='text/xsl' href='#{xsl}'?>"
           xml.puzzles(version: PDD::VERSION, date: Time.now.utc.iso8601) do
             sources.fetch.each do |source|
               source.puzzles.each do |puzzle|
@@ -92,6 +92,10 @@ module PDD
     end
 
     private
+
+    def xsl
+      "http://pdd.teamed.io/xsl/#{PDD::VERSION}.xsl"
+    end
 
     def render(puzzle, xml)
       props = puzzle.props
