@@ -77,7 +77,7 @@ module PDD
       sanitize(
         Nokogiri::XML::Builder.new do |xml|
           xml << "<?xml-stylesheet type='text/xsl' href='#{xsl}'?>"
-          xml.puzzles(version: PDD::VERSION, date: Time.now.utc.iso8601) do
+          xml.puzzles(attrs) do
             sources.fetch.each do |source|
               source.puzzles.each do |puzzle|
                 PDD.log.info "puzzle #{puzzle.props[:ticket]}:" \
@@ -93,8 +93,21 @@ module PDD
 
     private
 
+    def attrs
+      {
+        'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+        'xsi:noNamespaceSchemaLocation' => "#{host}/xsd/#{PDD::VERSION}.xsd",
+        'version' => PDD::VERSION,
+        'date' => Time.now.utc.iso8601
+      }
+    end
+
+    def host
+      'http://pdd.teamed.io'
+    end
+
     def xsl
-      "http://pdd.teamed.io/xsl/#{PDD::VERSION}.xsl"
+      "#{host}/xsl/#{PDD::VERSION}.xsl"
     end
 
     def render(puzzle, xml)

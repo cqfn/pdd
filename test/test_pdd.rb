@@ -45,6 +45,8 @@ class TestPDD < Minitest::Test
         [
           '/processing-instruction("xml-stylesheet")[contains(.,".xsl")]',
           '/puzzles/@version',
+          '/puzzles/@date',
+          '/puzzles[count(puzzle)=1]',
           '/puzzles/puzzle[file="a.txt"]'
         ]
       )
