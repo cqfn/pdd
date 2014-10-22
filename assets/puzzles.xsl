@@ -32,10 +32,30 @@
         <meta name="keywords" content="puzzle driven development"/>
         <meta name="author" content="teamed.io"/>
         <title><xsl:text>PDD Summary Report</xsl:text></title>
+        <style type="text/css">
+          body {
+          background-color: #e6e1ce;
+          font-family: Arial, sans-serif;
+          margin: 2em;
+          font-size: 22px;
+          }
+          table {
+          border-spacing: 0px;
+          border-collapse: collapse;
+          }
+          th, td {
+          vertical-align: top;
+          padding: 1em;
+          border: 1px solid gray;
+          }
+          th {
+          text-align: left;
+          }
+        </style>
       </head>
       <body>
         <div>
-          <h1>Puzzle Driven Development (PDD) Summary Report</h1>
+          <h1>PDD Summary</h1>
           <table>
             <colgroup>
               <col/>
@@ -50,7 +70,7 @@
                 <th><xsl:text>ticket</xsl:text></th>
                 <th><xsl:text>body</xsl:text></th>
                 <th><xsl:text>estimate</xsl:text></th>
-                <th><xsl:text>owner</xsl:text></th>
+                <th><xsl:text>role</xsl:text></th>
               </tr>
             </thead>
             <tbody>
@@ -74,7 +94,7 @@
         <xsl:value-of select="body"/>
       </td>
       <td><xsl:value-of select="estimate"/></td>
-      <td><xsl:value-of select="owner"/></td>
+      <td><xsl:value-of select="role"/></td>
     </tr>
   </xsl:template>
 </xsl:stylesheet>
