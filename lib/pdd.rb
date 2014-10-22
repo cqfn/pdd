@@ -123,7 +123,7 @@ module PDD
       xsd = Nokogiri::XML::Schema(
         File.read(File.join(File.dirname(__FILE__), '../assets/puzzles.xsd'))
       )
-      errors = xsd.validate(Nokogiri::XML(xml)).map &:message
+      errors = xsd.validate(Nokogiri::XML(xml)).map(&:message)
       errors.each { |e| PDD.log.error e }
       PDD.log.error(xml) unless errors.empty?
       fail SchemaError, errors.join('; ') unless errors.empty?

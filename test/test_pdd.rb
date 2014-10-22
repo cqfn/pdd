@@ -53,24 +53,6 @@ class TestPDD < Minitest::Test
     end
   end
 
-  def test_html_output
-    Dir.mktmpdir 'test' do |dir|
-      opts = Slop.parse ['-v', '-s', dir, '--format=html'] do
-        on 'v', 'verbose'
-        on 's', 'source', argument: :required
-        on 'f', 'format', argument: :required
-      end
-      File.write(File.join(dir, 'a.txt'), '@todo #55 hello!')
-      matches(
-        Nokogiri::XML::Document.parse(PDD::Base.new(opts).xml),
-        [
-          '/html/body',
-          '/html/head'
-        ]
-      )
-    end
-  end
-
   def matches(xml, xpaths)
     xpaths.each do |xpath|
       fail "doesn't match '#{xpath}': #{xml}" unless xml.xpath(xpath).size == 1

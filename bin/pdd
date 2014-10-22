@@ -27,6 +27,7 @@ STDOUT.sync = true
 require 'pdd'
 require 'slop'
 require 'pdd/version'
+require 'nokogiri'
 
 opts = Slop.parse(ARGV, strict: true, help: true) do
   banner "Usage (#{PDD::VERSION}): pdd [options]"
@@ -34,15 +35,30 @@ opts = Slop.parse(ARGV, strict: true, help: true) do
   on 's', 'source', 'Source directory to parse', argument: :required
   on 'f', 'file', 'File to save XML into', argument: :required
   on 'e', 'exclude', 'Glob pattern to exclude', as: Array, argument: :required
+  on 't', 'format', 'Format to use (xml|html)', argument: :required
 end
 
 fail '-f is mandatory when using -v' if opts.verbose? && !opts.file?
 
 if opts.help?
   puts opts
-else
-  Encoding.default_external = Encoding::UTF_8
-  Encoding.default_internal = Encoding::UTF_8
-  file = opts.file? ? File.new(opts[:file], 'w') : STDOUT
-  file << PDD::Base.new(opts).xml
+  exit
 end
+
+Encoding.default_external = Encoding::UTF_8
+Encoding.default_internal = Encoding::UTF_8
+file = opts.file? ? File.new(opts[:file], 'w') : STDOUT
+output = PDD::Base.new(opts).xml
+if opts[:format]
+  if opts[:format] == 'html'
+    xslt = File.join(
+      File.dirname(File.dirname(__FILE__)),
+      'assets', 'puzzles.xsl'
+    )
+    output = Nokogiri::XSLT(File.read(xslt)).transform(Nokogiri::XML(output))
+  else
+    fail 'invalid format, use html or xml' if opts[:format] != 'xml'
+  end
+  output
+end
+file << output
