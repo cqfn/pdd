@@ -73,7 +73,7 @@ module PDD
       begin
         tail = tail(lines, match[1])
       rescue Error => ex
-        raise Error, "#{ex.message} line ##{idx}"
+        raise Error, "#{ex.message} in line ##{idx}"
       end
       body = (match[3] + ' ' + tail.join(' ')).gsub(/\s+/, ' ').strip
       Puzzle.new(
@@ -90,7 +90,7 @@ module PDD
       lines
         .take_while { |txt| txt.start_with?(prefix) }
         .map { |txt| txt[prefix.length, txt.length] }
-        .take_while { |txt| txt =~ /^[ a-zA-Z0-9\-_]/ }
+        .take_while { |txt| txt =~ /^[ a-zA-Z0-9]/ }
         .each { |txt| fail Error, 'Space expected' unless txt.start_with?(' ') }
         .each { |txt| fail Error, 'Too many spaces' if txt =~ /^\s{2,}/ }
         .map { |txt| txt[1, txt.length] }
