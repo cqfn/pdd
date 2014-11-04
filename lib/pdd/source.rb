@@ -43,16 +43,15 @@ module PDD
         re.match(line) do |match|
           prefix = match[1] + ' '
           total = 0
-          body = (match[3] + ' ' + lines.drop(idx + 1)
+          tail = lines.drop(idx + 1)
             .take_while { |txt| txt.start_with?(prefix) }
             .map { |txt| txt[prefix.length, txt.length] }
             .map do |txt|
               total += 1
               txt
             end
-            .join(' '))
-            .gsub(/\s+/, ' ')
-            .strip
+            .join(' ')
+          body = (match[3] + ' ' + tail).gsub(/\s+/, ' ').strip
           puzzles << Puzzle.new(
             marker(match[2]).merge(
               lines: "#{idx + 1}-#{idx + total + 1}",
