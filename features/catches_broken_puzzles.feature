@@ -33,3 +33,19 @@ Feature: Catches Broken Puzzles
     }
     """
     When I run pdd it fails with "Too many spaces"
+
+  Scenario: Throwing exception on yet another broken puzzle
+    Given I have a "Sample.java" file with content:
+    """
+    public class Main {
+      //
+      // @todo #13 This puzzle has an incorrect format
+      // because there is no space character in the
+      // second and third lines
+      //
+      public void main(String[] args) {
+        // later
+      }
+    }
+    """
+    When I run pdd it fails with "Space expected"
