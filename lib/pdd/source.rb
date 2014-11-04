@@ -41,24 +41,7 @@ module PDD
       lines = File.readlines(@file)
       lines.each_with_index do |line, idx|
         re.match(line) do |match|
-          prefix = match[1] + ' '
-          total = 0
-          tail = lines.drop(idx + 1)
-            .take_while { |txt| txt.start_with?(prefix) }
-            .map { |txt| txt[prefix.length, txt.length] }
-            .map do |txt|
-              total += 1
-              txt
-            end
-            .join(' ')
-          body = (match[3] + ' ' + tail).gsub(/\s+/, ' ').strip
-          puzzles << Puzzle.new(
-            marker(match[2]).merge(
-              lines: "#{idx + 1}-#{idx + total + 1}",
-              body: body,
-              file: @path
-            )
-          )
+          puzzles << puzzle(lines.drop(idx + 1), match, idx)
         end
       end
       puzzles
@@ -83,6 +66,28 @@ module PDD
       min = num.nil? ? 0 : Integer(num)
       min *= 60 if !units.nil? && units.start_with?('h')
       min
+    end
+
+    # Fetch puzzle
+    def puzzle(lines, match, idx)
+      total = 0
+      prefix = match[1] + ' '
+      tail = lines
+        .take_while { |txt| txt.start_with?(prefix) }
+        .map { |txt| txt[prefix.length, txt.length] }
+        .map do |txt|
+          total += 1
+          txt
+        end
+        .join(' ')
+      body = (match[3] + ' ' + tail).gsub(/\s+/, ' ').strip
+      Puzzle.new(
+        marker(match[2]).merge(
+          lines: "#{idx + 1}-#{idx + total + 1}",
+          body: body,
+          file: @path
+        )
+      )
     end
   end
 end
