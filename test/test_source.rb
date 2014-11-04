@@ -38,6 +38,7 @@ class TestSources < Minitest::Test
         '
         * @todo #44 hello,
         *  how are you doing?
+        * -something else
         Something else
         ~~ @todo #ABC-3 this is another puzzle
         ~~  and it also has to work
