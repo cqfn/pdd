@@ -17,7 +17,7 @@ Feature: Catches Broken Puzzles
       }
     }
     """
-    When I run pdd it fails with "Invalid puzzle format"
+    When I run pdd it fails with "Space expected"
 
   Scenario: Throwing exception on another broken puzzle
     Given I have a "Sample.java" file with content:
@@ -32,4 +32,4 @@ Feature: Catches Broken Puzzles
       }
     }
     """
-    When I run pdd it fails with "Invalid puzzle format"
+    When I run pdd it fails with "Too many spaces"

@@ -83,10 +83,13 @@ module PDD
 
     # Fetch puzzle tail (all lines after the first one)
     def tail(lines, prefix)
-      pfx = prefix + ' '
       lines
-        .take_while { |txt| txt.start_with?(pfx) }
-        .map { |txt| txt[pfx.length, txt.length] }
+        .take_while { |txt| txt.start_with?(prefix) }
+        .map { |txt| txt[prefix.length, txt.length] }
+        .take_while { |txt| txt =~ /^[ a-zA-Z0-9\-_]/ }
+        .each { |txt| fail Error, 'Space expected' unless txt.start_with?(' ') }
+        .each { |txt| fail Error, 'Too many spaces' if txt =~ /^\s{2,}/ }
+        .map { |txt| txt[1, txt.length] }
     end
   end
 end
