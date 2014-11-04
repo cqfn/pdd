@@ -70,7 +70,11 @@ module PDD
 
     # Fetch puzzle
     def puzzle(lines, match, idx)
-      tail = tail(lines, match[1])
+      begin
+        tail = tail(lines, match[1])
+      rescue Error => ex
+        raise Error, "#{ex.message} line ##{idx}"
+      end
       body = (match[3] + ' ' + tail.join(' ')).gsub(/\s+/, ' ').strip
       Puzzle.new(
         marker(match[2]).merge(
