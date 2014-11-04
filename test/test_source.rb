@@ -43,12 +43,29 @@ class TestSources < Minitest::Test
         ~~  and it also has to work
         '
       )
-      list = PDD::Source.new(file, 'hey').puzzles
+      list = PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
       assert_equal 2, list.size
       puzzle = list.first
       assert_equal '2-3', puzzle.props[:lines]
       assert_equal 'hello, how are you doing?', puzzle.props[:body]
       assert_equal '44', puzzle.props[:ticket]
+    end
+  end
+
+  def test_failing_on_invalid_puzzle
+    Dir.mktmpdir 'test' do |dir|
+      file = File.join(dir, 'a.txt')
+      File.write(
+        file,
+        '
+        * @todo #44 this is an incorrectly formatted puzzle,
+        * with a second line without a leading space
+        '
+      )
+      error = assert_raises PDD::Error do
+        PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
+      end
+      assert !error.message.index('Space expected').nil?
     end
   end
 end

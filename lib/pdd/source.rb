@@ -92,4 +92,22 @@ module PDD
         .map { |txt| txt[1, txt.length] }
     end
   end
+
+  # Verbose Source.
+  class VerboseSource
+    # Ctor.
+    # +file+:: Absolute file name with source code
+    # +source+:: Instance of source
+    def initialize(file, source)
+      @file = file
+      @source = source
+    end
+
+    # Fetch all puzzles.
+    def puzzles
+      @source.puzzles
+    rescue Error => ex
+      raise Error, "#{ex.message} in #{@file}"
+    end
+  end
 end

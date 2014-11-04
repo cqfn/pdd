@@ -50,7 +50,10 @@ module PDD
       files
         .select { |f| types.index { |re| @magic.file(f) =~ re } }
         .map do |file|
-          Source.new(file, file[@dir.length + 1, file.length])
+          VerboseSource.new(
+            file,
+            Source.new(file, file[@dir.length + 1, file.length])
+          )
         end
     end
 
