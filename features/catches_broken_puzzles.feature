@@ -18,3 +18,18 @@ Feature: Catches Broken Puzzles
     }
     """
     When I run pdd it fails with "Invalid puzzle format"
+
+  Scenario: Throwing exception on another broken puzzle
+    Given I have a "Sample.java" file with content:
+    """
+    public class Main {
+      /**
+       * @todo #13 This puzzle has an incorrect format
+       *    because its second line starts with too many spaces
+       */
+      public void main(String[] args) {
+        // later
+      }
+    }
+    """
+    When I run pdd it fails with "Invalid puzzle format"
