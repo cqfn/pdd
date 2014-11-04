@@ -45,15 +45,15 @@ Gem::Specification.new do |s|
   s.test_files = s.files.grep(/^(test|spec|features)\//)
   s.rdoc_options = ['--charset=UTF-8']
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt']
-  s.add_runtime_dependency 'nokogiri', '~> 1.6', '>= 1.6.3.1'
-  s.add_runtime_dependency 'ruby-filemagic', '~> 0.6', '>= 0.6.0'
-  s.add_runtime_dependency 'slop', '~> 3.6', '>= 3.6.0'
-  s.add_runtime_dependency 'rake', '~> 10.1'
-  s.add_development_dependency 'coveralls', '~> 0.7', '>= 0.7.0'
-  s.add_development_dependency 'rdoc', '~> 3.11'
+  s.add_runtime_dependency 'nokogiri', '1.6'
+  s.add_runtime_dependency 'ruby-filemagic', '0.6'
+  s.add_runtime_dependency 'slop', '3.6'
+  s.add_runtime_dependency 'rake', '10.1'
+  s.add_development_dependency 'coveralls', '0.7'
+  s.add_development_dependency 'rdoc', '3.11'
   s.add_development_dependency 'cucumber', '1.3.11'
-  s.add_development_dependency 'minitest', '~> 5.4', '>= 5.4.0'
-  s.add_development_dependency 'rubocop', '~> 0.24', '>= 0.24.1'
-  s.add_development_dependency 'rubocop-rspec', '~> 1.1', '>= 1.1.0'
-  s.add_development_dependency 'rspec-rails', '~> 2.13'
+  s.add_development_dependency 'minitest', '5.4'
+  s.add_development_dependency 'rubocop', '0.24.1'
+  s.add_development_dependency 'rubocop-rspec', '1.1'
+  s.add_development_dependency 'rspec-rails', '2.13'
 end
