@@ -70,24 +70,23 @@ module PDD
 
     # Fetch puzzle
     def puzzle(lines, match, idx)
-      total = 0
-      prefix = match[1] + ' '
-      tail = lines
-        .take_while { |txt| txt.start_with?(prefix) }
-        .map { |txt| txt[prefix.length, txt.length] }
-        .map do |txt|
-          total += 1
-          txt
-        end
-        .join(' ')
-      body = (match[3] + ' ' + tail).gsub(/\s+/, ' ').strip
+      tail = tail(lines, match[1])
+      body = (match[3] + ' ' + tail.join(' ')).gsub(/\s+/, ' ').strip
       Puzzle.new(
         marker(match[2]).merge(
-          lines: "#{idx + 1}-#{idx + total + 1}",
+          lines: "#{idx + 1}-#{idx + tail.size + 1}",
           body: body,
           file: @path
         )
       )
+    end
+
+    # Fetch puzzle tail (all lines after the first one)
+    def tail(lines, prefix)
+      pfx = prefix + ' '
+      lines
+        .take_while { |txt| txt.start_with?(pfx) }
+        .map { |txt| txt[pfx.length, txt.length] }
     end
   end
 end
