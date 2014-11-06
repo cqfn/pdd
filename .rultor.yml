@@ -12,7 +12,7 @@ release:
     sudo bundle install
     rake
     rm -rf *.gem
-    sed -i 's/1\.0\.snapshot/${tag}/g' lib/pdd/version.rb
+    sed -i "s/1\.0\.snapshot/${tag}/g" lib/pdd/version.rb
     gem build pdd.gemspec
     chmod 0600 ../rubygems.yml
     gem push *.gem --config-file ../rubygems.yml
