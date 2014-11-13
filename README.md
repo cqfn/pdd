@@ -10,13 +10,14 @@
 Install it first:
 
 ```bash
-gem install pdd
+$ sudo apt-get install ruby1.9.1-dev
+$ gem install pdd
 ```
 
 Run it locally and read its output:
 
 ```bash
-pdd --help
+$ pdd --help
 ```
 
 Every puzzle has to be formatted like this (pay attention
