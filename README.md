@@ -10,7 +10,7 @@
 Install it first:
 
 ```bash
-$ sudo apt-get install ruby1.9.1-dev
+$ sudo apt-get install -y libmagic1 libmagic-dev ruby-dev
 $ gem install pdd
 ```
 
