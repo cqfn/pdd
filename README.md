@@ -43,4 +43,4 @@ Possible formats of puzzle markers:
 ```
 
 Read this article about
-[Puzzle Drive Development](http://www.yegor256.com/2009/03/04/pdd.html).
+[Puzzle Driven Development](http://www.yegor256.com/2009/03/04/pdd.html).
