@@ -36,7 +36,7 @@ Gem::Specification.new do |s|
   s.version = PDD::VERSION
   s.license = 'MIT'
   s.summary = 'Puzzle Driven Development collector'
-  s.description = 'Collects puzzles from source code base'
+  s.description = 'Collects PDD puzzles from source code base'
   s.authors = ['Yegor Bugayenko']
   s.email = 'yegor@teamed.io'
   s.homepage = 'http://github.com/teamed/pdd'

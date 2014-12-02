@@ -7,6 +7,10 @@ Feature: Command Line Processing
     Then Exit code is zero
     And Stdout contains "-v, --verbose"
 
+  Scenario: Version can be printed
+    When I run bin/pdd with "--version"
+    Then Exit code is zero
+
   Scenario: Simple puzzles collecting
     Given I have a "Sample.java" file with content:
     """
