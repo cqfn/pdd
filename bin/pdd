@@ -32,6 +32,7 @@ require 'nokogiri'
 opts = Slop.parse(ARGV, strict: true, help: true) do
   banner "Usage (#{PDD::VERSION}): pdd [options]"
   on 'v', 'verbose', 'Enable verbose mode'
+  on 'version', 'Show current version'
   on 's', 'source', 'Source directory to parse', argument: :required
   on 'f', 'file', 'File to save XML into', argument: :required
   on 'e', 'exclude', 'Glob pattern to exclude', as: Array, argument: :required
@@ -42,6 +43,11 @@ fail '-f is mandatory when using -v' if opts.verbose? && !opts.file?
 
 if opts.help?
   puts opts
+  exit
+end
+
+if opts.version?
+  puts PDD::VERSION
   exit
 end
 
