@@ -24,6 +24,7 @@
 require 'pdd/sources'
 require 'pdd/version'
 require 'pdd/rule/estimates'
+require 'pdd/rule/text'
 require 'nokogiri'
 require 'logger'
 require 'time'
@@ -43,7 +44,8 @@ module PDD
 
   RULES = {
     'min-estimate' => PDD::Rule::Estimate::Min,
-    'max-estimate' => PDD::Rule::Estimate::Max
+    'max-estimate' => PDD::Rule::Estimate::Max,
+    'min-words' => PDD::Rule::Text::MinWords
   }
 
   # Get logger.
