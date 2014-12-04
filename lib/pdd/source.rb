@@ -75,7 +75,7 @@ module PDD
       rescue Error => ex
         raise Error, "#{ex.message} in line ##{idx}"
       end
-      body = (match[3] + ' ' + tail.join(' ')).gsub(/\s+/, ' ').strip
+      body = (match[3] + ' ' + tail.join(' ')).gsub(/[\s\n\t]+/, ' ').strip
       Puzzle.new(
         marker(match[2]).merge(
           lines: "#{idx + 1}-#{idx + tail.size + 1}",
