@@ -34,13 +34,7 @@ require 'slop'
 class TestPDD < Minitest::Test
   def test_basic
     Dir.mktmpdir 'test' do |dir|
-      args = ['-v', '-s', dir, '-e', '**/*.png', '-r', 'max-estimate:15']
-      opts = Slop.parse args do
-        on 'v', 'verbose'
-        on 's', 'source', argument: :required
-        on 'e', 'exclude', as: Array, argument: :required
-        on 'r', 'rule', as: Array, argument: :required
-      end
+      opts = opts(['-v', '-s', dir, '-e', '**/*.png', '-r', 'max-estimate:15'])
       File.write(File.join(dir, 'a.txt'), '@todo #55 hello!')
       matches(
         Nokogiri::XML::Document.parse(PDD::Base.new(opts).xml),
@@ -52,6 +46,25 @@ class TestPDD < Minitest::Test
           '/puzzles/puzzle[file="a.txt"]'
         ]
       )
+    end
+  end
+
+  def test_rules_failure
+    Dir.mktmpdir 'test' do |dir|
+      opts = opts(['-v', '-s', dir, '-e', '**/*.png', '-r', 'min-estimate:30'])
+      File.write(File.join(dir, 'a.txt'), '@todo #90 hello!')
+      assert_raises RuntimeError do
+        PDD::Base.new(opts).xml
+      end
+    end
+  end
+
+  def opts(args)
+    Slop.parse args do
+      on 'v', 'verbose'
+      on 's', 'source', argument: :required
+      on 'e', 'exclude', as: Array, argument: :required
+      on 'r', 'rule', as: Array, argument: :required
     end
   end
 

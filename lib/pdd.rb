@@ -43,7 +43,7 @@ module PDD
 
   RULES = {
     'min-estimate' => PDD::Rule::Estimate::Min,
-    'max-estimate' => PDD::Rule::Estimate::Max,
+    'max-estimate' => PDD::Rule::Estimate::Max
   }
 
   # Get logger.
@@ -130,7 +130,7 @@ module PDD
     def rules(xml)
       doc = Nokogiri::XML(xml)
       total = 0
-      @opts[:rule].collect do |r|
+      @opts[:rule].map do |r|
         name, value = r.split(':')
         rule = RULES[name]
         fail "rule '#{name}' doesn't exist" if rule.nil?
