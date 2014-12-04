@@ -23,41 +23,32 @@
 
 require 'minitest/autorun'
 require 'nokogiri'
-require 'pdd'
-require 'tmpdir'
-require 'slop'
+require 'pdd/rule/estimates'
 
-# PDD main module test.
+# PDD::Rule::Estimate module tests.
 # Author:: Yegor Bugayenko (yegor@teamed.io)
 # Copyright:: Copyright (c) 2014 Yegor Bugayenko
 # License:: MIT
-class TestPDD < Minitest::Test
-  def test_basic
-    Dir.mktmpdir 'test' do |dir|
-      args = ['-v', '-s', dir, '-e', '**/*.png', '-r', 'max-estimate:15']
-      opts = Slop.parse args do
-        on 'v', 'verbose'
-        on 's', 'source', argument: :required
-        on 'e', 'exclude', as: Array, argument: :required
-        on 'r', 'rule', as: Array, argument: :required
-      end
-      File.write(File.join(dir, 'a.txt'), '@todo #55 hello!')
-      matches(
-        Nokogiri::XML::Document.parse(PDD::Base.new(opts).xml),
-        [
-          '/processing-instruction("xml-stylesheet")[contains(.,".xsl")]',
-          '/puzzles/@version',
-          '/puzzles/@date',
-          '/puzzles[count(puzzle)=1]',
-          '/puzzles/puzzle[file="a.txt"]'
-        ]
-      )
-    end
+class TestEstimates < Minitest::Test
+  def test_min
+    rule = PDD::Rule::Estimate::Min.new(
+      Nokogiri::XML::Document.parse(
+        """<puzzles><puzzle>
+        <estimate>15</estimate>
+        </puzzle></puzzles>"""
+      ), 30
+    )
+    assert !rule.errors.empty?, 'why it is empty?'
   end
 
-  def matches(xml, xpaths)
-    xpaths.each do |xpath|
-      fail "doesn't match '#{xpath}': #{xml}" unless xml.xpath(xpath).size == 1
-    end
+  def test_max
+    rule = PDD::Rule::Estimate::Max.new(
+      Nokogiri::XML::Document.parse(
+        """<puzzles><puzzle>
+        <estimate>30</estimate>
+        </puzzle></puzzles>"""
+      ), 15
+    )
+    assert !rule.errors.empty?, 'why it is empty?'
   end
 end

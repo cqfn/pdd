@@ -72,7 +72,7 @@ end
 
 When(/^I run bin\/pdd with "([^"]*)"$/) do |arg|
   home = File.join(File.dirname(__FILE__), '../..')
-  @stdout = `ruby -I#{home}/lib #{home}/bin/pdd #{arg}`
+  @stdout = `ruby -I#{home}/lib #{home}/bin/pdd #{arg} 2>&1`
   @exitstatus = $CHILD_STATUS.exitstatus
 end
 

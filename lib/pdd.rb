@@ -23,6 +23,7 @@
 
 require 'pdd/sources'
 require 'pdd/version'
+require 'pdd/rule/estimates'
 require 'nokogiri'
 require 'logger'
 require 'time'
@@ -39,6 +40,11 @@ module PDD
   # If it violates XSD schema.
   class SchemaError < Error
   end
+
+  RULES = {
+    'min-estimate' => PDD::Rule::Estimate::Min,
+    'max-estimate' => PDD::Rule::Estimate::Max,
+  }
 
   # Get logger.
   def self.log
@@ -74,20 +80,22 @@ module PDD
         sources = sources.exclude(p)
         PDD.log.info "excluding #{p}"
       end unless @opts[:exclude].nil?
-      sanitize(
-        Nokogiri::XML::Builder.new do |xml|
-          xml << "<?xml-stylesheet type='text/xsl' href='#{xsl}'?>"
-          xml.puzzles(attrs) do
-            sources.fetch.each do |source|
-              source.puzzles.each do |puzzle|
-                PDD.log.info "puzzle #{puzzle.props[:ticket]}:" \
-                  "#{puzzle.props[:estimate]}/#{puzzle.props[:role]}" \
-                  " at #{puzzle.props[:file]}"
-                render puzzle, xml
+      rules(
+        sanitize(
+          Nokogiri::XML::Builder.new do |xml|
+            xml << "<?xml-stylesheet type='text/xsl' href='#{xsl}'?>"
+            xml.puzzles(attrs) do
+              sources.fetch.each do |source|
+                source.puzzles.each do |puzzle|
+                  PDD.log.info "puzzle #{puzzle.props[:ticket]}:" \
+                    "#{puzzle.props[:estimate]}/#{puzzle.props[:role]}" \
+                    " at #{puzzle.props[:file]}"
+                  render puzzle, xml
+                end
               end
             end
-          end
-        end.to_xml
+          end.to_xml
+        )
       )
     end
 
@@ -117,6 +125,23 @@ module PDD
           xml.send(:"#{k}", v)
         end
       end
+    end
+
+    def rules(xml)
+      doc = Nokogiri::XML(xml)
+      total = 0
+      @opts[:rule].collect do |r|
+        name, value = r.split(':')
+        rule = RULES[name]
+        fail "rule '#{name}' doesn't exist" if rule.nil?
+        rule.new(doc, value.to_i).errors.each do |e|
+          puts e
+          PDD.log.error e
+          total += 1
+        end
+      end unless @opts[:rule].nil?
+      fail "#{total} errors, see log above" unless total == 0
+      xml
     end
 
     def sanitize(xml)

@@ -37,6 +37,7 @@ opts = Slop.parse(ARGV, strict: true, help: true) do
   on 'f', 'file', 'File to save XML into', argument: :required
   on 'e', 'exclude', 'Glob pattern to exclude', as: Array, argument: :required
   on 't', 'format', 'Format to use (xml|html)', argument: :required
+  on 'r', 'rule', 'Format to use (xml|html)', argument: :required, as: Array
 end
 
 fail '-f is mandatory when using -v' if opts.verbose? && !opts.file?

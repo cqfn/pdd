@@ -21,43 +21,44 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-require 'minitest/autorun'
-require 'nokogiri'
-require 'pdd'
-require 'tmpdir'
-require 'slop'
+module PDD
+  module Rule
+    module Estimate
+      # Rule for min estimate.
+      class Min
+        # Ctor.
+        # +xml+:: XML with puzzles
+        def initialize(xml, min)
+          @xml = xml
+          @min = min
+        end
 
-# PDD main module test.
-# Author:: Yegor Bugayenko (yegor@teamed.io)
-# Copyright:: Copyright (c) 2014 Yegor Bugayenko
-# License:: MIT
-class TestPDD < Minitest::Test
-  def test_basic
-    Dir.mktmpdir 'test' do |dir|
-      args = ['-v', '-s', dir, '-e', '**/*.png', '-r', 'max-estimate:15']
-      opts = Slop.parse args do
-        on 'v', 'verbose'
-        on 's', 'source', argument: :required
-        on 'e', 'exclude', as: Array, argument: :required
-        on 'r', 'rule', as: Array, argument: :required
+        def errors
+          @xml.xpath("//puzzle[number(estimate) < #{@min}]").collect do |p|
+            "puzzle #{p.xpath('file/text()')}:#{p.xpath('lines/text()')}"\
+            " has an estimate of #{p.xpath('estimate/text()')} minutes,"\
+            " which is lower than #{@min} minutes"
+          end
+        end
       end
-      File.write(File.join(dir, 'a.txt'), '@todo #55 hello!')
-      matches(
-        Nokogiri::XML::Document.parse(PDD::Base.new(opts).xml),
-        [
-          '/processing-instruction("xml-stylesheet")[contains(.,".xsl")]',
-          '/puzzles/@version',
-          '/puzzles/@date',
-          '/puzzles[count(puzzle)=1]',
-          '/puzzles/puzzle[file="a.txt"]'
-        ]
-      )
-    end
-  end
 
-  def matches(xml, xpaths)
-    xpaths.each do |xpath|
-      fail "doesn't match '#{xpath}': #{xml}" unless xml.xpath(xpath).size == 1
+      # Rule for max estimate.
+      class Max
+        # Ctor.
+        # +xml+:: XML with puzzles
+        def initialize(xml, min)
+          @xml = xml
+          @min = min
+        end
+
+        def errors
+          @xml.xpath("//puzzle[number(estimate) > #{@min}]").collect do |p|
+            "puzzle #{p.xpath('file/text()')}:#{p.xpath('lines/text()')}"\
+            " has an estimate of #{p.xpath('estimate/text()')} minutes,"\
+            " which is bigger than #{@min} minutes"
+          end
+        end
+      end
     end
   end
 end

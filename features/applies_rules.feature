@@ -9,7 +9,7 @@ Feature: Applies Post-Parsing Rules
     """
     When I run bin/pdd with "--rule=max-estimate:90"
     Then Exit code is not zero
-    Then Stdout contains "Estimate is too big"
+    Then Stdout contains "bigger than 90 minutes"
 
   Scenario: Throwing exception on invalid estimate
     Given I have a "Sample.java" file with content:
@@ -18,5 +18,5 @@ Feature: Applies Post-Parsing Rules
     """
     When I run bin/pdd with "--rule=min-estimate:30"
     Then Exit code is not zero
-    Then Stdout contains "Estimate is too small"
+    Then Stdout contains "lower than 30 minutes"
 
