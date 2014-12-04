@@ -39,6 +39,7 @@ task default: [:clean, :test, :features, :rubocop]
 require 'rake/testtask'
 desc 'Run all unit tests'
 Rake::TestTask.new(:test) do |test|
+  Rake::Cleaner.cleanup_files(['coverage'])
   test.libs << 'lib' << 'test'
   test.pattern = 'test/**/test_*.rb'
   test.verbose = false
@@ -62,6 +63,7 @@ end
 
 require 'cucumber/rake/task'
 Cucumber::Rake::Task.new(:features) do |t|
+  Rake::Cleaner.cleanup_files(['coverage'])
   t.profile = 'travis'
 end
 Cucumber::Rake::Task.new(:"features:html") do |t|
