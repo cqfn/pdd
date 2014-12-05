@@ -52,17 +52,18 @@ module PDD
 
   # Get logger.
   def self.log
-    unless @log
-      @log = Logger.new(STDOUT)
-      @log.formatter = proc { |severity, _, _, msg|
-        puts "#{severity}: #{msg.dump}"
+    unless @logger
+      @logger = Logger.new(STDOUT)
+      @logger.formatter = proc { |severity, _, _, msg|
+        "#{severity}: #{msg.dump}\n"
       }
+      @logger.level = Logger::ERROR
     end
-    @log
+    @logger
   end
 
   class << self
-    attr_writer :log
+    attr_writer :logger
   end
 
   # Code base abstraction
@@ -71,7 +72,7 @@ module PDD
     # +opts+:: Options
     def initialize(opts)
       @opts = opts
-      PDD.log = Logger.new(File::NULL) unless @opts.verbose?
+      PDD.log.level = Logger::INFO if @opts.verbose?
       PDD.log.info "my version is #{PDD::VERSION}"
     end
 
@@ -134,7 +135,7 @@ module PDD
     def rules(xml)
       doc = Nokogiri::XML(xml)
       total = 0
-      @opts[:rule].push('max-duplicates:1').map do |r|
+      (@opts[:rule] || []).push('max-duplicates:1').map do |r|
         name, value = r.split(':')
         rule = RULES[name]
         fail "rule '#{name}' doesn't exist" if rule.nil?
@@ -142,8 +143,8 @@ module PDD
           PDD.log.error e
           total += 1
         end
-      end unless @opts[:rule].nil?
-      fail "#{total} errors, see log above" unless total == 0
+      end
+      fail PDD::Error, "#{total} errors, see log above" unless total == 0
       xml
     end
 

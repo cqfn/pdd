@@ -15,4 +15,4 @@ Feature: Avoiding Duplicate Puzzles
       }
     }
     """
-    When I run pdd it fails with "Duplicate key-sequence"
+    When I run pdd it fails with "errors, see log above"

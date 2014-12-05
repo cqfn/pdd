@@ -37,7 +37,7 @@ class TestPDD < Minitest::Test
       opts = opts(['-v', '-s', dir, '-e', '**/*.png', '-r', 'max-estimate:15'])
       File.write(File.join(dir, 'a.txt'), '@todo #55 hello!')
       matches(
-        Nokogiri::XML::Document.parse(PDD::Base.new(opts).xml),
+        Nokogiri::XML(PDD::Base.new(opts).xml),
         [
           '/processing-instruction("xml-stylesheet")[contains(.,".xsl")]',
           '/puzzles/@version',
@@ -53,7 +53,7 @@ class TestPDD < Minitest::Test
     Dir.mktmpdir 'test' do |dir|
       opts = opts(['-v', '-s', dir, '-e', '**/*.png', '-r', 'min-estimate:30'])
       File.write(File.join(dir, 'a.txt'), '@todo #90 hello!')
-      assert_raises RuntimeError do
+      assert_raises PDD::Error do
         PDD::Base.new(opts).xml
       end
     end

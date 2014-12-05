@@ -39,6 +39,7 @@ Feature: Command Line Processing
     """
     When I run bin/pdd with "> out.xml"
     Then Exit code is zero
+    And Stdout is empty
     And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
 
   Scenario: Excluding unnecessary files

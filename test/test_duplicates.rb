@@ -31,7 +31,6 @@ require 'pdd/rule/duplicates'
 # License:: MIT
 class TestMaxDuplicates < Minitest::Test
   def test_max_duplicates
-    return
     rule = PDD::Rule::MaxDuplicates.new(
       Nokogiri::XML::Document.parse(
         '<puzzles><puzzle><body>test</body></puzzle>

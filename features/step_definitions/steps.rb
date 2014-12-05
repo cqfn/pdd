@@ -72,7 +72,7 @@ end
 
 When(/^I run bin\/pdd with "([^"]*)"$/) do |arg|
   home = File.join(File.dirname(__FILE__), '../..')
-  @stdout = `ruby -I#{home}/lib #{home}/bin/pdd #{arg} 2>&1`
+  @stdout = `ruby -I#{home}/lib #{home}/bin/pdd #{arg}`
   @exitstatus = $CHILD_STATUS.exitstatus
 end
 
@@ -80,6 +80,10 @@ Then(/^Stdout contains "([^"]*)"$/) do |txt|
   unless @stdout.include?(txt)
     fail "STDOUT doesn't contain '#{txt}':\n#{@stdout}"
   end
+end
+
+Then(/^Stdout is empty$/) do
+  fail "STDOUT is not empty:\n#{@stdout}" unless @stdout == ''
 end
 
 Then(/^XML file "([^"]+)" matches "([^"]+)"$/) do |file, xpath|
