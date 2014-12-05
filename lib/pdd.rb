@@ -25,6 +25,7 @@ require 'pdd/sources'
 require 'pdd/version'
 require 'pdd/rule/estimates'
 require 'pdd/rule/text'
+require 'pdd/rule/duplicates'
 require 'nokogiri'
 require 'logger'
 require 'time'
@@ -45,7 +46,8 @@ module PDD
   RULES = {
     'min-estimate' => PDD::Rule::Estimate::Min,
     'max-estimate' => PDD::Rule::Estimate::Max,
-    'min-words' => PDD::Rule::Text::MinWords
+    'min-words' => PDD::Rule::Text::MinWords,
+    'max-duplicates' => PDD::Rule::MaxDuplicates
   }
 
   # Get logger.
@@ -82,8 +84,8 @@ module PDD
         sources = sources.exclude(p)
         PDD.log.info "excluding #{p}"
       end unless @opts[:exclude].nil?
-      rules(
-        sanitize(
+      sanitize(
+        rules(
           Nokogiri::XML::Builder.new do |xml|
             xml << "<?xml-stylesheet type='text/xsl' href='#{xsl}'?>"
             xml.puzzles(attrs) do
@@ -132,12 +134,11 @@ module PDD
     def rules(xml)
       doc = Nokogiri::XML(xml)
       total = 0
-      @opts[:rule].map do |r|
+      @opts[:rule].push('max-duplicates:1').map do |r|
         name, value = r.split(':')
         rule = RULES[name]
         fail "rule '#{name}' doesn't exist" if rule.nil?
         rule.new(doc, value.to_i).errors.each do |e|
-          puts e
           PDD.log.error e
           total += 1
         end
