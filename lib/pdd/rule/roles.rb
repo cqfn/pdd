@@ -23,26 +23,30 @@
 
 module PDD
   module Rule
-    # Rule for max duplicates.
-    class MaxDuplicates
-      # Ctor.
-      # +xml+:: XML with puzzles
-      def initialize(xml, max)
-        @xml = xml
-        @max = max.to_i
-      end
+    module Roles
+      # Rule for available roles checking.
+      class Available
+        # Ctor.
+        # +xml+:: XML with puzzles
+        def initialize(xml, roles)
+          @xml = xml
+          @roles = roles.split(',')
+        end
 
-      def errors
-        @xml.xpath('//puzzle')
-          .group_by { |p| p.xpath('body/text()').to_s }
-          .map do |_, puzzles|
-            next nil if puzzles.count <= @max
-            "there are #{puzzles.count} duplicate(s) of the same puzzle: " +
-            puzzles.map do |p|
-              "#{p.xpath('file/text()')}:#{p.xpath('lines/text()')}"
-            end.join(', ') +
-            ", while maximum #{@max} duplicate is allowed"
+        def errors
+          @xml.xpath('//puzzle').map do |p|
+            role = p.xpath('role/text()').to_s
+            next nil if @roles.include?(role)
+            "puzzle #{p.xpath('file/text()')}:#{p.xpath('lines/text()')}" +
+            if role.empty?
+              " doesn't define any role"\
+              ", while one of these roles is required: #{@roles}"
+            else
+              " defines role #{role}"\
+              ", while only these roles are allowed: #{@roles}"
+            end
           end.compact
+        end
       end
     end
   end

@@ -21,29 +21,39 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-module PDD
-  module Rule
-    # Rule for max duplicates.
-    class MaxDuplicates
-      # Ctor.
-      # +xml+:: XML with puzzles
-      def initialize(xml, max)
-        @xml = xml
-        @max = max.to_i
-      end
+require 'minitest/autorun'
+require 'nokogiri'
+require 'pdd/rule/roles'
 
-      def errors
-        @xml.xpath('//puzzle')
-          .group_by { |p| p.xpath('body/text()').to_s }
-          .map do |_, puzzles|
-            next nil if puzzles.count <= @max
-            "there are #{puzzles.count} duplicate(s) of the same puzzle: " +
-            puzzles.map do |p|
-              "#{p.xpath('file/text()')}:#{p.xpath('lines/text()')}"
-            end.join(', ') +
-            ", while maximum #{@max} duplicate is allowed"
-          end.compact
-      end
-    end
+# PDD::Rule::Role module tests.
+# Author:: Yegor Bugayenko (yegor@teamed.io)
+# Copyright:: Copyright (c) 2014 Yegor Bugayenko
+# License:: MIT
+class TestRoles < Minitest::Test
+  def test_incorrect_role
+    rule = PDD::Rule::Roles::Available.new(
+      Nokogiri::XML::Document.parse(
+        '<puzzles><puzzle><role>D</role></puzzle></puzzles>'
+      ), 'A,B,C'
+    )
+    assert !rule.errors.empty?, 'why it is empty?'
+  end
+
+  def test_correct_role
+    rule = PDD::Rule::Roles::Available.new(
+      Nokogiri::XML::Document.parse(
+        '<puzzles><puzzle><role>F</role></puzzle></puzzles>'
+      ), 'F,E,G'
+    )
+    assert rule.errors.empty?, 'why it is not empty?'
+  end
+
+  def test_empty_role
+    rule = PDD::Rule::Roles::Available.new(
+      Nokogiri::XML::Document.parse(
+        '<puzzles><puzzle></puzzle></puzzles>'
+      ), 'T,R,L'
+    )
+    assert !rule.errors.empty?, 'why it is empty?'
   end
 end

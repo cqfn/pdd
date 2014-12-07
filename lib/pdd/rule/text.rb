@@ -30,7 +30,7 @@ module PDD
         # +xml+:: XML with puzzles
         def initialize(xml, min)
           @xml = xml
-          @min = min
+          @min = min.to_i
         end
 
         def errors

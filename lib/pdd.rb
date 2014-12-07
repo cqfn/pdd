@@ -26,6 +26,7 @@ require 'pdd/version'
 require 'pdd/rule/estimates'
 require 'pdd/rule/text'
 require 'pdd/rule/duplicates'
+require 'pdd/rule/roles'
 require 'nokogiri'
 require 'logger'
 require 'time'
@@ -47,7 +48,8 @@ module PDD
     'min-estimate' => PDD::Rule::Estimate::Min,
     'max-estimate' => PDD::Rule::Estimate::Max,
     'min-words' => PDD::Rule::Text::MinWords,
-    'max-duplicates' => PDD::Rule::MaxDuplicates
+    'max-duplicates' => PDD::Rule::MaxDuplicates,
+    'available-roles' => PDD::Rule::Roles::Available
   }
 
   # Get logger.
@@ -139,7 +141,7 @@ module PDD
         name, value = r.split(':')
         rule = RULES[name]
         fail "rule '#{name}' doesn't exist" if rule.nil?
-        rule.new(doc, value.to_i).errors.each do |e|
+        rule.new(doc, value).errors.each do |e|
           PDD.log.error e
           total += 1
         end

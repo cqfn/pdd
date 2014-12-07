@@ -29,3 +29,13 @@ Feature: Applies Post-Parsing Rules
     When I run bin/pdd with ""
     Then Exit code is not zero
     Then Stdout contains "there are 2 duplicate"
+
+  Scenario: Throwing exception on duplicates
+    Given I have a "Sample.java" file with content:
+    """
+    @todo #13/DEV:15min Some text first
+    @todo #13/TEST:15min The text second
+    """
+    When I run bin/pdd with "--rule=available-roles:DEV,IMP"
+    Then Exit code is not zero
+    Then Stdout contains "defines role TEST"
