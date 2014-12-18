@@ -44,6 +44,7 @@ Possible formats of puzzle markers:
 
 Read this article about
 [Puzzle Driven Development](http://www.yegor256.com/2009/03/04/pdd.html).
+Check also patent application [US 12/840,306](http://www.google.com/patents/US20120023476)
 
 ## Rules
 
