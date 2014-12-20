@@ -94,6 +94,5 @@ if opts[:format]
   else
     fail 'invalid format, use html or xml' if opts[:format] != 'xml'
   end
-  output
 end
 file << output
