@@ -30,9 +30,7 @@ require 'pdd/version'
 require 'nokogiri'
 
 args = []
-if File.exist?('.pdd')
-  args.push(*File.read('.pdd').split(/\s+/).collect(&:strip))
-end
+args.push(*File.read('.pdd').split(/\s+/).map(&:strip)) if File.exist?('.pdd')
 args.push(*ARGV)
 
 opts = Slop.parse(args, strict: true, help: true) do
