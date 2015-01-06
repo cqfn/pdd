@@ -29,7 +29,15 @@ require 'slop'
 require 'pdd/version'
 require 'nokogiri'
 
-opts = Slop.parse(ARGV, strict: true, help: true) do
+args = []
+if File.exist?('.pdd')
+  args.push(*File.readlines('.pdd').collect(&:strip))
+end
+args.push(*ARGV)
+
+puts args
+
+opts = Slop.parse(args, strict: true, help: true) do
   banner "Usage (#{PDD::VERSION}): pdd [options]"
   on 'v', 'verbose', 'Enable verbose mode'
   on 'version', 'Show current version'
