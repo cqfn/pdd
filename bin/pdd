@@ -31,11 +31,9 @@ require 'nokogiri'
 
 args = []
 if File.exist?('.pdd')
-  args.push(*File.readlines('.pdd').collect(&:strip))
+  args.push(*File.read('.pdd').split(/\s+/).collect(&:strip))
 end
 args.push(*ARGV)
-
-puts args
 
 opts = Slop.parse(args, strict: true, help: true) do
   banner "Usage (#{PDD::VERSION}): pdd [options]"
