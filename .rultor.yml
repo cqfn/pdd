@@ -13,6 +13,7 @@ release:
     rake
     rm -rf *.gem
     sed -i "s/1\.0\.snapshot/${tag}/g" lib/pdd/version.rb
+    git add lib/pdd/version.rb
     git commit -m "version set to ${tag}"
     gem build pdd.gemspec
     chmod 0600 ../rubygems.yml
