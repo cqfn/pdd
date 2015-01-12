@@ -81,7 +81,7 @@ module PDD
           lines: "#{idx + 1}-#{idx + tail.size + 1}",
           body: body,
           file: @path
-        )
+        ).merge(git(idx + 1))
       )
     end
 
@@ -94,6 +94,23 @@ module PDD
         .each { |txt| fail Error, 'Space expected' unless txt.start_with?(' ') }
         .each { |txt| fail Error, 'Too many spaces' if txt =~ /^\s{2,}/ }
         .map { |txt| txt[1, txt.length] }
+    end
+
+    # Git information at the line
+    def git(pos)
+      cmd = [
+        "cd #{File.dirname(@file)}",
+        "git blame -L #{pos},#{pos} --porcelain #{File.basename(@file)}"
+      ].join(' && ')
+      Hash[
+        `#{cmd}`.split("\n").map do |line|
+          if line =~ /^author /
+            [:author, line.sub(/^author /, '')]
+          elsif line =~ /^author-mail /
+            [:email, line.sub(/^author-mail <(.+)>$/, '\1')]
+          end
+        end.compact
+      ]
     end
   end
 

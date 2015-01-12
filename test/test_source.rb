@@ -81,13 +81,15 @@ class TestSources < Minitest::Test
         echo '@todo #1 this is the puzzle' > a.txt
         git add a.txt
         git commit -am 'first version'
+        git blame a.txt
       ")
       list = PDD::Source.new(File.join(dir, 'a.txt'), '').puzzles
       assert_equal 1, list.size
       puzzle = list.first
       assert_equal '1-1', puzzle.props[:lines]
       assert_equal 'this is the puzzle', puzzle.props[:body]
-      assert_equal '@test', puzzle.props[:author]
+      assert_equal 'test', puzzle.props[:author]
+      assert_equal 'test@teamed.io', puzzle.props[:email]
     end
   end
 end
