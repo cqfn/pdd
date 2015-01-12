@@ -69,4 +69,25 @@ class TestSources < Minitest::Test
       assert !error.message.index('Space expected').nil?
     end
   end
+
+  def test_reads_git_author
+    Dir.mktmpdir 'test' do |dir|
+      fail unless system("
+        set -e
+        cd '#{dir}'
+        git init .
+        git config user.email test@teamed.io
+        git config user.name test
+        echo '@todo #1 this is the puzzle' > a.txt
+        git add a.txt
+        git commit -am 'first version'
+      ")
+      list = PDD::Source.new(File.join(dir, 'a.txt'), '').puzzles
+      assert_equal 1, list.size
+      puzzle = list.first
+      assert_equal '1-1', puzzle.props[:lines]
+      assert_equal 'this is the puzzle', puzzle.props[:body]
+      assert_equal '@test', puzzle.props[:author]
+    end
+  end
 end

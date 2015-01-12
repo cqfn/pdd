@@ -66,6 +66,13 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
+      <xs:element name="author" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value=".+"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
     </xs:all>
   </xs:complexType>
   <xs:element name="puzzles">
