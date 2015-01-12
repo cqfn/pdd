@@ -59,6 +59,34 @@ class TestPDD < Minitest::Test
     end
   end
 
+  def test_git_repo
+    Dir.mktmpdir 'test' do |dir|
+      opts = opts(['-v', '-s', dir])
+      fail unless system("
+        set -e
+        cd '#{dir}'
+        git init .
+        git config user.email test@teamed.io
+        git config user.name 'Mr. Tester'
+        echo '@todo #1 this is the puzzle' > x.txt
+        git add x.txt
+        git commit -am 'first version'
+      ")
+      matches(
+        Nokogiri::XML(PDD::Base.new(opts).xml),
+        [
+          '/puzzles[count(puzzle)=1]',
+          '/puzzles/puzzle[file="x.txt"]',
+          '/puzzles/puzzle[author="Mr. Tester"]',
+          '/puzzles/puzzle[email="test@teamed.io"]',
+          '/puzzles/puzzle[time]'
+        ]
+      )
+    end
+  end
+
+  private
+
   def opts(args)
     Slop.parse args do
       on 'v', 'verbose'

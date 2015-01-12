@@ -73,6 +73,14 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
+      <xs:element name="email" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value=".+"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="time" minOccurs="0" type="xs:dateTime"/>
     </xs:all>
   </xs:complexType>
   <xs:element name="puzzles">

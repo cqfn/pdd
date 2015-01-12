@@ -90,6 +90,7 @@ class TestSources < Minitest::Test
       assert_equal 'this is the puzzle', puzzle.props[:body]
       assert_equal 'test', puzzle.props[:author]
       assert_equal 'test@teamed.io', puzzle.props[:email]
+      assert !puzzle.props[:time].nil?
     end
   end
 end
