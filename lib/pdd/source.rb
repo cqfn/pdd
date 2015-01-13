@@ -111,7 +111,7 @@ module PDD
           elsif line =~ /^author-time /
             [
               :time,
-              Time.at(line.sub(/^author-time ([0-9]+)$/, '\1').to_i).iso8601
+              Time.at(line.sub(/^author-time ([0-9]+)$/, '\1').to_i).utc.iso8601
             ]
           end
         end.compact
