@@ -90,7 +90,7 @@ class TestSources < Minitest::Test
       assert_equal 'this is the puzzle', puzzle.props[:body]
       assert_equal 'test', puzzle.props[:author]
       assert_equal 'test@teamed.io', puzzle.props[:email]
-      assert !puzzle.props[:time].nil?
+      assert_match /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, puzzle.props[:time]
     end
   end
 end
