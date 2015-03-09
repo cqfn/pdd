@@ -1,4 +1,6 @@
-assets: {rubygems.yml: yegor256/home#assets/rubygems.yml, s3cfg: yegor256/home#assets/s3cfg}
+assets:
+  rubygems.yml: yegor256/home#assets/rubygems.yml
+  s3cfg: yegor256/home#assets/s3cfg
 install: |
   sudo apt-get update
   sudo apt-get install -y --fix-missing libmagic1 libmagic-dev
@@ -18,4 +20,7 @@ release:
     s3cmd --no-progress put pdd.xml --config=../s3cfg s3://pdd.teamed.io/pdd.xml
     s3cmd --no-progress put assets/puzzles.xsd --acl-public --config=../s3cfg s3://pdd-xsd.teamed.io/${tag}.xsd
     s3cmd --no-progress put assets/puzzles.xsl --acl-public --config=../s3cfg s3://pdd-xsl.teamed.io/${tag}.xsl
-architect: [yegor256, yegor256, davvd]
+architect:
+- yegor256
+- yegor256
+- davvd
