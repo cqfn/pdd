@@ -70,6 +70,22 @@ class TestSources < Minitest::Test
     end
   end
 
+  def test_failing_on_invalid_puzzle_without_hash_sign
+    Dir.mktmpdir 'test' do |dir|
+      file = File.join(dir, 'a.txt')
+      File.write(
+        file,
+        '
+        * @todo 44 this puzzle is not formatted correctly
+        '
+      )
+      error = assert_raises PDD::Error do
+        PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
+      end
+      assert !error.message.index('Incorrect format').nil?
+    end
+  end
+
   def test_reads_git_author
     Dir.mktmpdir 'test' do |dir|
       fail unless system("
