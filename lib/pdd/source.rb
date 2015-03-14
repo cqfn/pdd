@@ -21,6 +21,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+require 'digest/md5'
 require 'pdd/puzzle'
 
 module PDD
@@ -76,8 +77,10 @@ module PDD
         raise Error, "#{ex.message} in line ##{idx}"
       end
       body = (match[3] + ' ' + tail.join(' ')).gsub(/[\s\n\t]+/, ' ').strip
+      marker = marker(match[2])
       Puzzle.new(
-        marker(match[2]).merge(
+        marker.merge(
+          id: "#{marker[:ticket]}-#{Digest::MD5.hexdigest(body)[0..7]}",
           lines: "#{idx + 1}-#{idx + tail.size + 1}",
           body: body,
           file: @path
