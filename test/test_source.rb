@@ -35,14 +35,14 @@ class TestSources < Minitest::Test
       file = File.join(dir, 'a.txt')
       File.write(
         file,
-        '
+        "
         * @todo #44 hello,
-        *  how are you doing?
+        *  how are you\t\r\tdoing?
         * -something else
         Something else
         ~~ @todo #ABC-3 this is another puzzle
         ~~  and it also has to work
-        '
+        "
       )
       list = PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
       assert_equal 2, list.size
