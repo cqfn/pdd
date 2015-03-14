@@ -24,6 +24,13 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:complexType name="puzzle">
     <xs:all>
+      <xs:element name="id" minOccurs="1">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z0-9\-]+"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
       <xs:element name="ticket">
         <xs:simpleType>
           <xs:restriction base="xs:string">

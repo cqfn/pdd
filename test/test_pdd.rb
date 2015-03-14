@@ -76,6 +76,7 @@ class TestPDD < Minitest::Test
         Nokogiri::XML(PDD::Base.new(opts).xml),
         [
           '/puzzles[count(puzzle)=1]',
+          '/puzzles/puzzle[id]',
           '/puzzles/puzzle[file="x.txt"]',
           '/puzzles/puzzle[author="Mr. Tester"]',
           '/puzzles/puzzle[email="test@teamed.io"]',

@@ -62,11 +62,13 @@
               <col/>
               <col/>
               <col/>
+              <col/>
               <col style="width:7em;"/>
               <col/>
             </colgroup>
             <thead>
               <tr>
+                <th><xsl:text>id</xsl:text></th>
                 <th><xsl:text>ticket</xsl:text></th>
                 <th><xsl:text>body</xsl:text></th>
                 <th><xsl:text>estimate</xsl:text></th>
@@ -83,6 +85,7 @@
   </xsl:template>
   <xsl:template match="puzzle">
     <tr>
+      <td><xsl:value-of select="id"/></td>
       <td><xsl:value-of select="ticket"/></td>
       <td>
         <code>
