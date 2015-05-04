@@ -12,3 +12,12 @@ Feature: Unicode
     LANG=C ruby -Ipdd/lib pdd/bin/pdd test.txt -v -f=/dev/null -e=pdd/**/*
     """
     Then Exit code is zero
+
+  Scenario: Skip file with broken Unicode
+    Given I have a "test.txt" file with content:
+    """
+    # @todo #44 \x00 hey
+    """
+    When I run bin/pdd with "--exclude=test.txt --v -f=/dev/null"
+    Then Exit code is zero
+    Then Stdout contains "excluding test.txt"

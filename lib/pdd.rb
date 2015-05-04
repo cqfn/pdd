@@ -76,6 +76,7 @@ module PDD
       @opts = opts
       PDD.log.level = Logger::INFO if @opts.verbose?
       PDD.log.info "my version is #{PDD::VERSION}"
+      PDD.log.info "Ruby version is #{RUBY_VERSION} at #{RUBY_PLATFORM}"
     end
 
     # Generate XML.

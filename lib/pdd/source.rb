@@ -42,13 +42,33 @@ module PDD
       lines = File.readlines(@file)
       lines.each_with_index do |line, idx|
         re.match(line) do |match|
-          puzzles << puzzle(lines.drop(idx + 1), match, idx)
+          begin
+            puzzles << puzzle(lines.drop(idx + 1), match, idx)
+          rescue Error => ex
+            raise Error, "#{ex.message} in line ##{idx}"
+          end
         end
+        /(.*(?:^|\s))@todo\s+#([\w\-\.:\/]+)/
       end
       puzzles
     end
 
     private
+
+    # Fetch puzzle
+    def puzzle(lines, match, idx)
+      tail = tail(lines, match[1])
+      body = (match[3] + ' ' + tail.join(' ')).gsub(/[\s\n\t]+/, ' ').strip
+      marker = marker(match[2])
+      Puzzle.new(
+        marker.merge(
+          id: "#{marker[:ticket]}-#{Digest::MD5.hexdigest(body)[0..7]}",
+          lines: "#{idx + 1}-#{idx + tail.size + 1}",
+          body: body,
+          file: @path
+        ).merge(git(idx + 1))
+      )
+    end
 
     # Parse a marker.
     def marker(text)
@@ -67,25 +87,6 @@ module PDD
       min = num.nil? ? 0 : Integer(num)
       min *= 60 if !units.nil? && units.start_with?('h')
       min
-    end
-
-    # Fetch puzzle
-    def puzzle(lines, match, idx)
-      begin
-        tail = tail(lines, match[1])
-      rescue Error => ex
-        raise Error, "#{ex.message} in line ##{idx}"
-      end
-      body = (match[3] + ' ' + tail.join(' ')).gsub(/[\s\n\t]+/, ' ').strip
-      marker = marker(match[2])
-      Puzzle.new(
-        marker.merge(
-          id: "#{marker[:ticket]}-#{Digest::MD5.hexdigest(body)[0..7]}",
-          lines: "#{idx + 1}-#{idx + tail.size + 1}",
-          body: body,
-          file: @path
-        ).merge(git(idx + 1))
-      )
     end
 
     # Fetch puzzle tail (all lines after the first one)

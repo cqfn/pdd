@@ -46,7 +46,7 @@ end
 Given(/^I have a "([^"]*)" file with content:$/) do |file, text|
   FileUtils.mkdir_p(File.dirname(file)) unless File.exist?(file)
   File.open(file, 'w') do |f|
-    f.write(text)
+    f.write(text.gsub(/\\x00/, "\x00"))
   end
 end
 
