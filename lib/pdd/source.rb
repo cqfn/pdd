@@ -37,6 +37,7 @@ module PDD
 
     # Fetch all puzzles.
     def puzzles
+      PDD.log.info "reading #{@path}..."
       re = /(.*(?:^|\s))@todo\s+#([\w\-\.:\/]+)\s+(.+)/
       puzzles = []
       lines = File.readlines(@file)

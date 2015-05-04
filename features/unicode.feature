@@ -16,8 +16,10 @@ Feature: Unicode
   Scenario: Skip file with broken Unicode
     Given I have a "test.txt" file with content:
     """
-    # @todo #44 \x00 hey
+    \xFF test
+    # @todo #44 \xFF hey
+    \xFF test again
     """
     When I run bin/pdd with "--exclude=test.txt --v -f=/dev/null"
-    Then Exit code is zero
     Then Stdout contains "excluding test.txt"
+    Then Exit code is zero
