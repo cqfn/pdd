@@ -95,7 +95,7 @@ module PDD
             xml.puzzles(attrs) do
               sources.fetch.each do |source|
                 source.puzzles.each do |puzzle|
-                  PDD.log.info "puzzle #{puzzle.props[:ticket]}:" \
+                  PDD.log.info "puzzle #{puzzle.props[:id]} " \
                     "#{puzzle.props[:estimate]}/#{puzzle.props[:role]}" \
                     " at #{puzzle.props[:file]}"
                   render puzzle, xml
