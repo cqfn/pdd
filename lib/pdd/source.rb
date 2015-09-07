@@ -46,8 +46,8 @@ module PDD
           re.match(line) do |match|
             puzzles << puzzle(lines.drop(idx + 1), match, idx)
           end
-        rescue Error => ex
-          raise Error, ["#{ex.message} in line ##{idx} of #{@path}", ex]
+        rescue ArgumentError => ex
+          raise Error, ["in line ##{idx}", ex]
         end
         /(.*(?:^|\s))@todo\s+#([\w\-\.:\/]+)/
       end
@@ -138,7 +138,7 @@ module PDD
     def puzzles
       @source.puzzles
     rescue Error => ex
-      raise Error, "#{ex.message} in #{@file}"
+      raise Error, ["in #{@file}", ex]
     end
   end
 end

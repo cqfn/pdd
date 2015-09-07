@@ -74,10 +74,9 @@ class TestSources < Minitest::Test
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'xx.txt')
       File.write(file, " * @todo #44 this is a broken unicode: \x92")
-      error = assert_raises PDD::Error do
+      assert_raises PDD::Error do
         PDD::VerboseSource.new(file, PDD::Source.new(file, 'xx')).puzzles
       end
-      assert !error.message.index('in line #1 of xx.txt').nil?
     end
   end
 
