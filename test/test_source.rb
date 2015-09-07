@@ -70,6 +70,17 @@ class TestSources < Minitest::Test
     end
   end
 
+  def test_failing_on_broken_unicode
+    Dir.mktmpdir 'test' do |dir|
+      file = File.join(dir, 'xx.txt')
+      File.write(file, " * @todo #44 this is a broken unicode: \x92")
+      error = assert_raises PDD::Error do
+        PDD::VerboseSource.new(file, PDD::Source.new(file, 'xx')).puzzles
+      end
+      assert !error.message.index('in line #1 of xx.txt').nil?
+    end
+  end
+
   def test_failing_on_invalid_puzzle_without_hash_sign
     skip('doesnt work now')
     Dir.mktmpdir 'test' do |dir|
