@@ -42,12 +42,12 @@ module PDD
       puzzles = []
       lines = File.readlines(@file)
       lines.each_with_index do |line, idx|
-        re.match(line) do |match|
-          begin
+        begin
+          re.match(line) do |match|
             puzzles << puzzle(lines.drop(idx + 1), match, idx)
-          rescue Error => ex
-            raise Error, "#{ex.message} in line ##{idx}"
           end
+        rescue Error => ex
+          raise Error, "#{ex.message} in line ##{idx} of #{@path}"
         end
         /(.*(?:^|\s))@todo\s+#([\w\-\.:\/]+)/
       end
