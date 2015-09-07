@@ -47,7 +47,7 @@ module PDD
             puzzles << puzzle(lines.drop(idx + 1), match, idx)
           end
         rescue Error => ex
-          raise Error, "#{ex.message} in line ##{idx} of #{@path}"
+          raise Error, ["#{ex.message} in line ##{idx} of #{@path}", ex]
         end
         /(.*(?:^|\s))@todo\s+#([\w\-\.:\/]+)/
       end
