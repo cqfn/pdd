@@ -82,7 +82,7 @@ class TestSources < Minitest::Test
       error = assert_raises PDD::Error do
         PDD::VerboseSource.new(file, PDD::Source.new(file, 'ff')).puzzles
       end
-      assert !error.message.index('Ticket expected').nil?
+      assert !error.to_s.index('Suspicious TODO').nil?
     end
   end
 

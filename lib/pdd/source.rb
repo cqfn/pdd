@@ -49,7 +49,10 @@ module PDD
         rescue ArgumentError => ex
           raise Error, ["in line ##{idx}", ex]
         end
-        /(.*(?:^|\s))@todo\s+#([\w\-\.:\/]+)/
+      end
+      lines.each_with_index do |line, idx|
+        fail Error, "Suspicious TODO in line ##{idx}" \
+          if /.*(^|\s)@todo\s+[^#]/.match(line)
       end
       puzzles
     end
