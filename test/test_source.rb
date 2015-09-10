@@ -70,6 +70,22 @@ class TestSources < Minitest::Test
     end
   end
 
+  def test_failing_on_incomplete_puzzle
+    Dir.mktmpdir 't5' do |dir|
+      file = File.join(dir, 'ff.txt')
+      File.write(
+        file,
+        '
+        * @todo this puzzle misses ticket name/number
+        '
+      )
+      error = assert_raises PDD::Error do
+        PDD::VerboseSource.new(file, PDD::Source.new(file, 'ff')).puzzles
+      end
+      assert !error.message.index('Ticket expected').nil?
+    end
+  end
+
   def test_failing_on_broken_unicode
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'xx.txt')
