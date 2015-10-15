@@ -16,7 +16,7 @@ Feature: Unicode
   Scenario: Skip file with broken Unicode
     Given I have a "test.txt" file with content:
     """
-    \xFF test
+    \xBF test
     # @todo #44 \xFF hey
     \xFF test again
     """
