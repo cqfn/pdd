@@ -27,6 +27,4 @@ architect:
 - davvd
 merge:
   commanders: []
-deploy:
-  commanders:
-  - yegor256
+deploy: {}
