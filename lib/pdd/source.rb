@@ -51,7 +51,7 @@ module PDD
         end
       end
       lines.each_with_index do |line, idx|
-        fail Error, "Suspicious TODO in line ##{idx}" \
+        fail Error, "@todo found, but puzzle can't be parsed in line ##{idx}" \
           if /.*(^|\s)@todo\s+[^#]/.match(line)
       end
       puzzles
