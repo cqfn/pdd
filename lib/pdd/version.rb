@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
-# Copyright (c) 2014 TechnoPark Corp.
-# Copyright (c) 2014 Yegor Bugayenko
+# Copyright (c) 2014-2016 TechnoPark Corp.
+# Copyright (c) 2014-2016 Yegor Bugayenko
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the 'Software'), to deal
@@ -23,7 +23,7 @@
 
 # PDD main module.
 # Author:: Yegor Bugayenko (yegor@teamed.io)
-# Copyright:: Copyright (c) 2014 Yegor Bugayenko
+# Copyright:: Copyright (c) 2014-2016 Yegor Bugayenko
 # License:: MIT
 module PDD
   VERSION = '1.0.snapshot'

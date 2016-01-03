@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
-# Copyright (c) 2014 TechnoPark Corp.
-# Copyright (c) 2014 Yegor Bugayenko
+# Copyright (c) 2014-2016 TechnoPark Corp.
+# Copyright (c) 2014-2016 Yegor Bugayenko
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the 'Software'), to deal
@@ -34,7 +34,7 @@ def version
   Gem::Specification.load(Dir['*.gemspec'].first).version
 end
 
-task default: [:clean, :test, :features, :rubocop]
+task default: [:clean, :test, :features, :rubocop, :copyright]
 
 require 'rake/testtask'
 desc 'Run all unit tests'
@@ -68,4 +68,12 @@ Cucumber::Rake::Task.new(:features) do |t|
 end
 Cucumber::Rake::Task.new(:"features:html") do |t|
   t.profile = 'html_report'
+end
+
+task :copyright do
+  sh "grep -q -r '2014-#{Date.today.strftime('%Y')}' \
+    --include '*.rb' \
+    --include '*.txt' \
+    --include 'Rakefile' \
+    ."
 end
