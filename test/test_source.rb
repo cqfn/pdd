@@ -29,7 +29,7 @@ require 'tmpdir'
 # Author:: Yegor Bugayenko (yegor@teamed.io)
 # Copyright:: Copyright (c) 2014-2016 Yegor Bugayenko
 # License:: MIT
-class TestSources < Minitest::Test
+class TestSource < Minitest::Test
   def test_parsing
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'a.txt')
@@ -87,6 +87,7 @@ class TestSources < Minitest::Test
   end
 
   def test_failing_on_broken_unicode
+    skip if Gem.win_platform?
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'xx.txt')
       File.write(file, " * @todo #44 this is a broken unicode: \x92")
@@ -114,6 +115,7 @@ class TestSources < Minitest::Test
   end
 
   def test_reads_git_author
+    skip if Gem.win_platform?
     Dir.mktmpdir 'test' do |dir|
       fail unless system("
         set -e

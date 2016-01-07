@@ -12,7 +12,6 @@ Feature: Gem Package
     """
     When I run bash with
     """
-    set -e
     cd pdd
     gem build pdd.gemspec
     gem specification --ruby pdd-*.gem > ../spec.rb

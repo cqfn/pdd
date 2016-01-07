@@ -11,7 +11,7 @@ addons:
       - libmagic1
       - libmagic-dev
 install:
-  - travis_retry bundle install
+  - travis_retry bundle update
 script:
   - rake
 
