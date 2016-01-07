@@ -45,7 +45,7 @@ Gem::Specification.new do |s|
   s.test_files = s.files.grep(/^(test|spec|features)\//)
   s.rdoc_options = ['--charset=UTF-8']
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt']
-  s.add_runtime_dependency 'nokogiri', '1.6.7'
+  s.add_runtime_dependency 'nokogiri', '1.6.7.1'
   s.add_runtime_dependency 'ruby-filemagic', '0.7.1'
   s.add_runtime_dependency 'slop', '3.6.0'
   s.add_runtime_dependency 'rake', '10.4.2'
