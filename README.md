@@ -11,7 +11,7 @@
 Install it first:
 
 ```bash
-$ apt-get install -y libmagic1 libmagic-dev ruby-dev
+$ apt-get install -y libmagic1 libmagic-dev zlib1g-dev ruby-dev
 $ gem install pdd
 ```
 
