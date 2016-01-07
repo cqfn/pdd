@@ -3,6 +3,7 @@ Feature: Gem Package
   package the Gem into .gem file
 
   Scenario: Gem can be packaged
+    Given It is Unix
     Given I have a "execs.rb" file with content:
     """
     #!/usr/bin/env ruby

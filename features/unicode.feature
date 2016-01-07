@@ -3,6 +3,7 @@ Feature: Unicode
   work with Unicode files
 
   Scenario: Unicode on ASCII locale
+    Given It is Unix
     Given I have a "test.txt" file with content:
     """
     # @todo #44 привет, друзья
@@ -14,6 +15,7 @@ Feature: Unicode
     Then Exit code is zero
 
   Scenario: Skip file with broken Unicode
+    Given It is Unix
     Given I have a "test.txt" file with content:
     """
     \xBF test

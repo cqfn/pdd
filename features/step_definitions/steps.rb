@@ -108,3 +108,11 @@ When(/^I run bash with$/) do |text|
   @stdout = `#{text}`
   @exitstatus = $CHILD_STATUS.exitstatus
 end
+
+Given(/^It is Unix$/) do
+  pending if Gem.win_platform?
+end
+
+Given(/^It is Windows$/) do
+  pending unless Gem.win_platform?
+end
