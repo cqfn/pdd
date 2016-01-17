@@ -1,5 +1,6 @@
 [![Made By Teamed.io](http://img.teamed.io/btn.svg)](http://www.teamed.io)
 [![DevOps By Rultor.com](http://www.rultor.com/b/teamed/pdd)](http://www.rultor.com/p/teamed/pdd)
+[![We recommend RubyMine](http://img.teamed.io/rubymine-recommend.svg)](https://www.jetbrains.com/ruby/)
 
 [![Build Status](https://travis-ci.org/teamed/pdd.svg)](https://travis-ci.org/teamed/pdd)
 [![Build status](https://ci.appveyor.com/api/projects/status/pojnoa1bp7t2ecbr?svg=true)](https://ci.appveyor.com/project/yegor256/pdd)
