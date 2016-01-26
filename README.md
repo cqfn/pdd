@@ -9,12 +9,35 @@
 [![Code Climate](http://img.shields.io/codeclimate/github/teamed/pdd.svg)](https://codeclimate.com/github/teamed/pdd)
 [![Coverage Status](https://img.shields.io/coveralls/teamed/pdd.svg)](https://coveralls.io/r/teamed/pdd)
 
-Install it first:
+## What This is for?
+
+Read this article about
+[Puzzle Driven Development](http://www.yegor256.com/2009/03/04/pdd.html).
+Check also patent application [US 12/840,306](http://www.google.com/patents/US20120023476)
+
+## How to Install?
+
+Install it first (Debian Linux):
 
 ```bash
 $ apt-get install -y libmagic1 libmagic-dev zlib1g-dev ruby-dev
 $ gem install pdd
 ```
+
+On RedHat:
+
+```bash
+$ yum install -y libmagic1 libmagic-dev zlib1g-dev ruby-dev
+$ gem install pdd
+```
+
+On OSX and Windows, just that:
+
+```
+$ gem install pdd
+```
+
+## How to Run?
 
 Run it locally and read its output:
 
@@ -44,11 +67,7 @@ Possible formats of puzzle markers:
 #678:40m/DEV
 ```
 
-Read this article about
-[Puzzle Driven Development](http://www.yegor256.com/2009/03/04/pdd.html).
-Check also patent application [US 12/840,306](http://www.google.com/patents/US20120023476)
-
-## Rules
+## How to Configure Rules
 
 You can specify post-parsing rules for your puzzles, in command line,
 for example:
@@ -76,8 +95,6 @@ Here is a list of rules available now:
 
   * `max-duplicates:1` blocks more than one duplicate of any puzzle
   (this rule is used by default).
-
-## .pdd
 
 You can put all command line options into `.pdd` file. The options from the
 file will be used first. Command line options may be added on top of them.
