@@ -67,6 +67,12 @@ Possible formats of puzzle markers:
 #678:40m/DEV
 ```
 
+You can exclude certain files from the search, for example:
+
+```
+pdd --exclude src/**/*.java --exclude target/**
+```
+
 ## How to Configure Rules
 
 You can specify post-parsing rules for your puzzles, in command line,
