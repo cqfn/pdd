@@ -69,8 +69,10 @@ Possible formats of puzzle markers:
 
 You can exclude certain files from the search, for example:
 
-```
-pdd --exclude src/**/*.java --exclude target/**
+```bash
+pdd --exclude=src/**/*.java --exclude=target/**/*
+pdd --exclude=src/**/*.java # exclude .java files in src/
+pdd --exclude=src/**/* # exclude all files in src/
 ```
 
 ## How to Configure Rules
