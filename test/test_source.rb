@@ -90,7 +90,7 @@ class TestSource < Minitest::Test
     skip if Gem.win_platform?
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'xx.txt')
-      File.write(file, " * @todo #44 this is a broken unicode: \x92")
+      File.write(file, ' * @todo #44 this is a broken unicode: ' + 0x92.chr)
       assert_raises PDD::Error do
         PDD::VerboseSource.new(file, PDD::Source.new(file, 'xx')).puzzles
       end
