@@ -38,13 +38,13 @@ module PDD
             role = p.xpath('role/text()').to_s
             next nil if @roles.include?(role)
             "puzzle #{p.xpath('file/text()')}:#{p.xpath('lines/text()')}" +
-            if role.empty?
-              " doesn't define any role"\
-              ", while one of these roles is required: #{@roles}"
-            else
-              " defines role #{role}"\
-              ", while only these roles are allowed: #{@roles}"
-            end
+              if role.empty?
+                " doesn't define any role"\
+                ", while one of these roles is required: #{@roles}"
+              else
+                " defines role #{role}"\
+                ", while only these roles are allowed: #{@roles}"
+              end
           end.compact
         end
       end

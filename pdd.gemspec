@@ -41,8 +41,8 @@ Gem::Specification.new do |s|
   s.email = 'yegor@teamed.io'
   s.homepage = 'http://github.com/teamed/pdd'
   s.files = `git ls-files`.split($RS)
-  s.executables = s.files.grep(/^bin\//) { |f| File.basename(f) }
-  s.test_files = s.files.grep(/^(test|spec|features)\//)
+  s.executables = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  s.test_files = s.files.grep(%r{^(test|spec|features)/})
   s.rdoc_options = ['--charset=UTF-8']
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt']
   s.add_runtime_dependency 'nokogiri', '1.6.7.2'
@@ -53,7 +53,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rdoc', '4.2.0'
   s.add_development_dependency 'cucumber', '1.3.17'
   s.add_development_dependency 'minitest', '5.5.0'
-  s.add_development_dependency 'rubocop', '0.24.1'
-  s.add_development_dependency 'rubocop-rspec', '1.2.1'
+  s.add_development_dependency 'rubocop', '0.41.2'
+  s.add_development_dependency 'rubocop-rspec', '1.5.1'
   s.add_development_dependency 'rspec-rails', '3.1.0'
 end

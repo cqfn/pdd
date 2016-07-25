@@ -117,7 +117,7 @@ class TestSource < Minitest::Test
   def test_reads_git_author
     skip if Gem.win_platform?
     Dir.mktmpdir 'test' do |dir|
-      fail unless system("
+      raise unless system("
         set -e
         cd '#{dir}'
         git init .

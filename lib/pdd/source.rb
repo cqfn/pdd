@@ -38,7 +38,7 @@ module PDD
     # Fetch all puzzles.
     def puzzles
       PDD.log.info "reading #{@path}..."
-      re = /(.*(?:^|\s))@todo\s+#([\w\-\.:\/]+)\s+(.+)/
+      re = %r{(.*(?:^|\s))@todo\s+#([\w\-\.:/]+)\s+(.+)}
       puzzles = []
       lines = File.readlines(@file)
       lines.each_with_index do |line, idx|
@@ -51,8 +51,8 @@ module PDD
         end
       end
       lines.each_with_index do |line, idx|
-        fail Error, "@todo found, but puzzle can't be parsed in line ##{idx}" \
-          if /.*(^|\s)@todo\s+[^#]/.match(line)
+        raise Error, "@todo found, but puzzle can't be parsed in line ##{idx}" \
+          if line =~ /.*(^|\s)@todo\s+[^#]/
       end
       puzzles
     end
@@ -76,9 +76,9 @@ module PDD
 
     # Parse a marker.
     def marker(text)
-      re = /([\w\d\-\.]+)(?::(\d+)(?:(m|h)[a-z]*)?)?(?:\/([A-Z]+))?/
+      re = %r{([\w\d\-\.]+)(?::(\d+)(?:(m|h)[a-z]*)?)?(?:/([A-Z]+))?}
       match = re.match(text)
-      fail "invalid puzzle marker: #{text}" if match.nil?
+      raise "invalid puzzle marker: #{text}" if match.nil?
       {
         ticket: match[1],
         estimate: minutes(match[2], match[3]),
@@ -96,12 +96,12 @@ module PDD
     # Fetch puzzle tail (all lines after the first one)
     def tail(lines, prefix)
       lines
-        .take_while { |txt| txt.start_with?(prefix) }
-        .map { |txt| txt[prefix.length, txt.length] }
-        .take_while { |txt| txt =~ /^[ a-zA-Z0-9]/ }
-        .each { |txt| fail Error, 'Space expected' unless txt.start_with?(' ') }
-        .each { |txt| fail Error, 'Too many spaces' if txt =~ /^\s{2,}/ }
-        .map { |txt| txt[1, txt.length] }
+        .take_while { |t| t.start_with?(prefix) }
+        .map { |t| t[prefix.length, t.length] }
+        .take_while { |t| t =~ /^[ a-zA-Z0-9]/ }
+        .each { |t| raise Error, 'Space expected' unless t.start_with?(' ') }
+        .each { |t| raise Error, 'Too many spaces' if t =~ /^\s{2,}/ }
+        .map { |t| t[1, t.length] }
     end
 
     # Git information at the line

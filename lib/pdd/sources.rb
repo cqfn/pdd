@@ -46,7 +46,7 @@ module PDD
         end
       end.to_a
       PDD.log.info "#{files.size} file(s) found"
-      types = [/^text\//, /application\/xml/]
+      types = [%r{^text/}, %r{application/xml}]
       files
         .select { |f| types.index { |re| @magic.file(f) =~ re } }
         .map do |file|

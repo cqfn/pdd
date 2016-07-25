@@ -63,7 +63,7 @@ class TestPDD < Minitest::Test
     skip if Gem.win_platform?
     Dir.mktmpdir 'test' do |dir|
       opts = opts(['-v', '-s', dir])
-      fail unless system("
+      raise unless system("
         set -e
         cd '#{dir}'
         git init .
@@ -100,7 +100,7 @@ class TestPDD < Minitest::Test
 
   def matches(xml, xpaths)
     xpaths.each do |xpath|
-      fail "doesn't match '#{xpath}': #{xml}" unless xml.xpath(xpath).size == 1
+      raise "doesn't match '#{xpath}': #{xml}" unless xml.xpath(xpath).size == 1
     end
   end
 end

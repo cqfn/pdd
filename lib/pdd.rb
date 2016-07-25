@@ -50,7 +50,7 @@ module PDD
     'min-words' => PDD::Rule::Text::MinWords,
     'max-duplicates' => PDD::Rule::MaxDuplicates,
     'available-roles' => PDD::Rule::Roles::Available
-  }
+  }.freeze
 
   # Get logger.
   def self.log
@@ -141,13 +141,13 @@ module PDD
       (@opts[:rule] || []).push('max-duplicates:1').map do |r|
         name, value = r.split(':')
         rule = RULES[name]
-        fail "rule '#{name}' doesn't exist" if rule.nil?
+        raise "rule '#{name}' doesn't exist" if rule.nil?
         rule.new(doc, value).errors.each do |e|
           PDD.log.error e
           total += 1
         end
       end
-      fail PDD::Error, "#{total} errors, see log above" unless total == 0
+      raise PDD::Error, "#{total} errors, see log above" unless total == 0
       xml
     end
 
@@ -158,7 +158,7 @@ module PDD
       errors = xsd.validate(Nokogiri::XML(xml)).map(&:message)
       errors.each { |e| PDD.log.error e }
       PDD.log.error(xml) unless errors.empty?
-      fail SchemaError, errors.join('; ') unless errors.empty?
+      raise SchemaError, errors.join('; ') unless errors.empty?
       xml
     end
   end

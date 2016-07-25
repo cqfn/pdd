@@ -30,8 +30,8 @@ require 'pdd/version'
 require 'nokogiri'
 
 args = []
-args.push(*File.read('.pdd').split(/\s+/).map(&:strip)) if File.exist?('.pdd')
-args.push(*ARGV)
+args += File.read('.pdd').split(/\s+/).map(&:strip) if File.exist?('.pdd')
+args += ARGV
 
 opts = Slop.parse(args, strict: true, help: true) do
   banner "Usage (#{PDD::VERSION}): pdd [options]"
@@ -72,7 +72,7 @@ opts = Slop.parse(args, strict: true, help: true) do
   )
 end
 
-fail '-f is mandatory when using -v' if opts.verbose? && !opts.file?
+raise '-f is mandatory when using -v' if opts.verbose? && !opts.file?
 
 if opts.help?
   puts opts
@@ -95,8 +95,8 @@ if opts[:format]
       'assets', 'puzzles.xsl'
     )
     output = Nokogiri::XSLT(File.read(xslt)).transform(Nokogiri::XML(output))
-  else
-    fail 'invalid format, use html or xml' if opts[:format] != 'xml'
+  elsif opts[:format] != 'xml'
+    raise 'invalid format, use html or xml'
   end
 end
 file << output
