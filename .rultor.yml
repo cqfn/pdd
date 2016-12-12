@@ -17,7 +17,7 @@ release:
     chmod 0600 ../rubygems.yml
     gem push *.gem --config-file ../rubygems.yml
     sudo gem install pdd
-    pdd --source=$(pwd) --verbose --file=pdd.xml -e=test/** -e=features/** -e=coverage/** -e=README.md
+    pdd --source=$(pwd) --verbose --file=pdd.xml -e=test/** -e=features/** -e=coverage/**/* -e=README.md
     s3cmd --no-progress put pdd.xml --config=../s3cfg s3://pdd.teamed.io/pdd.xml
     s3cmd --no-progress put assets/puzzles.xsd --acl-public --config=../s3cfg s3://pdd-xsd.teamed.io/${tag}.xsd
     s3cmd --no-progress put assets/puzzles.xsl --acl-public --config=../s3cfg s3://pdd-xsl.teamed.io/${tag}.xsl
