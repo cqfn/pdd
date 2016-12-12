@@ -74,14 +74,14 @@ module PDD
     # +opts+:: Options
     def initialize(opts)
       @opts = opts
-      PDD.log.level = Logger::INFO if @opts.verbose?
+      PDD.log.level = Logger::INFO if @opts[:verbose]
       PDD.log.info "my version is #{PDD::VERSION}"
       PDD.log.info "Ruby version is #{RUBY_VERSION} at #{RUBY_PLATFORM}"
     end
 
     # Generate XML.
     def xml
-      dir = @opts.source? ? @opts[:source] : Dir.pwd
+      dir = @opts[:source] ? @opts[:source] : Dir.pwd
       PDD.log.info "reading #{dir}"
       sources = Sources.new(dir)
       @opts[:exclude].each do |p|
