@@ -21,7 +21,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-require 'filemagic'
+require 'ptools'
 require 'pdd/source'
 require 'rake/file_list'
 
@@ -33,7 +33,6 @@ module PDD
     def initialize(dir, ptns = [])
       @dir = dir
       @exclude = ptns
-      @magic = FileMagic.new(FileMagic::MAGIC_MIME)
     end
 
     # Fetch all sources.
@@ -46,15 +45,12 @@ module PDD
         end
       end.to_a
       PDD.log.info "#{files.size} file(s) found"
-      types = [%r{^text/}, %r{application/xml}]
-      files
-        .select { |f| types.index { |re| @magic.file(f) =~ re } }
-        .map do |file|
-          VerboseSource.new(
-            file,
-            Source.new(file, file[@dir.length + 1, file.length])
-          )
-        end
+      files.select { |f| !File.directory?(f) && !File.binary?(f) }.map do |file|
+        VerboseSource.new(
+          file,
+          Source.new(file, file[@dir.length + 1, file.length])
+        )
+      end
     end
 
     def exclude(ptn)

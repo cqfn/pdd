@@ -23,6 +23,7 @@
 
 require 'minitest/autorun'
 require 'pdd/sources'
+require 'fileutils'
 require 'tmpdir'
 
 # Sources test.
@@ -38,8 +39,8 @@ class TestSources < Minitest::Test
   end
 
   def test_ignores_binary_files
-    in_temp(['c', 'd.png']) do |dir|
-      File.write(File.join(dir, 'd.png'), '')
+    in_temp(['c']) do |dir|
+      FileUtils.cp(File.join(Dir.pwd, '.git/index'), dir)
       list = PDD::Sources.new(dir).fetch
       assert_equal 1, list.size
     end
@@ -70,6 +71,8 @@ class TestSources < Minitest::Test
       assert_equal 1, list.size
     end
   end
+
+  private
 
   def in_temp(files)
     Dir.mktmpdir 'x' do |dir|

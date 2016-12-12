@@ -46,7 +46,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ['--charset=UTF-8']
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt']
   s.add_runtime_dependency 'nokogiri', '~>1.6'
-  s.add_runtime_dependency 'ruby-filemagic', '~>0.7'
+  s.add_runtime_dependency 'ptools', '~>1.3'
   s.add_runtime_dependency 'slop', '~>3.6'
   s.add_development_dependency 'rake', '10.5.0'
   s.add_development_dependency 'coveralls', '0.7.2'
