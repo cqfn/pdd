@@ -1,6 +1,6 @@
 assets:
-  rubygems.yml: yegor256/home#assets/rubygems.yml
-  s3cfg: yegor256/home#assets/s3cfg
+  rubygems.yml: teamed/home#assets/rubygems.yml
+  s3cfg: teamed/home#assets/s3cfg
 install: |
   sudo apt-get update
   sudo apt-get install -y --fix-missing libmagic1 libmagic-dev
