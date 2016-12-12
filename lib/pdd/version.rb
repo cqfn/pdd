@@ -26,5 +26,5 @@
 # Copyright:: Copyright (c) 2014-2016 Yegor Bugayenko
 # License:: MIT
 module PDD
-  VERSION = '1.0.snapshot'.freeze
+  VERSION = '0.16.4'.freeze
 end
