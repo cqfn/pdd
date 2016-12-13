@@ -62,7 +62,7 @@ module PDD
     # Fetch puzzle
     def puzzle(lines, match, idx)
       tail = tail(lines, match[1])
-      body = (match[3] + ' ' + tail.join(' ')).gsub(/[\s\n\t]+/, ' ').strip
+      body = (match[3] + ' ' + tail.join(' ')).gsub(/\s+/, ' ').strip
       marker = marker(match[2])
       Puzzle.new(
         marker.merge(
