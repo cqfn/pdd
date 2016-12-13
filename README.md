@@ -20,23 +20,9 @@ Check also patent application [US 12/840,306](http://www.google.com/patents/US20
 
 ## How to Install?
 
-Install it first (Debian Linux):
+Install it first:
 
 ```bash
-$ apt-get install -y libmagic1 libmagic-dev zlib1g-dev ruby-dev
-$ gem install pdd
-```
-
-On RedHat:
-
-```bash
-$ yum install -y libmagic1 libmagic-dev zlib1g-dev ruby-dev
-$ gem install pdd
-```
-
-On OSX and Windows, just that:
-
-```
 $ gem install pdd
 ```
 
