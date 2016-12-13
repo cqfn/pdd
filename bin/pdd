@@ -36,6 +36,7 @@ args += ARGV
 opts = Slop.parse(args, strict: true, help: true) do
   banner "Usage (#{PDD::VERSION}): pdd [options]"
   on 'v', 'verbose', 'Enable verbose mode'
+  on 'q', 'quiet', 'Enable quiet mode'
   on 'version', 'Show current version'
   on(
     's',
