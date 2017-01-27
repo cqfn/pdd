@@ -3,6 +3,7 @@
 --exclude target/**/*
 --exclude coverage/**/*
 --exclude features/**/*
+--exclude README.md
 --exclude test/test_source.rb
 --exclude src/main/resources/images/**/*
 --rule min-words:20
