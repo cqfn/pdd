@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <!--
- * Copyright (c) 2014-2017 TechnoPark Corp.
  * Copyright (c) 2014-2017 Yegor Bugayenko
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
