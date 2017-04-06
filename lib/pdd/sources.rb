@@ -22,7 +22,6 @@
 
 require 'ptools'
 require 'pdd/source'
-require 'rake/file_list'
 
 module PDD
   # Code base abstraction
@@ -31,18 +30,17 @@ module PDD
     # +dir+:: Directory with source code files
     def initialize(dir, ptns = [])
       @dir = dir
-      @exclude = ptns
+      @exclude = ptns + ['.git/**/*']
     end
 
     # Fetch all sources.
     def fetch
-      files = Rake::FileList.new(File.join(@dir, '**/*')) do |list|
-        @exclude.each do |ptn|
-          Rake::FileList.new(File.join(@dir, ptn)).each do |f|
-            list.exclude(f)
-          end
+      files = Dir.glob(File.join(@dir, '**/*'), File::FNM_DOTMATCH)
+      @exclude.each do |ptn|
+        Dir.glob(File.join(@dir, ptn), File::FNM_DOTMATCH) do |f|
+          files.delete_if { |i| i == f }
         end
-      end.to_a
+      end
       PDD.log.info "#{files.size} file(s) found"
       files.select { |f| !File.directory?(f) && !File.binary?(f) }.map do |file|
         VerboseSource.new(
