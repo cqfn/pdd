@@ -68,8 +68,8 @@ class TestPDD < Minitest::Test
         git init .
         git config user.email test@teamed.io
         git config user.name 'Mr. Tester'
-        echo '@todo #1 this is the puzzle' > x.txt
-        git add x.txt
+        echo '@todo #1 this is the puzzle' > .x.txt
+        git add .x.txt
         git commit -am 'first version'
       ")
       matches(
@@ -77,7 +77,7 @@ class TestPDD < Minitest::Test
         [
           '/puzzles[count(puzzle)=1]',
           '/puzzles/puzzle[id]',
-          '/puzzles/puzzle[file="x.txt"]',
+          '/puzzles/puzzle[file=".x.txt"]',
           '/puzzles/puzzle[author="Mr. Tester"]',
           '/puzzles/puzzle[email="test@teamed.io"]',
           '/puzzles/puzzle[time]'
