@@ -18,6 +18,10 @@ Read this article about
 [Puzzle Driven Development](http://www.yegor256.com/2009/03/04/pdd.html).
 Check also patent application [US 12/840,306](http://www.google.com/patents/US20120023476)
 
+Also, check [0pdd.com](http://www.0pdd.com): a hosted service,
+where this command line tool works for you. Read this first:
+[PDD in Action](http://www.yegor256.com/2017/04/05/pdd-in-action.html).
+
 ## How to Install?
 
 Install it first:
