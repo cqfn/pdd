@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-require 'ptools'
 require 'pdd/source'
 
 module PDD
@@ -35,14 +34,26 @@ module PDD
 
     # Fetch all sources.
     def fetch
-      files = Dir.glob(File.join(@dir, '**/*'), File::FNM_DOTMATCH)
+      files = Dir.glob(
+        File.join(@dir, '**/*'), File::FNM_DOTMATCH
+      ).reject { |f| File::directory?(f) }
+      excluded = 0
       @exclude.each do |ptn|
         Dir.glob(File.join(@dir, ptn), File::FNM_DOTMATCH) do |f|
           files.delete_if { |i| i == f }
+          excluded += 1
         end
       end
-      PDD.log.info "#{files.size} file(s) found"
-      files.select { |f| !File.directory?(f) && !File.binary?(f) }.map do |file|
+      files.reject do |f|
+        if is_binary?(f)
+          PDD.log.info "#{f} is a binary file, excluded"
+          true
+        else
+          false
+        end
+      end
+      PDD.log.info "#{files.size} file(s) found, #{excluded} excluded"
+      files.map do |file|
         VerboseSource.new(
           file,
           Source.new(file, file[@dir.length + 1, file.length])
@@ -53,5 +64,12 @@ module PDD
     def exclude(ptn)
       Sources.new(@dir, @exclude.push(ptn))
     end
+
+    private
+
+    def is_binary?(f)
+      false
+    end
+
   end
 end
