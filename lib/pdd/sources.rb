@@ -23,6 +23,7 @@
 require 'pdd'
 require 'pdd/source'
 require 'shellwords'
+require 'English'
 
 module PDD
   # Code base abstraction
@@ -63,11 +64,11 @@ module PDD
 
     def binary?(f)
       `grep -qI '.' #{Shellwords.escape(f)}`
-      if $CHILD_STATUS.exitstatus == 1
+      if $CHILD_STATUS.success?
+        false
+      else
         PDD.log.info "#{f} is a binary file (#{File.size(f)} bytes)"
         true
-      else
-        false
       end
     end
   end
