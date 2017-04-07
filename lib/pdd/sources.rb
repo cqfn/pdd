@@ -20,7 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+require 'pdd'
 require 'pdd/source'
+require 'shellwords'
 
 module PDD
   # Code base abstraction
@@ -36,7 +38,7 @@ module PDD
     def fetch
       files = Dir.glob(
         File.join(@dir, '**/*'), File::FNM_DOTMATCH
-      ).reject { |f| File::directory?(f) }
+      ).reject { |f| File.directory?(f) }
       excluded = 0
       @exclude.each do |ptn|
         Dir.glob(File.join(@dir, ptn), File::FNM_DOTMATCH) do |f|
@@ -44,16 +46,8 @@ module PDD
           excluded += 1
         end
       end
-      files.reject do |f|
-        if is_binary?(f)
-          PDD.log.info "#{f} is a binary file, excluded"
-          true
-        else
-          false
-        end
-      end
       PDD.log.info "#{files.size} file(s) found, #{excluded} excluded"
-      files.map do |file|
+      files.reject { |f| binary?(f) }.map do |file|
         VerboseSource.new(
           file,
           Source.new(file, file[@dir.length + 1, file.length])
@@ -67,9 +61,14 @@ module PDD
 
     private
 
-    def is_binary?(f)
-      false
+    def binary?(f)
+      `grep -qI '.' #{Shellwords.escape(f)}`
+      if $CHILD_STATUS.exitstatus == 1
+        PDD.log.info "#{f} is a binary file (#{File.size(f)} bytes)"
+        true
+      else
+        false
+      end
     end
-
   end
 end
