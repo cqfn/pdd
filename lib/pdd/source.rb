@@ -21,7 +21,9 @@
 # SOFTWARE.
 
 require 'digest/md5'
-require 'pdd/puzzle'
+require 'shellwords'
+require_relative '../pdd'
+require_relative '../pdd/puzzle'
 
 module PDD
   # Source.
@@ -105,10 +107,9 @@ module PDD
 
     # Git information at the line
     def git(pos)
-      cmd = [
-        "cd #{File.dirname(@file)}",
-        "git blame -L #{pos},#{pos} --porcelain #{File.basename(@file)}"
-      ].join(' && ')
+      cmd = "cd #{Shellwords.escape(File.dirname(@file))} && \
+git blame -L #{pos},#{pos} --porcelain \
+#{Shellwords.escape(File.basename(@file))}"
       Hash[
         `#{cmd}`.split("\n").map do |line|
           if line =~ /^author /

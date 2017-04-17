@@ -22,7 +22,7 @@
 
 require 'minitest/autorun'
 require 'nokogiri'
-require 'pdd/rule/roles'
+require_relative '../lib/pdd/rule/roles'
 
 # PDD::Rule::Role module tests.
 # Author:: Yegor Bugayenko (yegor@teamed.io)

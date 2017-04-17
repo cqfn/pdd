@@ -22,9 +22,9 @@
 
 require 'minitest/autorun'
 require 'nokogiri'
-require 'pdd'
 require 'tmpdir'
 require 'slop'
+require_relative '../lib/pdd'
 
 # PDD main module test.
 # Author:: Yegor Bugayenko (yegor@teamed.io)
@@ -68,8 +68,13 @@ class TestPDD < Minitest::Test
         git init .
         git config user.email test@teamed.io
         git config user.name 'Mr. Tester'
-        echo '@todo #1 this is the puzzle' > .x.txt
-        git add .x.txt
+        mkdir 'a long dir name'
+        cd 'a long dir name'
+        mkdir 'a kid'
+        cd 'a kid'
+        echo '@todo #1 this is the puzzle' > '.это файл.txt'
+        cd ../..
+        git add -f .
         git commit -am 'first version'
       ")
       matches(
@@ -77,7 +82,7 @@ class TestPDD < Minitest::Test
         [
           '/puzzles[count(puzzle)=1]',
           '/puzzles/puzzle[id]',
-          '/puzzles/puzzle[file=".x.txt"]',
+          '/puzzles/puzzle[file="a long dir name/a kid/.это файл.txt"]',
           '/puzzles/puzzle[author="Mr. Tester"]',
           '/puzzles/puzzle[email="test@teamed.io"]',
           '/puzzles/puzzle[time]'
@@ -89,11 +94,11 @@ class TestPDD < Minitest::Test
   private
 
   def opts(args)
-    Slop.parse args do
-      on 'v', 'verbose'
-      on 's', 'source', argument: :required
-      on 'e', 'exclude', as: Array, argument: :required
-      on 'r', 'rule', as: Array, argument: :required
+    Slop.parse args do |o|
+      o.bool '-v', '--verbose'
+      o.string '-s', '--source'
+      o.array '-e', '--exclude'
+      o.array '-r', '--rule'
     end
   end
 

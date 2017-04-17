@@ -23,5 +23,5 @@
 STDOUT.sync = true
 
 require 'simplecov'
-require 'pdd'
 require 'minitest/autorun'
+require_relative '../lib/pdd'

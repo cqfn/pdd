@@ -20,15 +20,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-require 'pdd/sources'
-require 'pdd/version'
-require 'pdd/rule/estimates'
-require 'pdd/rule/text'
-require 'pdd/rule/duplicates'
-require 'pdd/rule/roles'
 require 'nokogiri'
 require 'logger'
 require 'time'
+require_relative 'pdd/sources'
+require_relative 'pdd/version'
+require_relative 'pdd/rule/estimates'
+require_relative 'pdd/rule/text'
+require_relative 'pdd/rule/duplicates'
+require_relative 'pdd/rule/roles'
 
 # PDD main module.
 # Author:: Yegor Bugayenko (yegor@teamed.io)

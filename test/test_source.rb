@@ -21,8 +21,8 @@
 # SOFTWARE.
 
 require 'minitest/autorun'
-require 'pdd/sources'
 require 'tmpdir'
+require_relative '../lib/pdd/sources'
 
 # Source test.
 # Author:: Yegor Bugayenko (yegor@teamed.io)

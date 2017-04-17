@@ -22,7 +22,7 @@
 
 require 'minitest/autorun'
 require 'nokogiri'
-require 'pdd/rule/text'
+require_relative '../lib/pdd/rule/text'
 
 # PDD::Rule::Text module tests.
 # Author:: Yegor Bugayenko (yegor@teamed.io)

@@ -20,10 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-require 'pdd'
-require 'pdd/source'
 require 'shellwords'
 require 'English'
+require_relative '../pdd'
+require_relative 'source'
 
 module PDD
   # Code base abstraction

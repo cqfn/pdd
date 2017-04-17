@@ -20,20 +20,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-require 'pdd'
 require 'nokogiri'
 require 'tmpdir'
 require 'slop'
 require 'English'
+require_relative '../../lib/pdd'
 
 Before do
   @cwd = Dir.pwd
   @dir = Dir.mktmpdir('test')
   FileUtils.mkdir_p(@dir) unless File.exist?(@dir)
   Dir.chdir(@dir)
-  @opts = Slop.parse ['-v', '-s', @dir] do
-    on 'v', 'verbose'
-    on 's', 'source', argument: :required
+  @opts = Slop.parse ['-v', '-s', @dir] do |o|
+    o.bool '-v', '--verbose'
+    o.string '-s', '--source'
   end
 end
 

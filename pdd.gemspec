@@ -22,7 +22,7 @@
 
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'pdd/version'
+require_relative 'lib/pdd/version'
 
 Gem::Specification.new do |s|
   s.specification_version = 2 if s.respond_to? :specification_version=
@@ -45,7 +45,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ['--charset=UTF-8']
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt']
   s.add_runtime_dependency 'nokogiri', '~>1.6'
-  s.add_runtime_dependency 'slop', '~>3.6'
+  s.add_runtime_dependency 'slop', '~>4.4.1'
   s.add_development_dependency 'rake', '10.5.0'
   s.add_development_dependency 'coveralls', '0.7.2'
   s.add_development_dependency 'rdoc', '4.2.0'

@@ -23,9 +23,8 @@
 require 'minitest/autorun'
 require 'fileutils'
 require 'tmpdir'
-require 'pdd/sources'
-
 require_relative '../test/test__helper'
+require_relative '../lib/pdd/sources'
 
 # Sources test.
 # Author:: Yegor Bugayenko (yegor@teamed.io)

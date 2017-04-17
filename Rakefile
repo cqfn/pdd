@@ -61,11 +61,10 @@ RuboCop::RakeTask.new(:rubocop) do |task|
 end
 
 require 'cucumber/rake/task'
-Cucumber::Rake::Task.new(:features) do |t|
+Cucumber::Rake::Task.new(:features) do
   Rake::Cleaner.cleanup_files(['coverage'])
-  t.profile = 'travis'
 end
-Cucumber::Rake::Task.new(:"features:html") do |t|
+Cucumber::Rake::Task.new(:'features:html') do |t|
   t.profile = 'html_report'
 end
 

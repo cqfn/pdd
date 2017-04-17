@@ -23,53 +23,26 @@
 
 STDOUT.sync = true
 
-require 'pdd'
 require 'slop'
-require 'pdd/version'
 require 'nokogiri'
+require_relative '../lib/pdd'
+require_relative '../lib/pdd/version'
 
 args = []
 args += File.read('.pdd').split(/\s+/).map(&:strip) if File.exist?('.pdd')
 args += ARGV
 
-opts = Slop.parse(args, strict: true, help: true) do
-  banner "Usage (#{PDD::VERSION}): pdd [options]"
-  on 'v', 'verbose', 'Enable verbose mode'
-  on 'q', 'quiet', 'Enable quiet mode'
-  on 'version', 'Show current version'
-  on(
-    's',
-    'source',
-    'Source directory to parse',
-    argument: :required
-  )
-  on(
-    'f',
-    'file',
-    'File to save XML into',
-    argument: :required
-  )
-  on(
-    'e',
-    'exclude',
-    'Glob pattern to exclude',
-    as: Array,
-    argument: :required
-  )
-  on(
-    't',
-    'format',
-    'Format to use (xml|html)',
-    argument: :required
-  )
-  on(
-    'r',
-    'rule',
-    'Format to use (xml|html)',
-    argument: :required,
-    as: Array,
-    limit: 1
-  )
+opts = Slop.parse(args, strict: true, help: true) do |o|
+  o.banner = "Usage (#{PDD::VERSION}): pdd [options]"
+  o.bool '-h', '--help', 'Show these instructions'
+  o.bool '-v', '--verbose', 'Enable verbose mode'
+  o.bool '-q', '--quiet', 'Enable quiet mode'
+  o.bool '--version', 'Show current version'
+  o.string '-s', '--source', 'Source directory to parse'
+  o.string '-f', '--file', 'File to save XML into'
+  o.array '-e', '--exclude', 'Glob pattern to exclude'
+  o.string '-t', '--format', 'Format to use (xml|html)'
+  o.array '-r', '--rule', 'Rule to apply'
 end
 
 raise '-f is mandatory when using -v' if opts.verbose? && !opts.file?

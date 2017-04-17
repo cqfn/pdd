@@ -22,7 +22,7 @@
 
 require 'minitest/autorun'
 require 'nokogiri'
-require 'pdd/rule/duplicates'
+require_relative '../lib/pdd/rule/duplicates'
 
 # PDD::Rule::MaxDuplicates class test.
 # Author:: Yegor Bugayenko (yegor@teamed.io)

@@ -22,7 +22,7 @@
 
 require 'minitest/autorun'
 require 'nokogiri'
-require 'pdd/rule/estimates'
+require_relative '../lib/pdd/rule/estimates'
 
 # PDD::Rule::Estimate module tests.
 # Author:: Yegor Bugayenko (yegor@teamed.io)

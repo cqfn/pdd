@@ -21,4 +21,4 @@
 # SOFTWARE.
 
 require 'simplecov'
-require 'pdd'
+require_relative '../../lib/pdd'
