@@ -47,8 +47,10 @@ module PDD
           re.match(line) do |match|
             puzzles << puzzle(lines.drop(idx + 1), match, idx)
           end
+        rescue Error => ex
+          raise Error, ["in line ##{idx + 1}", ex]
         rescue ArgumentError => ex
-          raise Error, ["in line ##{idx}", ex]
+          raise Error, ["in line ##{idx + 1}", ex]
         end
       end
       lines.each_with_index do |line, idx|

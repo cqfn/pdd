@@ -8,6 +8,9 @@ Feature: Catches Broken Puzzles
     """
     public class Main {
       /**
+       * Some other documentation
+       * text that is not relevant to
+       * the puzzle below.
        * @todo #13 This puzzle has an incorrect format
        * because it doesn't start with a space on
        * the second and the third lines
@@ -18,6 +21,7 @@ Feature: Catches Broken Puzzles
     }
     """
     When I run pdd it fails with "Space expected"
+    When I run pdd it fails with "in line #6"
 
   Scenario: Throwing exception on another broken puzzle
     Given I have a "Sample.java" file with content:
