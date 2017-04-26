@@ -7,7 +7,7 @@ install: |
   sudo gem install pdd
 release:
   script: |-
-    sudo bundle install
+    bundle install
     rake
     rm -rf *.gem
     sed -i "s/1\.0\.snapshot/${tag}/g" lib/pdd/version.rb
