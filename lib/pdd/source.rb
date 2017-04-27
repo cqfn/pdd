@@ -79,7 +79,7 @@ module PDD
 
     # Parse a marker.
     def marker(text)
-      re = %r{([\w\d\-\.]+)(?::(\d+)(?:(m|h)[a-z]*)?)?(?:/([A-Z]+))?}
+      re = %r{([\w\-\.]+)(?::(\d+)(?:(m|h)[a-z]*)?)?(?:/([A-Z]+))?}
       match = re.match(text)
       raise "invalid puzzle marker: #{text}" if match.nil?
       {
