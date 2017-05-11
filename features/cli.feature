@@ -29,6 +29,14 @@ Feature: Command Line Processing
     And Stdout contains "reading ."
     And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
 
+  Scenario: Using basic rules
+    Given I have a "sample.java" file with content:
+    """
+    Nothing
+    """
+    When I run bin/pdd with "-v -s . -f out.xml --rule min-words:20 --rule=available-roles:DEV,IMP,PO"
+    Then Exit code is zero
+
   Scenario: Simple puzzles collecting into stdout
     Given I have a "Sample.txt" file with content:
     """
