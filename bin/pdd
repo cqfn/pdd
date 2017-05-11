@@ -42,7 +42,7 @@ opts = Slop.parse(args, strict: true, help: true) do |o|
   o.string '-f', '--file', 'File to save XML into'
   o.array '-e', '--exclude', 'Glob pattern to exclude'
   o.string '-t', '--format', 'Format to use (xml|html)'
-  o.array '-r', '--rule', 'Rule to apply'
+  o.array '-r', '--rule', 'Rule to apply', delimiter: ';'
 end
 
 raise '-f is mandatory when using -v' if opts.verbose? && !opts.file?
