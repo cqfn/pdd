@@ -83,7 +83,10 @@ explains: https://github.com/yegor256/pdd#how-to-format"
     def marker(text)
       re = %r{([\w\-\.]+)(?::(\d+)(?:(m|h)[a-z]*)?)?(?:/([A-Z]+))?}
       match = re.match(text)
-      raise "invalid puzzle marker: #{text}" if match.nil?
+      if match.nil?
+        raise "Invalid puzzle marker \"#{text}\", most probably formatted \
+against the rules explained here: https://github.com/yegor256/pdd#how-to-format"
+      end
       {
         ticket: match[1],
         estimate: minutes(match[2], match[3]),
