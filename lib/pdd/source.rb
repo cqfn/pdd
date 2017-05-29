@@ -54,8 +54,10 @@ module PDD
         end
       end
       lines.each_with_index do |line, idx|
-        raise Error, "@todo found, but puzzle can't be parsed in line ##{idx}" \
-          if line =~ /.*(^|\s)@todo\s+[^#]/
+        next unless line =~ /.*(^|\s)@todo\s+[^#]/
+        raise Error, "@todo found, but puzzle can't be parsed in line ##{idx}, \
+most probably because @todo is not followed by a puzzle marker, as this page \
+explains: https://github.com/yegor256/pdd#how-to-format"
       end
       puzzles
     end

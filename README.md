@@ -38,6 +38,16 @@ Run it locally and read its output:
 $ pdd --help
 ```
 
+You can exclude certain files from the search, for example:
+
+```bash
+pdd --exclude=src/**/*.java --exclude=target/**/*
+pdd --exclude=src/**/*.java # exclude .java files in src/
+pdd --exclude=src/**/* # exclude all files in src/
+```
+
+## How to Format?
+
 Every puzzle has to be formatted like this (pay attention
 to the leading space in every consecutive line):
 
@@ -60,15 +70,7 @@ Possible formats of puzzle markers:
 #678:40m/DEV
 ```
 
-You can exclude certain files from the search, for example:
-
-```bash
-pdd --exclude=src/**/*.java --exclude=target/**/*
-pdd --exclude=src/**/*.java # exclude .java files in src/
-pdd --exclude=src/**/* # exclude all files in src/
-```
-
-## How to Configure Rules
+## How to Configure Rules?
 
 You can specify post-parsing rules for your puzzles, in command line,
 for example:
