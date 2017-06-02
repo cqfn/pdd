@@ -5,7 +5,7 @@
 [![We recommend RubyMine](http://img.teamed.io/rubymine-recommend.svg)](https://www.jetbrains.com/ruby/)
 
 [![Build Status](https://travis-ci.org/yegor256/pdd.svg)](https://travis-ci.org/yegor256/pdd)
-[![Build status](https://ci.appveyor.com/api/projects/status/pojnoa1bp7t2ecbr?svg=true)](https://ci.appveyor.com/project/yegor256/pdd)
+[![Build status](https://ci.appveyor.com/api/projects/status/b59sdhuu0gcku15b?svg=true)](https://ci.appveyor.com/project/yegor256/pdd)
 [![PDD status](http://www.0pdd.com/svg?name=yegor256/pdd)](http://www.0pdd.com/p?name=yegor256/pdd)
 [![Gem Version](https://badge.fury.io/rb/pdd.svg)](http://badge.fury.io/rb/pdd)
 [![Dependency Status](https://gemnasium.com/yegor256/pdd.svg)](https://gemnasium.com/yegor256/pdd)
