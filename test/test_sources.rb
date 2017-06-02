@@ -61,7 +61,10 @@ class TestSources < Minitest::Test
         File.write(File.join(dir, "test.#{ext}"), 'text')
       end
       list = PDD::Sources.new(dir).fetch
-      assert_equal exts.size, list.size
+      assert_equal(
+        exts.size, list.size,
+        "Files found: #{list}"
+      )
     end
   end
 
