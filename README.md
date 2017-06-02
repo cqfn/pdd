@@ -10,7 +10,7 @@
 [![Gem Version](https://badge.fury.io/rb/pdd.svg)](http://badge.fury.io/rb/pdd)
 [![Dependency Status](https://gemnasium.com/yegor256/pdd.svg)](https://gemnasium.com/yegor256/pdd)
 [![Code Climate](http://img.shields.io/codeclimate/github/yegor256/pdd.svg)](https://codeclimate.com/github/yegor256/pdd)
-[![Coverage Status](https://img.shields.io/coveralls/yegor256/pdd.svg)](https://coveralls.io/r/yegor256/pdd)
+[![Test Coverage](https://img.shields.io/codecov/c/github/yegor256/pdd.svg)](https://codecov.io/github/yegor256/pdd?branch=master)
 
 ## What This is for?
 
