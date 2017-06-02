@@ -23,5 +23,9 @@
 STDOUT.sync = true
 
 require 'simplecov'
+SimpleCov.start
+require 'codecov'
+SimpleCov.formatter = SimpleCov::Formatter::Codecov
+
 require 'minitest/autorun'
 require_relative '../lib/pdd'
