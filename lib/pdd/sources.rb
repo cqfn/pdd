@@ -63,6 +63,7 @@ module PDD
     private
 
     def binary?(f)
+      return false if Gem.win_platform?
       `grep -qI '.' #{Shellwords.escape(f)}`
       if $CHILD_STATUS.success?
         false
