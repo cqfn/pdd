@@ -57,6 +57,9 @@ to the leading space in every consecutive line):
  *  in one of the next releases. I can't figure out
  *  how to implement it now, that's why the puzzle.
  */
+void sendEmail() {
+  throw new UnsupportedOperationException();
+}
 ```
 
 It starts with `@todo`, followed by a space and a puzzle marker.
