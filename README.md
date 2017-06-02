@@ -101,3 +101,4 @@ Here is a list of rules available now:
 
 You can put all command line options into `.pdd` file. The options from the
 file will be used first. Command line options may be added on top of them.
+See, how it is done in [yegor256/0pdd](https://github.com/yegor256/0pdd/blob/master/.pdd).
