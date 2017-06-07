@@ -138,7 +138,11 @@ module PDD
     def rules(xml)
       doc = Nokogiri::XML(xml)
       total = 0
-      (@opts[:rule] || []).push('max-duplicates:1').map do |r|
+      list = @opts[:rule] || []
+      unless list.select { |r| r.start_with?('max-duplicates:') }.empty?
+        raise PDD::Error, 'You can\'t modify max-duplicates, it\'s always 1'
+      end
+      list.push('max-duplicates:1').map do |r|
         name, value = r.split(':')
         rule = RULES[name]
         raise "rule '#{name}' doesn't exist" if rule.nil?
