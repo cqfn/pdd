@@ -39,3 +39,12 @@ Feature: Applies Post-Parsing Rules
     When I run bin/pdd with "--rule=available-roles:DEV,IMP"
     Then Exit code is not zero
     Then Stdout contains "defines role TEST"
+
+  Scenario: Throwing exception on big estimates
+    Given I have a "Sample.java" file with content:
+    """
+    @todo #334:15m This is the puzzle
+    @todo #35:30m This is the puzzle
+    """
+    When I run bin/pdd with "--rule=max-duplicates:3"
+    Then Exit code is zero
