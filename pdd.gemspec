@@ -37,7 +37,7 @@ Gem::Specification.new do |s|
   s.summary = 'Puzzle Driven Development collector'
   s.description = 'Collects PDD puzzles from source code base'
   s.authors = ['Yegor Bugayenko']
-  s.email = 'yegor@teamed.io'
+  s.email = 'yegor256@gmail.com'
   s.homepage = 'http://github.com/yegor256/pdd'
   s.files = `git ls-files`.split($RS)
   s.executables = s.files.grep(%r{^bin/}) { |f| File.basename(f) }

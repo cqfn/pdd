@@ -25,7 +25,7 @@ require 'nokogiri'
 require_relative '../lib/pdd/rule/roles'
 
 # PDD::Rule::Role module tests.
-# Author:: Yegor Bugayenko (yegor@teamed.io)
+# Author:: Yegor Bugayenko (yegor256@gmail.com)
 # Copyright:: Copyright (c) 2014-2017 Yegor Bugayenko
 # License:: MIT
 class TestRoles < Minitest::Test
