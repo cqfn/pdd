@@ -99,8 +99,9 @@ Here is a list of rules available now:
 
   * `min-words:5` blocks puzzles with descriptions shorter than five words.
 
-  * `max-duplicates:1` blocks more than one duplicate of any puzzle
-  (this rule is used by default).
+  * `max-duplicates:1` blocks more than one duplicate of any puzzle.
+  This rule is used by default and you can't configure it at the moment,
+  it must always be set to `1`.
 
 You can put all command line options into `.pdd` file. The options from the
 file will be used first. Command line options may be added on top of them.
