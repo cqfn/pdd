@@ -26,7 +26,7 @@ Feature: Command Line Processing
     """
     When I run bin/pdd with "-v -s . -f out.xml"
     Then Exit code is zero
-    And Stdout contains "reading ."
+    And Stdout contains "Reading ."
     And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
 
   Scenario: Using basic rules

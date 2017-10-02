@@ -18,5 +18,5 @@ Feature: HTML output
     """
     When I run bin/pdd with "-v -s . -f out.html --format=html"
     Then Exit code is zero
-    And Stdout contains "reading ."
+    And Stdout contains "Reading ."
     And XML file "out.html" matches "/html/body"

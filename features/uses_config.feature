@@ -16,6 +16,6 @@ Feature: Using .pdd config file
     """
     When I run bin/pdd with ""
     Then Exit code is zero
-    And Stdout contains "reading ."
+    And Stdout contains "Reading ."
     And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
 

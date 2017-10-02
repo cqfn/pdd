@@ -23,5 +23,5 @@ Feature: Unicode
     \xFF test again
     """
     When I run bin/pdd with "--exclude=test.txt -v -f=/dev/null"
-    Then Stdout contains "excluding test.txt"
+    Then Stdout contains "Excluding test.txt"
     Then Exit code is zero

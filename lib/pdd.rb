@@ -23,6 +23,7 @@
 require 'nokogiri'
 require 'logger'
 require 'time'
+require 'rainbow'
 require_relative 'pdd/sources'
 require_relative 'pdd/version'
 require_relative 'pdd/rule/estimates'
@@ -56,7 +57,11 @@ module PDD
     unless defined?(@logger)
       @logger = Logger.new(STDOUT)
       @logger.formatter = proc { |severity, _, _, msg|
-        "#{severity}: #{msg.dump}\n"
+        if severity == 'ERROR'
+          "#{Rainbow(severity).red}: #{msg}\n"
+        else
+          "#{msg}\n"
+        end
       }
       @logger.level = Logger::ERROR
     end
@@ -75,18 +80,18 @@ module PDD
       @opts = opts
       PDD.log.level = Logger::INFO if @opts[:verbose]
       PDD.log.level = Logger::ERROR if @opts[:quiet]
-      PDD.log.info "my version is #{PDD::VERSION}"
+      PDD.log.info "My version is #{PDD::VERSION}"
       PDD.log.info "Ruby version is #{RUBY_VERSION} at #{RUBY_PLATFORM}"
     end
 
     # Generate XML.
     def xml
       dir = @opts[:source] ? @opts[:source] : Dir.pwd
-      PDD.log.info "reading #{dir}"
+      PDD.log.info "Reading #{dir}"
       sources = Sources.new(dir)
       @opts[:exclude].each do |p|
         sources = sources.exclude(p)
-        PDD.log.info "excluding #{p}"
+        PDD.log.info "Excluding #{p}"
       end unless @opts[:exclude].nil?
       sanitize(
         rules(
@@ -95,7 +100,7 @@ module PDD
             xml.puzzles(attrs) do
               sources.fetch.each do |source|
                 source.puzzles.each do |puzzle|
-                  PDD.log.info "puzzle #{puzzle.props[:id]} " \
+                  PDD.log.info "Puzzle #{puzzle.props[:id]} " \
                     "#{puzzle.props[:estimate]}/#{puzzle.props[:role]}" \
                     " at #{puzzle.props[:file]}"
                   render puzzle, xml
