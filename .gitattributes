@@ -6,3 +6,4 @@
 *.java ident
 *.xml ident
 *.jpg binary
+*.png binary
