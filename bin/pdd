@@ -28,55 +28,72 @@ require 'nokogiri'
 require_relative '../lib/pdd'
 require_relative '../lib/pdd/version'
 
-args = []
-if File.exist?('.pdd')
-  extra = File.read('.pdd').split(/\s+/).map(&:strip)
-  args += extra
-  puts "Found #{extra.length} options in .pdd"
-end
-args += ARGV
+begin
+  args = []
+  if File.exist?('.pdd')
+    cfg = File.new('.pdd')
+    extra = File.read(cfg).split(/\s+/).map(&:strip)
+    args += extra
+    puts "Found #{extra.length} options in #{File.absolute_path(cfg)}"
+  end
+  args += ARGV
 
-opts = Slop.parse(args, strict: true, help: true) do |o|
-  o.banner = "Usage (#{PDD::VERSION}): pdd [options]"
-  o.bool '-h', '--help', 'Show these instructions'
-  o.bool '-v', '--verbose', 'Enable verbose mode'
-  o.bool '-q', '--quiet', 'Enable quiet mode'
-  o.bool '--version', 'Show current version'
-  o.string '-s', '--source', 'Source directory to parse'
-  o.string '-f', '--file', 'File to save XML into'
-  o.array '-e', '--exclude', 'Glob pattern to exclude'
-  o.string '-t', '--format', 'Format to use (xml|html)'
-  o.array '-r', '--rule', 'Rule to apply', delimiter: ';'
-end
+  opts = Slop.parse(args, strict: true, help: true) do |o|
+    o.banner = "Usage (#{PDD::VERSION}): pdd [options]"
+    o.bool '-h', '--help', 'Show these instructions'
+    o.bool '-v', '--verbose', 'Enable verbose mode (a lot of logging)'
+    o.bool '-q', '--quiet', 'Enable quiet mode (almost no logging)'
+    o.bool '-i', '--version', 'Show current version'
+    o.string '-s', '--source', 'Source directory to parse ("." by default)'
+    o.string '-f', '--file', 'File to save XML into'
+    o.array '-e', '--exclude', 'Glob pattern to exclude, e.g. "**/*.jpg"'
+    o.string '-t', '--format', 'Format of the report (xml|html)'
+    o.array(
+      '-r', '--rule', 'Rule to apply (can be used many times)',
+      delimiter: ';'
+    )
+  end
 
-if opts.verbose? && !opts.file?
-  puts '-f is mandatory when using -v, try --help for more information'
+  if opts.help?
+    puts opts
+    puts "This is our README to learn more: \
+https://github.com/yegor256/pdd/blob/master/README.md"
+    exit
+  end
+
+  if opts.version?
+    puts PDD::VERSION
+    exit
+  end
+
+  if opts.verbose? && !opts.file?
+    raise '-f is mandatory when using -v, try --help for more information'
+  end
+
+  Encoding.default_external = Encoding::UTF_8
+  Encoding.default_internal = Encoding::UTF_8
+  file = opts.file? ? File.new(opts[:file], 'w') : STDOUT
+  output = PDD::Base.new(opts).xml
+  if opts[:format]
+    if opts[:format] == 'html'
+      xslt = File.join(
+        File.dirname(File.dirname(__FILE__)),
+        'assets', 'puzzles.xsl'
+      )
+      output = Nokogiri::XSLT(File.read(xslt)).transform(Nokogiri::XML(output))
+    elsif opts[:format] != 'xml'
+      raise 'Invalid format, use html or xml'
+    end
+  end
+  file << output
+rescue SystemExit => ex
+  puts ex.message unless ex.success?
+  exit(ex.status)
+rescue StandardError => ex
+  puts "#{ex.class}: #{ex.message}"
+  puts "If you can't understand the cause of this issue or you don't know \
+how to fix it, please submit a GitHub issue, we will try to help you: \
+https://github.com/yegor256/pdd/issues. This tool is still in its beta \
+version and we will appreciate your feedback."
   exit(-1)
 end
-
-if opts.help?
-  puts opts
-  exit
-end
-
-if opts.version?
-  puts PDD::VERSION
-  exit
-end
-
-Encoding.default_external = Encoding::UTF_8
-Encoding.default_internal = Encoding::UTF_8
-file = opts.file? ? File.new(opts[:file], 'w') : STDOUT
-output = PDD::Base.new(opts).xml
-if opts[:format]
-  if opts[:format] == 'html'
-    xslt = File.join(
-      File.dirname(File.dirname(__FILE__)),
-      'assets', 'puzzles.xsl'
-    )
-    output = Nokogiri::XSLT(File.read(xslt)).transform(Nokogiri::XML(output))
-  elsif opts[:format] != 'xml'
-    raise 'invalid format, use html or xml'
-  end
-end
-file << output
