@@ -98,6 +98,7 @@ rescue StandardError => ex
   puts "If you can't understand the cause of this issue or you don't know \
 how to fix it, please submit a GitHub issue, we will try to help you: \
 https://github.com/yegor256/pdd/issues. This tool is still in its beta \
-version and we will appreciate your feedback."
+version and we will appreciate your feedback. Here is where you can find \
+more documentation: https://github.com/yegor256/pdd/blob/master/README.md."
   exit(-1)
 end

@@ -46,10 +46,8 @@ module PDD
           re.match(line) do |match|
             puzzles << puzzle(lines.drop(idx + 1), match, idx)
           end
-        rescue Error => ex
-          raise Error, ["in line ##{idx + 1}", ex]
-        rescue ArgumentError => ex
-          raise Error, ["in line ##{idx + 1}", ex]
+        rescue Error, ArgumentError => ex
+          raise Error, "puzzle at line ##{idx + 1}; #{ex.message}"
         end
       end
       lines.each_with_index do |line, idx|
@@ -65,7 +63,7 @@ explains: https://github.com/yegor256/pdd#how-to-format"
 
     # Fetch puzzle
     def puzzle(lines, match, idx)
-      tail = tail(lines, match[1])
+      tail = tail(lines, match[1], idx)
       body = (match[3] + ' ' + tail.join(' ')).gsub(/\s+/, ' ').strip
       marker = marker(match[2])
       Puzzle.new(
@@ -101,13 +99,23 @@ against the rules explained here: https://github.com/yegor256/pdd#how-to-format"
     end
 
     # Fetch puzzle tail (all lines after the first one)
-    def tail(lines, prefix)
+    def tail(lines, prefix, start)
       lines
         .take_while { |t| t.start_with?(prefix) }
         .map { |t| t[prefix.length, t.length] }
         .take_while { |t| t =~ /^[ a-zA-Z0-9]/ }
-        .each { |t| raise Error, 'Space expected' unless t.start_with?(' ') }
-        .each { |t| raise Error, 'Too many spaces' if t =~ /^\s{2,}/ }
+        .each_with_index do |t, i|
+          next if t.start_with?(' ')
+          raise Error, "Space expected at #{start + i + 2}:#{prefix.length}; \
+make sure all lines in the puzzle body have a single leading space."
+        end
+        .each_with_index do |t, i|
+          next if t !~ /^\s{2,}/
+          raise Error, "Too many leading spaces \
+at #{start + i + 2}:#{prefix.length}; \
+make sure all lines that include the puzzle body start \
+at position ##{prefix.length + 1}."
+        end
         .map { |t| t[1, t.length] }
     end
 
@@ -154,7 +162,7 @@ against the rules explained here: https://github.com/yegor256/pdd#how-to-format"
     def puzzles
       @source.puzzles
     rescue Error => ex
-      raise Error, ["in #{@file}", ex]
+      raise Error, "#{@file}; #{ex.message}"
     end
   end
 end

@@ -150,7 +150,7 @@ module PDD
       list.push('max-duplicates:1').map do |r|
         name, value = r.split(':')
         rule = RULES[name]
-        raise "rule '#{name}' doesn't exist" if rule.nil?
+        raise "Rule '#{name}' doesn't exist" if rule.nil?
         rule.new(doc, value).errors.each do |e|
           PDD.log.error e
           total += 1
