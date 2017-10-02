@@ -33,7 +33,7 @@ require_relative '../lib/pdd'
 class TestPDD < Minitest::Test
   def test_basic
     Dir.mktmpdir 'test' do |dir|
-      opts = opts(['-v', '-s', dir, '-e', '**/*.png', '-r', 'max-estimate:15'])
+      opts = opts(['-q', '-s', dir, '-e', '**/*.png', '-r', 'max-estimate:15'])
       File.write(File.join(dir, 'a.txt'), '@todo #55 hello!')
       matches(
         Nokogiri::XML(PDD::Base.new(opts).xml),
@@ -50,7 +50,7 @@ class TestPDD < Minitest::Test
 
   def test_rules_failure
     Dir.mktmpdir 'test' do |dir|
-      opts = opts(['-v', '-s', dir, '-e', '**/*.png', '-r', 'min-estimate:30'])
+      opts = opts(['-q', '-s', dir, '-e', '**/*.png', '-r', 'min-estimate:30'])
       File.write(File.join(dir, 'a.txt'), '@todo #90 hello!')
       assert_raises PDD::Error do
         PDD::Base.new(opts).xml
@@ -61,11 +61,11 @@ class TestPDD < Minitest::Test
   def test_git_repo
     skip if Gem.win_platform?
     Dir.mktmpdir 'test' do |dir|
-      opts = opts(['-v', '-s', dir])
+      opts = opts(['-q', '-s', dir])
       raise unless system("
         set -e
         cd '#{dir}'
-        git init .
+        git init --quiet .
         git config user.email test@teamed.io
         git config user.name 'Mr. Tester'
         mkdir 'a long dir name'
@@ -75,7 +75,7 @@ class TestPDD < Minitest::Test
         echo '@todo #1 this is the puzzle' > '.это файл.txt'
         cd ../..
         git add -f .
-        git commit -am 'first version'
+        git commit --quiet -am 'first version'
       ")
       matches(
         Nokogiri::XML(PDD::Base.new(opts).xml),
@@ -96,6 +96,7 @@ class TestPDD < Minitest::Test
   def opts(args)
     Slop.parse args do |o|
       o.bool '-v', '--verbose'
+      o.bool '-q', '--quiet'
       o.string '-s', '--source'
       o.array '-e', '--exclude'
       o.array '-r', '--rule'

@@ -34,7 +34,7 @@ module PDD
 
         def errors
           @xml.xpath("//puzzle[number(estimate) < #{@min}]").map do |p|
-            "puzzle #{p.xpath('file/text()')}:#{p.xpath('lines/text()')}"\
+            "Puzzle #{p.xpath('file/text()')}:#{p.xpath('lines/text()')}"\
             " has an estimate of #{p.xpath('estimate/text()')} minutes,"\
             " which is lower than #{@min} minutes"
           end
@@ -52,7 +52,7 @@ module PDD
 
         def errors
           @xml.xpath("//puzzle[number(estimate) > #{@min}]").map do |p|
-            "puzzle #{p.xpath('file/text()')}:#{p.xpath('lines/text()')}"\
+            "Puzzle #{p.xpath('file/text()')}:#{p.xpath('lines/text()')}"\
             " has an estimate of #{p.xpath('estimate/text()')} minutes,"\
             " which is bigger than #{@min} minutes"
           end

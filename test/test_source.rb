@@ -123,12 +123,12 @@ class TestSource < Minitest::Test
       raise unless system("
         set -e
         cd '#{dir}'
-        git init .
+        git init --quiet .
         git config user.email test@teamed.io
         git config user.name test
         echo '@todo #1 this is the puzzle' > a.txt
         git add a.txt
-        git commit -am 'first version'
+        git commit --quiet -am 'first version'
         git blame a.txt
       ")
       list = PDD::Source.new(File.join(dir, 'a.txt'), '').puzzles
