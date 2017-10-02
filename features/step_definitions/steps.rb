@@ -31,8 +31,9 @@ Before do
   @dir = Dir.mktmpdir('test')
   FileUtils.mkdir_p(@dir) unless File.exist?(@dir)
   Dir.chdir(@dir)
-  @opts = Slop.parse ['-v', '-s', @dir] do |o|
+  @opts = Slop.parse ['-q', '-s', @dir] do |o|
     o.bool '-v', '--verbose'
+    o.bool '-q', '--quiet'
     o.string '-s', '--source'
   end
 end
