@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # Copyright (c) 2014-2017 Yegor Bugayenko
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -96,11 +94,11 @@ Then(/^XML file "([^"]+)" matches "([^"]+)"$/) do |file, xpath|
 end
 
 Then(/^Exit code is zero$/) do
-  raise "Non-zero exit code #{@exitstatus}" unless @exitstatus == 0
+  raise "Non-zero exit code #{@exitstatus}" unless @exitstatus.zero?
 end
 
 Then(/^Exit code is not zero$/) do
-  raise 'Zero exit code' if @exitstatus == 0
+  raise 'Zero exit code' if @exitstatus.zero?
 end
 
 When(/^I run bash with$/) do |text|

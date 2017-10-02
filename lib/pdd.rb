@@ -1,5 +1,3 @@
-# encoding: utf-8
-#
 # Copyright (c) 2014-2017 Yegor Bugayenko
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -89,10 +87,12 @@ module PDD
       dir = @opts[:source] ? @opts[:source] : Dir.pwd
       PDD.log.info "Reading #{dir}"
       sources = Sources.new(dir)
-      @opts[:exclude].each do |p|
-        sources = sources.exclude(p)
-        PDD.log.info "Excluding #{p}"
-      end unless @opts[:exclude].nil?
+      unless @opts[:exclude].nil?
+        @opts[:exclude].each do |p|
+          sources = sources.exclude(p)
+          PDD.log.info "Excluding #{p}"
+        end
+      end
       sanitize(
         rules(
           Nokogiri::XML::Builder.new do |xml|
@@ -156,7 +156,7 @@ module PDD
           total += 1
         end
       end
-      raise PDD::Error, "#{total} errors, see log above" unless total == 0
+      raise PDD::Error, "#{total} errors, see log above" unless total.zero?
       xml
     end
 

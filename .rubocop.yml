@@ -12,3 +12,5 @@ Metrics/AbcSize:
   Max: 37
 Style/MultilineBlockChain:
   Enabled: false
+Metrics/BlockLength:
+  Max: 50
