@@ -33,7 +33,7 @@ def version
   Gem::Specification.load(Dir['*.gemspec'].first).version
 end
 
-task default: [:clean, :test, :features, :rubocop, :copyright]
+task default: [:clean, :test, :features, :rubocop, :xcop, :copyright]
 
 require 'rake/testtask'
 desc 'Run all unit tests'
@@ -58,6 +58,14 @@ desc 'Run RuboCop on all directories'
 RuboCop::RakeTask.new(:rubocop) do |task|
   task.fail_on_error = true
   task.requires << 'rubocop-rspec'
+end
+
+require 'xcop/rake_task'
+desc 'Validate all XML/XSL/XSD/HTML files for formatting'
+Xcop::RakeTask.new :xcop do |task|
+  task.license = 'LICENSE.txt'
+  task.includes = ['**/*.xml', '**/*.xsl', '**/*.xsd', '**/*.html']
+  task.excludes = ['target/**/*', 'coverage/**/*']
 end
 
 require 'cucumber/rake/task'
