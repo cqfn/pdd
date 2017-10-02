@@ -22,7 +22,6 @@
 
 require 'shellwords'
 require 'English'
-require_relative '../pdd'
 require_relative 'source'
 
 module PDD

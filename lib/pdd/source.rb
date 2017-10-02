@@ -22,7 +22,6 @@
 
 require 'digest/md5'
 require 'shellwords'
-require_relative '../pdd'
 require_relative '../pdd/puzzle'
 
 module PDD
