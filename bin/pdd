@@ -25,6 +25,7 @@ STDOUT.sync = true
 
 require 'slop'
 require 'nokogiri'
+require 'rainbow'
 require_relative '../lib/pdd'
 require_relative '../lib/pdd/version'
 
@@ -32,37 +33,40 @@ begin
   args = []
   if File.exist?('.pdd')
     cfg = File.new('.pdd')
-    extra = File.read(cfg).split(/\s+/).map(&:strip)
+    body = File.read(cfg)
+    extra = body.split(/\s+/).map(&:strip)
     args += extra
-    puts "Found #{extra.length} options in #{File.absolute_path(cfg)}"
+    puts "Found #{body.split(/\n/).length} lines in #{File.absolute_path(cfg)}"
   end
   args += ARGV
 
-  opts = Slop.parse(args, strict: true, help: true) do |o|
-    o.banner = "Usage (#{PDD::VERSION}): pdd [options]"
-    o.bool '-h', '--help', 'Show these instructions'
-    o.bool '-v', '--verbose', 'Enable verbose mode (a lot of logging)'
-    o.bool '-q', '--quiet', 'Enable quiet mode (almost no logging)'
-    o.bool '-i', '--version', 'Show current version'
-    o.string '-s', '--source', 'Source directory to parse ("." by default)'
-    o.string '-f', '--file', 'File to save XML into'
-    o.array '-e', '--exclude', 'Glob pattern to exclude, e.g. "**/*.jpg"'
-    o.string '-t', '--format', 'Format of the report (xml|html)'
-    o.array(
-      '-r', '--rule', 'Rule to apply (can be used many times)',
-      delimiter: ';'
-    )
+  begin
+    opts = Slop.parse(args, strict: true, help: true) do |o|
+      o.banner = "Usage (#{PDD::VERSION}): pdd [options]"
+      o.bool '-h', '--help', 'Show these instructions'
+      o.bool '-v', '--verbose', 'Enable verbose mode (a lot of logging)'
+      o.bool '-q', '--quiet', 'Enable quiet mode (almost no logging)'
+      o.bool '-i', '--version', 'Show current version' do
+        puts PDD::VERSION
+        exit
+      end
+      o.string '-s', '--source', 'Source directory to parse ("." by default)'
+      o.string '-f', '--file', 'File to save XML into'
+      o.array '-e', '--exclude', 'Glob pattern to exclude, e.g. "**/*.jpg"'
+      o.string '-t', '--format', 'Format of the report (xml|html)'
+      o.array(
+        '-r', '--rule', 'Rule to apply (can be used many times)',
+        delimiter: ';'
+      )
+    end
+  rescue Slop::Error => ex
+    raise StandardError, "#{ex.message}, try --help"
   end
 
   if opts.help?
     puts opts
     puts "This is our README to learn more: \
 https://github.com/yegor256/pdd/blob/master/README.md"
-    exit
-  end
-
-  if opts.version?
-    puts PDD::VERSION
     exit
   end
 
@@ -90,7 +94,7 @@ rescue SystemExit => ex
   puts ex.message unless ex.success?
   exit(ex.status)
 rescue StandardError => ex
-  puts "#{ex.class}: #{ex.message}"
+  puts "#{Rainbow('ERROR').red}: #{ex.message}"
   puts "If you can't understand the cause of this issue or you don't know \
 how to fix it, please submit a GitHub issue, we will try to help you: \
 https://github.com/yegor256/pdd/issues. This tool is still in its beta \
