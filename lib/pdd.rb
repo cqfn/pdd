@@ -53,7 +53,7 @@ module PDD
 
   # Get logger.
   def self.log
-    unless @logger
+    unless defined?(@logger)
       @logger = Logger.new(STDOUT)
       @logger.formatter = proc { |severity, _, _, msg|
         "#{severity}: #{msg.dump}\n"
