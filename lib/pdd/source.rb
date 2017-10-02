@@ -117,6 +117,10 @@ at position ##{prefix.length + 1}."
         .map { |t| t[1, t.length] }
     end
 
+    # @todo #75:30min Let's make it possible to fetch Subversion data
+    #  in a similar way as we are doing with Git. We should also just
+    #  skip it if it's not SVN.
+
     # Git information at the line
     def git(pos)
       dir = Shellwords.escape(File.dirname(@file))
