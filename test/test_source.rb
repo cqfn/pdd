@@ -129,7 +129,6 @@ class TestSource < Minitest::Test
         echo '@todo #1 this is the puzzle' > a.txt
         git add a.txt
         git commit --quiet -am 'first version'
-        git blame a.txt
       ")
       list = PDD::Source.new(File.join(dir, 'a.txt'), '').puzzles
       assert_equal 1, list.size

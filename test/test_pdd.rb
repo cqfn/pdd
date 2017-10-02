@@ -72,7 +72,7 @@ class TestPDD < Minitest::Test
         cd 'a long dir name'
         mkdir 'a kid'
         cd 'a kid'
-        echo '@todo #1 this is the puzzle' > '.это файл.txt'
+        echo '@todo #1 this is some puzzle' > '.это файл.txt'
         cd ../..
         git add -f .
         git commit --quiet -am 'first version'
