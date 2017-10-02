@@ -29,7 +29,11 @@ require_relative '../lib/pdd'
 require_relative '../lib/pdd/version'
 
 args = []
-args += File.read('.pdd').split(/\s+/).map(&:strip) if File.exist?('.pdd')
+if File.exist?('.pdd')
+  extra = File.read('.pdd').split(/\s+/).map(&:strip)
+  args += extra
+  puts "Found #{extra.length} options in .pdd"
+end
 args += ARGV
 
 opts = Slop.parse(args, strict: true, help: true) do |o|
@@ -45,7 +49,10 @@ opts = Slop.parse(args, strict: true, help: true) do |o|
   o.array '-r', '--rule', 'Rule to apply', delimiter: ';'
 end
 
-raise '-f is mandatory when using -v' if opts.verbose? && !opts.file?
+if opts.verbose? && !opts.file?
+  puts '-f is mandatory when using -v, try --help for more information'
+  exit(-1)
+end
 
 if opts.help?
   puts opts
