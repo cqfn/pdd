@@ -113,23 +113,30 @@ against the rules explained here: https://github.com/yegor256/pdd#how-to-format"
 
     # Git information at the line
     def git(pos)
-      cmd = "cd #{Shellwords.escape(File.dirname(@file))} && \
-git blame -L #{pos},#{pos} --porcelain \
-#{Shellwords.escape(File.basename(@file))}"
-      Hash[
-        `#{cmd}`.split("\n").map do |line|
-          if line =~ /^author /
-            [:author, line.sub(/^author /, '')]
-          elsif line =~ /^author-mail /
-            [:email, line.sub(/^author-mail <(.+)>$/, '\1')]
-          elsif line =~ /^author-time /
-            [
-              :time,
-              Time.at(line.sub(/^author-time ([0-9]+)$/, '\1').to_i).utc.iso8601
-            ]
-          end
-        end.compact
-      ]
+      dir = Shellwords.escape(File.dirname(@file))
+      name = Shellwords.escape(File.basename(@file))
+      git = "cd #{dir} && git"
+      if `#{git} rev-parse --is-inside-work-tree 2>/dev/null`.strip == 'true'
+        cmd = "#{git} blame -L #{pos},#{pos} --porcelain #{name}"
+        Hash[
+          `#{cmd}`.split("\n").map do |line|
+            if line =~ /^author /
+              [:author, line.sub(/^author /, '')]
+            elsif line =~ /^author-mail /
+              [:email, line.sub(/^author-mail <(.+)>$/, '\1')]
+            elsif line =~ /^author-time /
+              [
+                :time,
+                Time.at(
+                  line.sub(/^author-time ([0-9]+)$/, '\1').to_i
+                ).utc.iso8601
+              ]
+            end
+          end.compact
+        ]
+      else
+        {}
+      end
     end
   end
 

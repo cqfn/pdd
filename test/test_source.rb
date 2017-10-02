@@ -22,6 +22,7 @@
 
 require 'minitest/autorun'
 require 'tmpdir'
+require_relative '../lib/pdd'
 require_relative '../lib/pdd/sources'
 
 # Source test.
@@ -49,6 +50,9 @@ class TestSource < Minitest::Test
       assert_equal '2-3', puzzle.props[:lines]
       assert_equal 'hello, how are you doing?', puzzle.props[:body]
       assert_equal '44', puzzle.props[:ticket]
+      assert puzzle.props[:author].nil?
+      assert puzzle.props[:email].nil?
+      assert puzzle.props[:time].nil?
     end
   end
 
