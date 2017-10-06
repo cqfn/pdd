@@ -73,6 +73,11 @@ Possible formats of puzzle markers:
 #678:40m/DEV
 ```
 
+Here `DES` and `DEV` are the roles of people who must fix that puzzles;
+`45min` and `40m` is the amount of time the puzzle should take;
+`224`, `TEST-13`, `55`, `67`, and `678` are the IDs of the tickets these
+puzzles are coming from.
+
 ## How to Configure Rules?
 
 You can specify post-parsing rules for your puzzles, in command line,
