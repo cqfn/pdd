@@ -45,7 +45,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ['--charset=UTF-8']
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt']
   s.add_runtime_dependency 'nokogiri', '~>1.8'
-  s.add_runtime_dependency 'slop', '~>4.4'
+  s.add_runtime_dependency 'slop', '~>4.6'
   s.add_runtime_dependency 'rainbow', '~>2.2'
   s.add_development_dependency 'rake', '12.0.0'
   s.add_development_dependency 'codecov', '0.1.10'
