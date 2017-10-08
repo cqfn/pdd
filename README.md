@@ -116,7 +116,7 @@ See, how it is done in [yegor256/0pdd](https://github.com/yegor256/0pdd/blob/mas
 
 Just submit a pull request. Make sure `rake` passes.
 
-This is how you run it locally to test how it works:
+This is how you run the tool locally to test how it works:
 
 ```bash
 $ ./bin/pdd --help
