@@ -64,7 +64,7 @@ void sendEmail() {
 
 If you use it in combination with [0pdd](http://www.0pdd.com),
 after processing this text, the issue titled
-"File.java:10-10: This is something to do later..." will be created.
+"File.java:10-13: This is something to do later in one of ..." will be created.
 The specified markers will be included in the issues body
 along with some predefined text. If your comment is longer
 than 40 characters, it will be truncated in the title.
