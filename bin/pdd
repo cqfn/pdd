@@ -75,7 +75,7 @@ https://github.com/yegor256/pdd/blob/master/README.md"
   end
 
   if opts['skip-gitignore']
-    raise '--skip-gitignore is not supported yet'
+    raise 'For --skip-gitignore see https://github.com/yegor256/pdd/issues/80'
   end
 
   Encoding.default_external = Encoding::UTF_8
