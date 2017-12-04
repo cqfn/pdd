@@ -62,6 +62,13 @@ void sendEmail() {
 }
 ```
 
+If you use it in combination with [0pdd](http://www.0pdd.com),
+after processing this text, the issue titled
+"File.java:10-10: This is something to do later..." will be created.
+The specified markers will be included in the issues body
+along with some predefined text. If your comment is longer
+than 40 characters, it will be truncated in the title.
+
 It starts with `@todo`, followed by a space and a puzzle marker.
 Possible formats of puzzle markers (it doesn't matter what the
 line starts with and where it is located,
