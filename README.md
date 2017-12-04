@@ -63,14 +63,17 @@ void sendEmail() {
 ```
 
 It starts with `@todo`, followed by a space and a puzzle marker.
-Possible formats of puzzle markers:
+Possible formats of puzzle markers (it doesn't matter what the
+line starts with and where it is located,
+as long as you have that `@todo` right in front
+of the mandatory marker):
 
 ```
-#224
-#TEST-13
-#55:45min
-#67/DES
-#678:40m/DEV
+// @todo #224
+/* @todo #TEST-13 */
+# @todo #55:45min
+@todo #67/DES
+;; @todo #678:40m/DEV
 ```
 
 Here `DES` and `DEV` are the roles of people who must fix that puzzles;
