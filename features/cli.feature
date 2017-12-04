@@ -63,6 +63,26 @@ Feature: Command Line Processing
     Then Exit code is zero
     And XML file "out.xml" matches "/puzzles[count(puzzle)=0]"
 
+  Scenario: Excluding unnecessary files from gitignore
+    Given this step says to skip
+    And I have a "a/b/c/test.txt" file with content:
+    """
+    ~~ @todo #44 some puzzle to be excluded
+    """
+    And I have a "f/g/h/hello.md" file with content:
+    """
+    ~~ @todo #44 some puzzle to be excluded as well
+    """
+    And I have a ".gitignore" file with content:
+    """
+    # This is the list of patterns
+    a/**/*
+    !/f
+    """
+    When I run bin/pdd with "> out.xml"
+    Then Exit code is zero
+    And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
+
   Scenario: Rejects unknown options
     Given I have a "test.txt" file with content:
     """

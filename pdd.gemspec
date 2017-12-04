@@ -50,7 +50,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake', '12.0.0'
   s.add_development_dependency 'codecov', '0.1.10'
   s.add_development_dependency 'rdoc', '4.2.0'
-  s.add_development_dependency 'cucumber', '1.3.17'
+  s.add_development_dependency 'cucumber', '3.1.0'
   s.add_development_dependency 'minitest', '5.5.0'
   s.add_development_dependency 'rubocop', '0.48.1'
   s.add_development_dependency 'rubocop-rspec', '1.15.1'

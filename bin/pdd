@@ -44,13 +44,15 @@ begin
       o.bool '-h', '--help', 'Show these instructions'
       o.bool '-v', '--verbose', 'Enable verbose mode (a lot of logging)'
       o.bool '-q', '--quiet', 'Enable quiet mode (almost no logging)'
+      o.bool '--skip-gitignore', 'Don\'t look into .gitignore for excludes'
       o.bool '-i', '--version', 'Show current version' do
         puts PDD::VERSION
         exit
       end
       o.string '-s', '--source', 'Source directory to parse ("." by default)'
       o.string '-f', '--file', 'File to save XML into'
-      o.array '-e', '--exclude', 'Glob pattern to exclude, e.g. "**/*.jpg"'
+      o.array '-e', '--exclude', 'Glob pattern to exclude, e.g. "**/*.jpg"',
+        default: []
       o.string '-t', '--format', 'Format of the report (xml|html)'
       o.array(
         '-r', '--rule', 'Rule to apply (can be used many times)',
@@ -70,6 +72,10 @@ https://github.com/yegor256/pdd/blob/master/README.md"
 
   if opts.verbose? && !opts.file?
     raise '-f is mandatory when using -v, try --help for more information'
+  end
+
+  if opts['skip-gitignore']
+    raise '--skip-gitignore is not supported yet'
   end
 
   Encoding.default_external = Encoding::UTF_8
