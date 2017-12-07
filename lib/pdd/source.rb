@@ -36,12 +36,14 @@ module PDD
     # Fetch all puzzles.
     def puzzles
       PDD.log.info "Reading #{@path}..."
-      re = %r{(.*(?:^|\s))@todo\s+#([\w\-\.:/]+)\s+(.+)}
       puzzles = []
       lines = File.readlines(@file)
       lines.each_with_index do |line, idx|
         begin
-          re.match(line) do |match|
+          /[^\s]@todo/.match(line) do |_|
+            raise Error, '@todo must have a leading space to be a puzzle'
+          end
+          %r{(.*(?:^|\s))@todo\s+#([\w\-\.:/]+)\s+(.+)}.match(line) do |match|
             puzzles << puzzle(lines.drop(idx + 1), match, idx)
           end
         rescue Error, ArgumentError => ex
