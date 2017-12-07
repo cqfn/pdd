@@ -34,11 +34,11 @@ class TestSource < Minitest::Test
       File.write(
         file,
         "
-        * @todo #44 hello,
+        * \x40todo #44 hello,
         *  how are you\t\r\tdoing?
         * -something else
         Something else
-        ~~ @todo #ABC-3 this is another puzzle
+        ~~ \x40todo #ABC-3 this is another puzzle
         ~~  and it also has to work
         "
       )
@@ -59,10 +59,10 @@ class TestSource < Minitest::Test
       file = File.join(dir, 'a.txt')
       File.write(
         file,
-        '
-        * @todo #44 this is an incorrectly formatted puzzle,
+        "
+        * \x40todo #44 this is an incorrectly formatted puzzle,
         * with a second line without a leading space
-        '
+        "
       )
       error = assert_raises PDD::Error do
         PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
@@ -76,14 +76,14 @@ class TestSource < Minitest::Test
       file = File.join(dir, 'ff.txt')
       File.write(
         file,
-        '
-        * @todo this puzzle misses ticket name/number
-        '
+        "
+        * \x40todo this puzzle misses ticket name/number
+        "
       )
       error = assert_raises PDD::Error do
         PDD::VerboseSource.new(file, PDD::Source.new(file, 'ff')).puzzles
       end
-      assert !error.to_s.index('TODO is not followed by a puzzle marker').nil?
+      assert !error.to_s.index("\x40todo is not followed by").nil?
     end
   end
 
@@ -91,7 +91,7 @@ class TestSource < Minitest::Test
     skip if Gem.win_platform?
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'xx.txt')
-      File.write(file, ' * @todo #44 this is a broken unicode: ' + 0x92.chr)
+      File.write(file, ' * \x40todo #44 this is a broken unicode: ' + 0x92.chr)
       assert_raises PDD::Error do
         PDD::VerboseSource.new(file, PDD::Source.new(file, 'xx')).puzzles
       end
@@ -105,7 +105,7 @@ class TestSource < Minitest::Test
       File.write(
         file,
         '
-        * @todo 44 this puzzle is not formatted correctly
+        * \x40todo 44 this puzzle is not formatted correctly
         '
       )
       error = assert_raises PDD::Error do
@@ -120,14 +120,14 @@ class TestSource < Minitest::Test
       file = File.join(dir, 'hey.txt')
       File.write(
         file,
-        '
-        *@todo #999 this is an incorrectly formatted puzzle!
-        '
+        "
+        *\x40todo #999 this is an incorrectly formatted puzzle!
+        "
       )
       error = assert_raises PDD::Error do
         PDD::VerboseSource.new(file, PDD::Source.new(file, 'x')).puzzles
       end
-      assert !error.message.index('TODO must have a leading space').nil?
+      assert !error.message.index("\x40todo must have a leading space").nil?
     end
   end
 
@@ -140,7 +140,7 @@ class TestSource < Minitest::Test
         git init --quiet .
         git config user.email test@teamed.io
         git config user.name test
-        echo '@todo #1 this is the puzzle' > a.txt
+        echo '\x40todo #1 this is the puzzle' > a.txt
         git add a.txt
         git commit --quiet -am 'first version'
       ")

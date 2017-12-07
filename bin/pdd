@@ -110,6 +110,3 @@ rescue StandardError => ex
   puts "#{Rainbow('ERROR').red} (#{ex.class.name}): #{ex.message}"
   exit(-1)
 end
-
-# @todo xx
-

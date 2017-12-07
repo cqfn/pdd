@@ -32,7 +32,7 @@ class TestPDD < Minitest::Test
   def test_basic
     Dir.mktmpdir 'test' do |dir|
       opts = opts(['-q', '-s', dir, '-e', '**/*.png', '-r', 'max-estimate:15'])
-      File.write(File.join(dir, 'a.txt'), '@todo #55 hello!')
+      File.write(File.join(dir, 'a.txt'), "\x40todo #55 hello!")
       matches(
         Nokogiri::XML(PDD::Base.new(opts).xml),
         [
@@ -49,7 +49,7 @@ class TestPDD < Minitest::Test
   def test_rules_failure
     Dir.mktmpdir 'test' do |dir|
       opts = opts(['-q', '-s', dir, '-e', '**/*.png', '-r', 'min-estimate:30'])
-      File.write(File.join(dir, 'a.txt'), '@todo #90 hello!')
+      File.write(File.join(dir, 'a.txt'), "\x40todo #90 hello!")
       assert_raises PDD::Error do
         PDD::Base.new(opts).xml
       end
@@ -70,7 +70,7 @@ class TestPDD < Minitest::Test
         cd 'a long dir name'
         mkdir 'a kid'
         cd 'a kid'
-        echo '@todo #1 this is some puzzle' > '.это файл.txt'
+        echo '\x40todo #1 this is some puzzle' > '.это файл.txt'
         cd ../..
         git add -f .
         git commit --quiet -am 'first version'
