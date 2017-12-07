@@ -22,7 +22,6 @@ require 'nokogiri'
 require 'logger'
 require 'time'
 require 'rainbow'
-require_relative 'pdd/sources'
 require_relative 'pdd/version'
 require_relative 'pdd/rule/estimates'
 require_relative 'pdd/rule/text'
@@ -86,6 +85,7 @@ module PDD
     def xml
       dir = @opts[:source] ? @opts[:source] : Dir.pwd
       PDD.log.info "Reading #{dir}"
+      require_relative 'pdd/sources'
       sources = Sources.new(dir)
       unless @opts[:exclude].nil?
         @opts[:exclude].each do |p|
