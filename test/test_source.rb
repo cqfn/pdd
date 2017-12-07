@@ -83,7 +83,7 @@ class TestSource < Minitest::Test
       error = assert_raises PDD::Error do
         PDD::VerboseSource.new(file, PDD::Source.new(file, 'ff')).puzzles
       end
-      assert !error.to_s.index('@todo is not followed by a puzzle marker').nil?
+      assert !error.to_s.index('TODO is not followed by a puzzle marker').nil?
     end
   end
 
@@ -127,7 +127,7 @@ class TestSource < Minitest::Test
       error = assert_raises PDD::Error do
         PDD::VerboseSource.new(file, PDD::Source.new(file, 'x')).puzzles
       end
-      assert !error.message.index('@todo must have a leading space').nil?
+      assert !error.message.index('TODO must have a leading space').nil?
     end
   end
 
