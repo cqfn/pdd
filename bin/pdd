@@ -97,6 +97,7 @@ https://github.com/yegor256/pdd/blob/master/README.md"
   file << output
 rescue SystemExit => ex
   puts ex.message unless ex.success?
+  PDD.log.info "Exit code is #{ex.status}"
   exit(ex.status)
 rescue PDD::Error => ex
   puts "#{Rainbow('ERROR').red}: #{ex.message}. \
@@ -105,8 +106,10 @@ how to fix it, please submit a GitHub issue, we will try to help you: \
 https://github.com/yegor256/pdd/issues. This tool is still in its beta \
 version and we will appreciate your feedback. Here is where you can find \
 more documentation: https://github.com/yegor256/pdd/blob/master/README.md."
+  PDD.log.info 'Exit code is 1'
   exit(1)
 rescue StandardError => ex
   puts "#{Rainbow('ERROR').red} (#{ex.class.name}): #{ex.message}"
-  exit(-1)
+  PDD.log.info 'Exit code is 255'
+  exit(255)
 end
