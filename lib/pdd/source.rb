@@ -41,7 +41,13 @@ module PDD
       lines.each_with_index do |line, idx|
         begin
           /[^\s]@todo/.match(line) do |_|
-            raise Error, '@todo must have a leading space to be a puzzle'
+            raise Error, '@todo must have a leading space to become a puzzle,
+as this page explains: https://github.com/yegor256/pdd#how-to-format'
+          end
+          /@todo(?!\s+#)/.match(line) do |_|
+            raise Error, "@todo found, but puzzle can't be parsed, \
+most probably because @todo is not followed by a puzzle marker, as this page \
+explains: https://github.com/yegor256/pdd#how-to-format"
           end
           %r{(.*(?:^|\s))@todo\s+#([\w\-\.:/]+)\s+(.+)}.match(line) do |match|
             puzzles << puzzle(lines.drop(idx + 1), match, idx)
@@ -49,12 +55,6 @@ module PDD
         rescue Error, ArgumentError => ex
           raise Error, "puzzle at line ##{idx + 1}; #{ex.message}"
         end
-      end
-      lines.each_with_index do |line, idx|
-        next unless line =~ /.*(^|\s)@todo\s+[^#]/
-        raise Error, "@todo found, but puzzle can't be parsed in line ##{idx}, \
-most probably because TODO is not followed by a puzzle marker, as this page \
-explains: https://github.com/yegor256/pdd#how-to-format"
       end
       puzzles
     end

@@ -83,7 +83,7 @@ class TestSource < Minitest::Test
       error = assert_raises PDD::Error do
         PDD::VerboseSource.new(file, PDD::Source.new(file, 'ff')).puzzles
       end
-      assert !error.to_s.index('can\'t be parsed').nil?
+      assert !error.to_s.index('@todo is not followed by a puzzle marker').nil?
     end
   end
 
