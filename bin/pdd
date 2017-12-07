@@ -98,15 +98,18 @@ https://github.com/yegor256/pdd/blob/master/README.md"
 rescue SystemExit => ex
   puts ex.message unless ex.success?
   exit(ex.status)
-rescue Source::Error => ex
-  puts "#{Rainbow('ERROR').red}: #{ex.message}"
-  puts "If you can't understand the cause of this issue or you don't know \
+rescue PDD::Error => ex
+  puts "#{Rainbow('ERROR').red}: #{ex.message}. \
+If you can't understand the cause of this issue or you don't know \
 how to fix it, please submit a GitHub issue, we will try to help you: \
 https://github.com/yegor256/pdd/issues. This tool is still in its beta \
 version and we will appreciate your feedback. Here is where you can find \
 more documentation: https://github.com/yegor256/pdd/blob/master/README.md."
   exit(1)
 rescue StandardError => ex
-  puts "#{Rainbow('ERROR').red}: #{ex.message}"
+  puts "#{Rainbow('ERROR').red} (#{ex.class.name}): #{ex.message}"
   exit(-1)
 end
+
+# @todo xx
+

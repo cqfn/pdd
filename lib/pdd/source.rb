@@ -26,9 +26,6 @@ require_relative '../pdd/puzzle'
 module PDD
   # Source.
   class Source
-    # If it breaks.
-    class Error < PDD::Error
-    end
     # Ctor.
     # +file+:: Absolute file name with source code
     # +path+:: Path to show (without full file name)
