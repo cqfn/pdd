@@ -41,7 +41,7 @@ module PDD
       lines.each_with_index do |line, idx|
         begin
           /[^\s]@todo/.match(line) do |_|
-            raise Error, 'TODO must have a leading space to become a puzzle,
+            raise Error, 'TODO must have a leading space to become a puzzle, \
 as this page explains: https://github.com/yegor256/pdd#how-to-format'
           end
           /@todo(?!\s+#)/.match(line) do |_|
