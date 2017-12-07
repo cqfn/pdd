@@ -115,6 +115,22 @@ class TestSource < Minitest::Test
     end
   end
 
+  def test_failing_on_puzzle_without_leading_space
+    Dir.mktmpdir 'test' do |dir|
+      file = File.join(dir, 'hey.txt')
+      File.write(
+        file,
+        '
+        *@todo #999 this is an incorrectly formatted puzzle!
+        '
+      )
+      error = assert_raises PDD::Error do
+        PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
+      end
+      assert !error.message.index('Leading space expected').nil?
+    end
+  end
+
   def test_reads_git_author
     skip if Gem.win_platform?
     Dir.mktmpdir 'test' do |dir|
