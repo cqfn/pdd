@@ -28,7 +28,7 @@ module PDD
     # Ctor.
     # +dir+:: Directory with source code files
     def initialize(dir, ptns = [])
-      @dir = dir
+      @dir = File.absolute_path(dir)
       @exclude = ptns + ['.git/**/*']
     end
 
@@ -46,10 +46,8 @@ module PDD
       end
       PDD.log.info "#{files.size} file(s) found, #{excluded} excluded"
       files.reject { |f| binary?(f) }.map do |file|
-        VerboseSource.new(
-          file,
-          Source.new(file, file[@dir.length + 1, file.length])
-        )
+        path = file[@dir.length + 1, file.length]
+        VerboseSource.new(path, Source.new(file, path))
       end
     end
 

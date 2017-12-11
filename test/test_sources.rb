@@ -82,9 +82,19 @@ class TestSources < Minitest::Test
     end
   end
 
+  def test_fails_with_verbose_output
+    in_temp do |dir|
+      File.write(File.join(dir, 'z1.txt'), "\x40todobroken\n")
+      error = assert_raises PDD::Error do
+        PDD::Sources.new(dir).fetch[0].puzzles
+      end
+      assert error.message.start_with?('z1.txt; '), error.message
+    end
+  end
+
   private
 
-  def in_temp(files)
+  def in_temp(files = [])
     Dir.mktmpdir 'x' do |dir|
       files.each do |path|
         file = File.join(dir, path)
