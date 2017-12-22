@@ -38,7 +38,7 @@ module PDD
     def puzzles
       PDD.log.info "Reading #{@path}..."
       puzzles = []
-      lines = File.readlines(@file)
+      lines = File.readlines(@file, encoding: 'UTF-8')
       lines.each_with_index do |line, idx|
         begin
           /[^\s]\x40todo/.match(line) do |_|
