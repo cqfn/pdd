@@ -16,7 +16,7 @@ Feature: Command Line Processing
     """
     public class Main {
       /**
-       * @todo #13 Let's do it later, dude
+       * @todo #13 Привет, Let's do it later, dude
        *  or maybe even never :)
        */
       public void main(String[] args) {
@@ -28,6 +28,7 @@ Feature: Command Line Processing
     Then Exit code is zero
     And Stdout contains "Reading ."
     And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
+    And XML file "out.xml" matches "//puzzle[starts-with(body,'Привет, Let')]"
 
   Scenario: Using basic rules
     Given I have a "sample.java" file with content:

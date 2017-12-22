@@ -34,7 +34,7 @@ class TestSource < Minitest::Test
       File.write(
         file,
         "
-        * \x40todo #44 hello,
+        * \x40todo #44 привет,
         *  how are you\t\r\tdoing?
         * -something else
         Something else
@@ -46,7 +46,7 @@ class TestSource < Minitest::Test
       assert_equal 2, list.size
       puzzle = list.first
       assert_equal '2-3', puzzle.props[:lines]
-      assert_equal 'hello, how are you doing?', puzzle.props[:body]
+      assert_equal 'привет, how are you doing?', puzzle.props[:body]
       assert_equal '44', puzzle.props[:ticket]
       assert puzzle.props[:author].nil?
       assert puzzle.props[:email].nil?
