@@ -128,6 +128,44 @@ You can put all command line options into `.pdd` file. The options from the
 file will be used first. Command line options may be added on top of them.
 See, how it is done in [yegor256/0pdd](https://github.com/yegor256/0pdd/blob/master/.pdd).
 
+## How to read XML
+
+The XML produced will look approximately like this (here is a
+[real example](http://www.0pdd.com/snapshot?name=yegor256/takes)):
+
+```xml
+<puzzles>
+  <puzzle>
+    <ticket>516</ticket>
+    <estimate>15</estimate>
+    <role>IMP</role>
+    <id>516-ffc97ad1</id>
+    <lines>61-63</lines>
+    <body>This has to be fixed later...</body>
+    <file>src/test/java/org/takes/SomeTest.java</file>
+    <author>Yegor Bugayenko</author>
+    <email>yegor256@gmail.com</email>
+    <time>2018-01-01T21:09:03Z</time>
+  </puzzle>
+</puzzles>
+```
+
+[XSD Schema](http://pdd-xsd.teamed.io/0.19.4.xsd) is here.
+The most interesting parts of each puzzle are:
+
+  * `ticket` is a ticket name puzzle marker starts from, in most
+    cases it will be the number of GitHub issue.
+
+  * `estimate` is the amount of minutes the puzzle is supposed to take.
+
+  * `id` is a unique ID of the puzzle. It is calculated by the
+    internal algorithm that takes into account only the text of the puzzle.
+    Thus, if you move the puzzle from one file to another, the ID won't
+    change. Also, changing the location of a puzzle inside a file
+    won't change its ID.
+
+  * `lines` is where the puzzle is found, inside the file.
+
 ## How to contribute?
 
 Just submit a pull request. Make sure `rake` passes.
