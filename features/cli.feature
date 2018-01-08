@@ -35,7 +35,7 @@ Feature: Command Line Processing
     """
     Nothing
     """
-    When I run bin/pdd with "-v -s . -f out.xml --rule min-words:20 --rule=available-roles:DEV,IMP,PO"
+    When I run bin/pdd with "-v -s . -f out.xml --rule min-words:20 --rule=available-roles:DEV,ARC,PO"
     Then Exit code is zero
 
   Scenario: Simple puzzles collecting into stdout

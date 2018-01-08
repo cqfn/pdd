@@ -88,7 +88,7 @@ against the rules explained here: https://github.com/yegor256/pdd#how-to-format"
       {
         ticket: match[1],
         estimate: minutes(match[2], match[3]),
-        role: match[4].nil? ? 'IMP' : match[4]
+        role: match[4].nil? ? 'DEV' : match[4]
       }
     end
 

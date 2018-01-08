@@ -22,7 +22,7 @@ Feature: Parsing
     And XML matches "//puzzle[ticket='13']"
     And XML matches "//puzzle[lines='3-4']"
     And XML matches "//puzzle[starts-with(body,'Let')]"
-    And XML matches "//puzzle[role='IMP']"
+    And XML matches "//puzzle[role='DEV']"
     And XML matches "//puzzle[estimate='0']"
 
   Scenario: Multiple puzzles in one file

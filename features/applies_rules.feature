@@ -36,7 +36,7 @@ Feature: Applies Post-Parsing Rules
     @todo #13/DEV:15min Some text first
     @todo #13/TEST:15min The text second
     """
-    When I run bin/pdd with "--rule=available-roles:DEV,IMP"
+    When I run bin/pdd with "--rule=available-roles:DEV,ARC"
     Then Exit code is not zero
     Then Stdout contains "defines role TEST"
 

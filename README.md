@@ -138,7 +138,7 @@ The XML produced will look approximately like this (here is a
   <puzzle>
     <ticket>516</ticket>
     <estimate>15</estimate>
-    <role>IMP</role>
+    <role>DEV</role>
     <id>516-ffc97ad1</id>
     <lines>61-63</lines>
     <body>This has to be fixed later...</body>
