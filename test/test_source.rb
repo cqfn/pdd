@@ -155,4 +155,29 @@ class TestSource < Minitest::Test
       assert_match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, puzzle.props[:time])
     end
   end
+
+  def test_skips_invalid_git_mail
+    skip if Gem.win_platform?
+    Dir.mktmpdir 'test' do |dir|
+      raise unless system("
+        set -e
+        cd '#{dir}'
+        git init --quiet .
+        git config user.email invalid-email
+        git config user.name test
+        echo '\x40todo #1 this is the puzzle' > a.txt
+        git add a.txt
+        git commit --quiet -am 'first version'
+      ")
+      list = PDD::Source.new(File.join(dir, 'a.txt'), '').puzzles
+      assert_equal 1, list.size
+      puzzle = list.first
+      assert_equal '1-de87adc8', puzzle.props[:id]
+      assert_equal '1-1', puzzle.props[:lines]
+      assert_equal 'this is the puzzle', puzzle.props[:body]
+      assert_equal 'test', puzzle.props[:author]
+      assert_nil puzzle.props[:email]
+      assert_match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, puzzle.props[:time])
+    end
+  end
 end

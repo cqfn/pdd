@@ -135,7 +135,7 @@ at position ##{prefix.length + 1}."
           `#{cmd}`.split("\n").map do |line|
             if line =~ /^author /
               [:author, line.sub(/^author /, '')]
-            elsif line =~ /^author-mail /
+            elsif line =~ /^author-mail [^@]+@[^\.]+\..+/
               [:email, line.sub(/^author-mail <(.+)>$/, '\1')]
             elsif line =~ /^author-time /
               [
