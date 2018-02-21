@@ -3,12 +3,13 @@ AllCops:
     - 'bin/**/*'
     - 'assets/**/*'
   DisplayCopNames: true
+  TargetRubyVersion: 2.2
 
-Style/EndOfLine:
+Layout/EndOfLine:
   EnforcedStyle: lf
-Style/MethodLength:
+Metrics/MethodLength:
   Max: 30
-Style/ClassLength:
+Metrics/ClassLength:
   Max: 150
 Metrics/AbcSize:
   Max: 40

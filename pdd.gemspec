@@ -29,8 +29,8 @@ Gem::Specification.new do |s|
   if s.respond_to? :required_rubygems_version=
     s.required_rubygems_version = Gem::Requirement.new('>= 0')
   end
-  s.rubygems_version = '2.2.2'
-  s.required_ruby_version = '>= 1.9.3'
+  s.rubygems_version = '2.2'
+  s.required_ruby_version = '>= 2.2'
   s.name = 'pdd'
   s.version = PDD::VERSION
   s.license = 'MIT'
@@ -44,16 +44,16 @@ Gem::Specification.new do |s|
   s.test_files = s.files.grep(%r{^(test|spec|features)/})
   s.rdoc_options = ['--charset=UTF-8']
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt']
-  s.add_runtime_dependency 'nokogiri', '~>1.8'
-  s.add_runtime_dependency 'slop', '~>4.6'
-  s.add_runtime_dependency 'rainbow', '~>2.2'
-  s.add_development_dependency 'rake', '12.0.0'
+  s.add_runtime_dependency 'nokogiri', '1.8.2'
+  s.add_runtime_dependency 'rainbow', '~>3.0'
+  s.add_runtime_dependency 'slop', '4.6.1'
   s.add_development_dependency 'codecov', '0.1.10'
-  s.add_development_dependency 'rdoc', '4.2.0'
   s.add_development_dependency 'cucumber', '3.1.0'
   s.add_development_dependency 'minitest', '5.5.0'
-  s.add_development_dependency 'rubocop', '0.48.1'
-  s.add_development_dependency 'rubocop-rspec', '1.15.1'
+  s.add_development_dependency 'rake', '12.0.0'
+  s.add_development_dependency 'rdoc', '4.2.0'
   s.add_development_dependency 'rspec-rails', '3.1.0'
-  s.add_development_dependency 'xcop', '~>0.5'
+  s.add_development_dependency 'rubocop', '0.52.1'
+  s.add_development_dependency 'rubocop-rspec', '1.15.1'
+  s.add_development_dependency 'xcop', '0.5.8'
 end
