@@ -145,7 +145,7 @@ class TestSource < Minitest::Test
       error = assert_raises PDD::Error do
         PDD::VerboseSource.new(file, PDD::Source.new(file, 'x')).puzzles
       end
-      assert !error.message.index("\x40todo must have a leading space").nil?
+      assert !error.message.index('an unexpected space').nil?
     end
   end
 

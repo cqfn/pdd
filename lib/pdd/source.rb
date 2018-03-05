@@ -50,6 +50,11 @@ a puzzle, as this page explains: https://github.com/yegor256/pdd#how-to-format"
 most probably because \x40todo is not followed by a puzzle marker, \
 as this page explains: https://github.com/yegor256/pdd#how-to-format"
           end
+          /\x40todo\s+#\s/.match(line) do |_|
+            raise Error, "\x40todo found, but there is an unexpected space \
+after the hash sign, it should not be there, \
+see https://github.com/yegor256/pdd#how-to-format"
+          end
           %r{(.*(?:^|\s))\x40todo\s+#([\w\-\.:/]+)\s+(.+)}.match(line) do |m|
             puzzles << puzzle(lines.drop(idx + 1), m, idx)
           end
