@@ -106,9 +106,9 @@ class TestSource < Minitest::Test
       file = File.join(dir, 'a.txt')
       File.write(
         file,
-        '
+        "
         * \x40todo 44 this puzzle is not formatted correctly
-        '
+        "
       )
       error = assert_raises PDD::Error do
         PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
@@ -124,6 +124,22 @@ class TestSource < Minitest::Test
         file,
         "
         *\x40todo #999 this is an incorrectly formatted puzzle!
+        "
+      )
+      error = assert_raises PDD::Error do
+        PDD::VerboseSource.new(file, PDD::Source.new(file, 'x')).puzzles
+      end
+      assert !error.message.index("\x40todo must have a leading space").nil?
+    end
+  end
+
+  def test_failing_on_puzzle_with_space_after_dash
+    Dir.mktmpdir 'test' do |dir|
+      file = File.join(dir, 'hey-you.txt')
+      File.write(
+        file,
+        "
+        * \x40todo # 123 This puzzle has an unnecessary space before the dash
         "
       )
       error = assert_raises PDD::Error do
