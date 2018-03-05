@@ -7,10 +7,10 @@ AllCops:
 
 Layout/EndOfLine:
   EnforcedStyle: lf
+Metrics/ClassLength:
+  Max: 300
 Metrics/MethodLength:
   Max: 30
-Metrics/ClassLength:
-  Max: 150
 Metrics/AbcSize:
   Max: 40
 Style/MultilineBlockChain:
