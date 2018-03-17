@@ -100,7 +100,7 @@ rescue SystemExit => ex
   PDD.log.info "Exit code is #{ex.status}"
   exit(ex.status)
 rescue PDD::Error => ex
-  puts "#{Rainbow('ERROR').red}: #{ex.message}. \
+  puts "#{Rainbow('ERROR').red}: #{ex.message}
 If you can't understand the cause of this issue or you don't know \
 how to fix it, please submit a GitHub issue, we will try to help you: \
 https://github.com/yegor256/pdd/issues. This tool is still in its beta \
