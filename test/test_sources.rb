@@ -82,6 +82,13 @@ class TestSources < Minitest::Test
     end
   end
 
+  def test_excludes_recursively
+    in_temp(['a/first.txt', 'b/c/second.txt', 'b/c/d/third.txt']) do |dir|
+      list = PDD::Sources.new(dir).exclude('**/*').fetch
+      assert_equal 0, list.size
+    end
+  end
+
   def test_fails_with_verbose_output
     in_temp do |dir|
       File.write(File.join(dir, 'z1.txt'), "\x40todobroken\n")
