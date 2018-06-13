@@ -57,13 +57,17 @@ module PDD
 
     private
 
-    def binary?(f)
+    # @todo #98:30min Change the implementation of this method
+    #  to also work in Windows machines. Investigate the possibility
+    #  of use a gem for this. After that, remove the skip of the test
+    #  `test_ignores_binary_files` in `test_sources.rb`.
+    def binary?(file)
       return false if Gem.win_platform?
-      `grep -qI '.' #{Shellwords.escape(f)}`
+      `grep -qI '.' #{Shellwords.escape(file)}`
       if $CHILD_STATUS.success?
         false
       else
-        PDD.log.info "#{f} is a binary file (#{File.size(f)} bytes)"
+        PDD.log.info "#{file} is a binary file (#{File.size(file)} bytes)"
         true
       end
     end

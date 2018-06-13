@@ -28,16 +28,14 @@ require_relative '../lib/pdd/sources'
 # Copyright:: Copyright (c) 2014-2018 Yegor Bugayenko
 # License:: MIT
 class TestSource < Minitest::Test
-  # @todo #85:30min Make this test pass on AppVeyor.
   def test_parsing
-    skip('Skipped because it fails on AppVeyor')
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'a.txt')
       File.write(
         file,
         "
         * \x40todo #44 привет,
-        *  how are you\t\r\tdoing?
+        *  how are you\t\tdoing?
         * -something else
         Something else
         ~~ \x40todo #ABC-3 this is another puzzle
@@ -90,7 +88,6 @@ class TestSource < Minitest::Test
   end
 
   def test_failing_on_broken_unicode
-    skip if Gem.win_platform?
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'xx.txt')
       File.write(file, ' * \x40todo #44 this is a broken unicode: ' + 0x92.chr)
@@ -101,7 +98,6 @@ class TestSource < Minitest::Test
   end
 
   def test_failing_on_invalid_puzzle_without_hash_sign
-    skip('doesnt work now')
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'a.txt')
       File.write(
@@ -113,7 +109,7 @@ class TestSource < Minitest::Test
       error = assert_raises PDD::Error do
         PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
       end
-      assert !error.message.index('Incorrect format').nil?
+      assert !error.message.index('is not followed by a puzzle marker').nil?
     end
   end
 
