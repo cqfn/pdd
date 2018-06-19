@@ -57,7 +57,7 @@ to the leading space in every consecutive line):
 
 ```java
 /**
- * @todo [puzzle marker]</[role]> <[description]>
+ * @todo #[issue#]<:[time]></[role]> <[description]>
  */
 [related code]
 ```
