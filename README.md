@@ -57,6 +57,16 @@ to the leading space in every consecutive line):
 
 ```java
 /**
+ * @todo #[issue#]<:[time]></[role]> <[description]>
+ */
+[related code]
+```
+\[\] - Replace with apropriate data (see text enclosed in brackets)  
+<>   - Omitable (enclosed data can be left out) 
+
+Example:
+```java
+/**
  * @todo #234:15m/DEV This is something to do later
  *  in one of the next releases. I can't figure out
  *  how to implement it now, that's why the puzzle.
