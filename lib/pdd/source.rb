@@ -19,6 +19,8 @@
 # SOFTWARE.
 
 require 'digest/md5'
+require 'net/http'
+require 'json'
 require 'shellwords'
 require_relative '../pdd'
 require_relative '../pdd/puzzle'
@@ -136,7 +138,7 @@ at position ##{prefix.length + 1}."
       git = "cd #{dir} && git"
       if `#{git} rev-parse --is-inside-work-tree 2>/dev/null`.strip == 'true'
         cmd = "#{git} blame -L #{pos},#{pos} --porcelain #{name}"
-        Hash[
+        info = Hash[
           `#{cmd}`.split("\n").map do |line|
             if line =~ /^author /
               [:author, line.sub(/^author /, '')]
@@ -152,8 +154,42 @@ at position ##{prefix.length + 1}."
             end
           end.compact
         ]
+        
+        login = find_github_login(info[:email])
+        if login.length > 0
+          info[:author] = login
+        end
+        info
       else
         {}
+      end
+    end
+
+    def get_json(query)
+      uri = URI.parse(query)
+    
+      http = Net::HTTP.new(uri.hostname, uri.port)
+      http.use_ssl = uri.scheme == "https" ? true : false
+
+      req = Net::HTTP::Get.new(uri.request_uri)
+      req.set_content_type("application/json")
+
+      res = http.request(req)
+      JSON.parse res.body
+    end
+
+    def find_github_user(email)
+      query = "https://api.github.com/search/users?q=#{email}+in:email&perpage=1"
+      json = get_json query
+      json['items'].first
+    end
+
+    def find_github_login(email)
+      begin
+        user = find_github_user email
+        user['login']
+      rescue
+        ""
       end
     end
   end
