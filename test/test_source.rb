@@ -194,4 +194,23 @@ class TestSource < Minitest::Test
       assert_match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, puzzle.props[:time])
     end
   end
+
+  def test_uses_github_login
+    skip if Gem.win_platform?
+    Dir.mktmpdir 'test' do |dir|
+      raise unless system("
+        cd '#{dir}'
+        git init --quiet .
+        git config user.email yegor256@gmail.com
+        git config user.name test
+        echo '\x40todo #1 this is the puzzle' > a.txt
+        git add a.txt
+        git commit --quiet -am 'first version'
+      ")
+      list = PDD::Source.new(File.join(dir, 'a.txt'), '').puzzles
+      assert_equal 1, list.size
+      puzzle = list.first
+      assert_equal 'yegor256', puzzle.props[:author]
+    end
+  end
 end
