@@ -138,7 +138,7 @@ at position ##{prefix.length + 1}."
       git = "cd #{dir} && git"
       if `#{git} rev-parse --is-inside-work-tree 2>/dev/null`.strip == 'true'
         cmd = "#{git} blame -L #{pos},#{pos} --porcelain #{name}"
-        info = Hash[
+        add_github_login(Hash[
           `#{cmd}`.split("\n").map do |line|
             if line =~ /^author /
               [:author, line.sub(/^author /, '')]
@@ -153,16 +153,18 @@ at position ##{prefix.length + 1}."
               ]
             end
           end.compact
-        ]
-        
-        login = find_github_login(info[:email])
-        if login.length > 0
-          info[:author] = login
-        end
-        info
+        ])
       else
         {}
       end
+    end
+
+    def add_github_login(info)
+      login = find_github_login(info[:email])
+      if login.length > 0
+        info[:author] = login
+      end
+      info
     end
 
     def get_json(query)
