@@ -161,38 +161,35 @@ at position ##{prefix.length + 1}."
 
     def add_github_login(info)
       login = find_github_login(info[:email])
-      if login.length > 0
-        info[:author] = login
-      end
+      info[:author] = login unless login.empty?
       info
     end
 
     def get_json(query)
       uri = URI.parse(query)
-    
+
       http = Net::HTTP.new(uri.hostname, uri.port)
-      http.use_ssl = uri.scheme == "https" ? true : false
+      http.use_ssl = uri.scheme == 'https'
 
       req = Net::HTTP::Get.new(uri.request_uri)
-      req.set_content_type("application/json")
+      req.set_content_type('application/json')
 
       res = http.request(req)
       JSON.parse res.body
     end
 
     def find_github_user(email)
-      query = "https://api.github.com/search/users?q=#{email}+in:email&perpage=1"
+      base_uri = 'https://api.github.com/search/users'
+      query = base_uri + "?q=#{email}+in:email&perpage=1"
       json = get_json query
       json['items'].first
     end
 
     def find_github_login(email)
-      begin
-        user = find_github_user email
-        user['login']
-      rescue
-        ""
-      end
+      user = find_github_user email
+      user['login']
+    rescue StandardError
+      ''
     end
   end
 
