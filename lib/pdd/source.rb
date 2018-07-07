@@ -161,19 +161,16 @@ at position ##{prefix.length + 1}."
 
     def add_github_login(info)
       login = find_github_login(info[:email])
-      info[:author] = login unless login.empty?
+      info[:author] = "@#{login}" unless login.empty?
       info
     end
 
     def get_json(query)
       uri = URI.parse(query)
-
       http = Net::HTTP.new(uri.hostname, uri.port)
       http.use_ssl = uri.scheme == 'https'
-
       req = Net::HTTP::Get.new(uri.request_uri)
       req.set_content_type('application/json')
-
       res = http.request(req)
       JSON.parse res.body
     end

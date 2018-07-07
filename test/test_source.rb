@@ -210,7 +210,7 @@ class TestSource < Minitest::Test
       list = PDD::Source.new(File.join(dir, 'a.txt'), '').puzzles
       assert_equal 1, list.size
       puzzle = list.first
-      assert_equal 'yegor256', puzzle.props[:author]
+      assert_equal '@yegor256', puzzle.props[:author]
     end
   end
 end
