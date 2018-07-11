@@ -213,4 +213,20 @@ class TestSource < Minitest::Test
       assert_equal '@yegor256', puzzle.props[:author]
     end
   end
+
+  def test_skips_thymeleaf_close_tag
+    Dir.mktmpdir 'test' do |dir|
+      file = File.join(dir, 'a.txt')
+      File.write(
+        file,
+        '<!--/* @todo #123 puzzle info */-->'
+      )
+      list = PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
+      assert_equal 1, list.size
+      puzzle = list.first
+      assert_equal '1-1', puzzle.props[:lines]
+      assert_equal 'puzzle info', puzzle.props[:body]
+      assert_equal '123', puzzle.props[:ticket]
+    end
+  end
 end

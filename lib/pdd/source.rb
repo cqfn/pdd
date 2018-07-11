@@ -43,21 +43,11 @@ module PDD
       lines = File.readlines(@file, encoding: 'UTF-8')
       lines.each_with_index do |line, idx|
         begin
-          /[^\s]\x40todo/.match(line) do |_|
-            raise Error, "\x40todo must have a leading space to become \
-a puzzle, as this page explains: https://github.com/yegor256/pdd#how-to-format"
-          end
-          /\x40todo(?!\s+#)/.match(line) do |_|
-            raise Error, "\x40todo found, but puzzle can't be parsed, \
-most probably because \x40todo is not followed by a puzzle marker, \
-as this page explains: https://github.com/yegor256/pdd#how-to-format"
-          end
-          /\x40todo\s+#\s/.match(line) do |_|
-            raise Error, "\x40todo found, but there is an unexpected space \
-after the hash sign, it should not be there, \
-see https://github.com/yegor256/pdd#how-to-format"
-          end
+          check_rules(line)
           %r{(.*(?:^|\s))\x40todo\s+#([\w\-\.:/]+)\s+(.+)}.match(line) do |m|
+            puzzles << puzzle(lines.drop(idx + 1), m, idx)
+          end
+          %r{(.*(?:^|\s))TODO:?\s+#([\w\-\.:/]+)\s+(.+)}.match(line) do |m|
             puzzles << puzzle(lines.drop(idx + 1), m, idx)
           end
         rescue Error, ArgumentError => ex
@@ -69,10 +59,49 @@ see https://github.com/yegor256/pdd#how-to-format"
 
     private
 
+    def get_no_leading_space_error(todo)
+      "#{todo} must have a leading space to become \
+a puzzle, as this page explains: https://github.com/yegor256/pdd#how-to-format"
+    end
+
+    def get_no_puzzle_marker_error(todo)
+      "#{todo} found, but puzzle can't be parsed, \
+most probably because #{todo} is not followed by a puzzle marker, \
+as this page explains: https://github.com/yegor256/pdd#how-to-format"
+    end
+
+    def get_space_after_hash_error(todo)
+      "#{todo} found, but there is an unexpected space \
+after the hash sign, it should not be there, \
+see https://github.com/yegor256/pdd#how-to-format"
+    end
+
+    def check_rules(line)
+      /[^\s]\x40todo/.match(line) do |_|
+        raise Error, get_no_leading_space_error("\x40todo")
+      end
+      /\x40todo(?!\s+#)/.match(line) do |_|
+        raise Error, get_no_puzzle_marker_error("\x40todo")
+      end
+      /\x40todo\s+#\s/.match(line) do |_|
+        raise Error, get_space_after_hash_error("\x40todo")
+      end
+      /[^\s]TODO:?/.match(line) do |_|
+        raise Error, get_no_leading_space_error('TODO')
+      end
+      /TODO(?!:?\s+#)/.match(line) do |_|
+        raise Error, get_no_puzzle_marker_error('TODO')
+      end
+      /TODO:?\s+#\s/.match(line) do |_|
+        raise Error, get_space_after_hash_error('TODO')
+      end
+    end
+
     # Fetch puzzle
     def puzzle(lines, match, idx)
       tail = tail(lines, match[1], idx)
       body = (match[3] + ' ' + tail.join(' ')).gsub(/\s+/, ' ').strip
+      body = body.chomp('*/-->').strip
       marker = marker(match[2])
       Puzzle.new(
         marker.merge(
