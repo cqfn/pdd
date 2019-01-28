@@ -44,11 +44,10 @@ module PDD
       lines.each_with_index do |line, idx|
         begin
           check_rules(line)
-          %r{(.*(?:^|\s))\x40todo\s+#([\w\-\.:/]+)\s+(.+)}.match(line) do |m|
-            puzzles << puzzle(lines.drop(idx + 1), m, idx)
-          end
-          %r{(.*(?:^|\s))TODO:?\s+#([\w\-\.:/]+)\s+(.+)}.match(line) do |m|
-            puzzles << puzzle(lines.drop(idx + 1), m, idx)
+          ["\x40todo", 'TODO:?'].each do |pfx|
+            %r{(.*(?:^|\s))#{pfx}\s+#([\w\-\.:/]+)\s+(.+)}.match(line) do |m|
+              puzzles << puzzle(lines.drop(idx + 1), m, idx)
+            end
           end
         rescue Error, ArgumentError => ex
           raise Error, "puzzle at line ##{idx + 1}; #{ex.message}"
