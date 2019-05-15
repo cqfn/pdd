@@ -25,15 +25,11 @@ Also, check [0pdd.com](http://www.0pdd.com): a hosted service,
 where this command line tool works for you. Read this first:
 [PDD in Action](http://www.yegor256.com/2017/04/05/pdd-in-action.html).
 
-## How to Install?
-
 Install it first:
 
 ```bash
 $ gem install pdd
 ```
-
-## How to Run?
 
 Run it locally and read its output:
 
