@@ -10,13 +10,12 @@
 [![Build Status](https://travis-ci.org/yegor256/pdd.svg)](https://travis-ci.org/yegor256/pdd)
 [![Build status](https://ci.appveyor.com/api/projects/status/b59sdhuu0gcku15b?svg=true)](https://ci.appveyor.com/project/yegor256/pdd)
 [![PDD status](http://www.0pdd.com/svg?name=yegor256/pdd)](http://www.0pdd.com/p?name=yegor256/pdd)
+[![Test Coverage](https://img.shields.io/codecov/c/github/yegor256/pdd.svg)](https://codecov.io/github/yegor256/pdd?branch=master)
+[![Hits-of-Code](https://hitsofcode.com/github/yegor256/pdd)](https://hitsofcode.com/view/github/yegor256/pdd)
 
 [![Gem Version](https://badge.fury.io/rb/pdd.svg)](http://badge.fury.io/rb/pdd)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c8e46256fdd8ddc817e5/maintainability)](https://codeclimate.com/github/yegor256/pdd/maintainability)
-[![Test Coverage](https://img.shields.io/codecov/c/github/yegor256/pdd.svg)](https://codecov.io/github/yegor256/pdd?branch=master)
 [![Yard Docs](http://img.shields.io/badge/yard-docs-blue.svg)](http://rubydoc.info/github/yegor256/pdd/master/frames)
-
-[![Hits-of-Code](https://hitsofcode.com/github/yegor256/pdd)](https://hitsofcode.com/view/github/yegor256/pdd)
 
 Read this article about
 [Puzzle Driven Development](http://www.yegor256.com/2009/03/04/pdd.html).
