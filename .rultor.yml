@@ -1,6 +1,6 @@
 assets:
-  rubygems.yml: zerocracy/home#assets/rubygems.yml
-  s3cfg: zerocracy/home#assets/s3cfg
+  rubygems.yml: yegor256/home#assets/rubygems.yml
+  s3cfg: yegor256/home#assets/s3cfg
 install: |
   export GEM_HOME=~/.ruby
   export GEM_PATH=$GEM_HOME:$GEM_PATH
