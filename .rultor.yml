@@ -4,8 +4,8 @@ assets:
 install: |
   export GEM_HOME=~/.ruby
   export GEM_PATH=$GEM_HOME:$GEM_PATH
-  sudo gem install pdd
-  sudo gem install xcop
+  sudo gem install pdd -v 0.20.5
+  sudo gem install xcop -v 0.6
 release:
   script: |-
     env
@@ -18,7 +18,7 @@ release:
     gem build pdd.gemspec
     chmod 0600 ../rubygems.yml
     gem push *.gem --config-file ../rubygems.yml
-    sudo gem install pdd
+    sudo gem install pdd -v 0.20.5
     pdd --source=$(pwd) --verbose --file=pdd.xml -e=test/** -e=features/** -e=coverage/**/* -e=README.md
     s3cmd --no-progress put pdd.xml --config=../s3cfg s3://pdd.teamed.io/pdd.xml
     s3cmd --no-progress put assets/puzzles.xsd --acl-public --config=../s3cfg s3://pdd-xsd.teamed.io/${tag}.xsd
