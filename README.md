@@ -12,6 +12,7 @@
 [![PDD status](http://www.0pdd.com/svg?name=yegor256/pdd)](http://www.0pdd.com/p?name=yegor256/pdd)
 [![Test Coverage](https://img.shields.io/codecov/c/github/yegor256/pdd.svg)](https://codecov.io/github/yegor256/pdd?branch=master)
 [![Hits-of-Code](https://hitsofcode.com/github/yegor256/pdd)](https://hitsofcode.com/view/github/yegor256/pdd)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/yegor256/pdd/blob/master/LICENSE.txt)
 
 [![Gem Version](https://badge.fury.io/rb/pdd.svg)](http://badge.fury.io/rb/pdd)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c8e46256fdd8ddc817e5/maintainability)](https://codeclimate.com/github/yegor256/pdd/maintainability)
@@ -175,7 +176,7 @@ The most interesting parts of each puzzle are:
 
   * `lines` is where the puzzle is found, inside the file.
 
-# How to contribute
+## How to contribute
 
 Read [these guidelines](https://www.yegor256.com/2014/04/15/github-guidelines.html).
 Make sure you build is green before you contribute
@@ -184,7 +185,7 @@ your pull request. You will need to have [Ruby](https://www.ruby-lang.org/en/) 2
 
 ```
 $ bundle update
-$ rake
+$ bundle exec rake
 ```
 
 If it's clean and you don't see any error messages, submit your pull request.
