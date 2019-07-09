@@ -20,3 +20,4 @@
 
 require 'simplecov'
 require_relative '../../lib/pdd'
+require 'aruba/cucumber'

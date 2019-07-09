@@ -1,13 +1,18 @@
 Feature: Rake Task
   Scenario: For now we failed if run rake task
     Given It is Unix
-    And I have a "Rakefile" file with content:
+    And a file named "Rakefile" with:
     """
     require 'pdd/rake_task'
     PDD::RakeTask.new
     """
-    When I run bash with "rake pdd"
-    Then Exit code is not zero
-    # @todo #114:30m For now, there haven't a proper method to check STDERR.
-    #  In this test I've tried to check the output with Stdout contains but there is not working.
-    #  Needs a proper alternative to check stderr.
+    # @todo #126:30m For now there is warning when I run test.
+    #  Needs to replace current call to not deprecated one.
+    When I run "rake bin/pdd"
+    Then the exit status should be 1
+    And the stderr should contain:
+    """
+    NOT IMPLEMENTED
+    """
+    When I remove a file named "Rakefile" with full force
+    Then a file named "Rakefile" does not exist
