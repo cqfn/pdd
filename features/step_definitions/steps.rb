@@ -111,6 +111,12 @@ When(/^I run bash with$/) do |text|
   @exitstatus = $CHILD_STATUS.exitstatus
 end
 
+When(/^I run bash with "([^"]*)"$/) do |text|
+  FileUtils.copy_entry(@cwd, File.join(@dir, 'pdd'))
+  @stdout = `#{text}`
+  @exitstatus = $CHILD_STATUS.exitstatus
+end
+
 Given(/^It is Unix$/) do
   pending if Gem.win_platform?
 end
