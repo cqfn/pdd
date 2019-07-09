@@ -2,7 +2,6 @@
 --verbose
 --exclude target/**/*
 --exclude coverage/**/*
---exclude features/**/*
 --exclude README.md
 --exclude lib/pdd/source.rb
 --exclude test/test_source.rb
