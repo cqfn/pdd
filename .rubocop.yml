@@ -1,6 +1,5 @@
 AllCops:
   Exclude:
-    - 'bin/**/*'
     - 'assets/**/*'
   DisplayCopNames: true
   TargetRubyVersion: 2.2

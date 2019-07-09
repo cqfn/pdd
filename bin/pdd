@@ -53,7 +53,7 @@ begin
       o.string '-s', '--source', 'Source directory to parse ("." by default)'
       o.string '-f', '--file', 'File to save XML into'
       o.array '-e', '--exclude', 'Glob pattern to exclude, e.g. "**/*.jpg"',
-        default: []
+              default: []
       o.string '-t', '--format', 'Format of the report (xml|html)'
       o.array(
         '-r', '--rule', 'Rule to apply (can be used many times)',
