@@ -8,6 +8,6 @@ branches:
 install:
   - travis_retry bundle update
 script:
-  - rake
+  - bundle exec rake
 after_success:
   - "bash <(curl -s https://codecov.io/bash)"

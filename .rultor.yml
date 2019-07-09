@@ -9,6 +9,7 @@ install: |
   bundle install
 release:
   script: |-
+    pdd -f /dev/null
     LC_ALL=US-ASCII bundle exec rake
     rm -rf *.gem
     sed -i "s/1\.0\.snapshot/${tag}/g" lib/pdd/version.rb
@@ -23,6 +24,7 @@ release:
     s3cmd --no-progress put assets/puzzles.xsl --acl-public --config=../s3cfg s3://pdd-xsl.teamed.io/${tag}.xsl
 merge:
   script: |-
+    pdd -f /dev/null
     LC_ALL=US-ASCII bundle exec rake
 deploy:
   script: |-
