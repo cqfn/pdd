@@ -87,11 +87,9 @@ module PDD
       PDD.log.info "Reading #{dir}"
       require_relative 'pdd/sources'
       sources = Sources.new(dir)
-      unless @opts[:exclude].nil?
-        @opts[:exclude].each do |p|
-          sources = sources.exclude(p)
-          PDD.log.info "Excluding #{p}"
-        end
+      @opts[:exclude]&.each do |p|
+        sources = sources.exclude(p)
+        PDD.log.info "Excluding #{p}"
       end
       sanitize(
         rules(
