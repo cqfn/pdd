@@ -8,7 +8,7 @@ Feature: Rake Task
     """
     # @todo #126:30m For now, there is a warning when I run the test.
     #  Needs to replace the current call to not deprecated one.
-    When I run "rake bin/pdd"
+    When I run "rake pdd"
     Then the exit status should be 1
     And the stderr should contain:
     """
