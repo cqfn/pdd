@@ -6,9 +6,10 @@ Feature: Rake Task
     require 'pdd/rake_task'
     PDD::RakeTask.new
     """
-    # @todo #126:30m For now, there is a warning when I run the test.
-    #  Needs to replace the current call to not deprecated one.
-    When I run "rake pdd"
+    When I run the following commands with `bash`:
+    """bash
+    rake pdd
+    """
     Then the exit status should be 1
     And the stderr should contain:
     """
