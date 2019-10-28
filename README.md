@@ -19,12 +19,15 @@
 [![Yard Docs](http://img.shields.io/badge/yard-docs-blue.svg)](http://rubydoc.info/github/yegor256/pdd/master/frames)
 
 Read this article about
-[Puzzle Driven Development](http://www.yegor256.com/2009/03/04/pdd.html).
+[_Puzzle Driven Development_](http://www.yegor256.com/2009/03/04/pdd.html).
 Check also patent application [US 12/840,306](http://www.google.com/patents/US20120023476)
 
 Also, check [0pdd.com](http://www.0pdd.com): a hosted service,
-where this command line tool works for you. Read this first:
-[PDD in Action](http://www.yegor256.com/2017/04/05/pdd-in-action.html).
+where this command line tool works for you.
+
+Read
+[_PDD in Action_](http://www.yegor256.com/2017/04/05/pdd-in-action.html)
+and watch [this webinar](https://www.youtube.com/watch?v=nsYGC2aUwfQ).
 
 Install it first:
 
