@@ -30,7 +30,7 @@ require_relative '../lib/pdd/sources'
 # License:: MIT
 class TestSources < Minitest::Test
   def test_iterator
-    in_temp(['a.txt', 'b/c.txt']) do |dir|
+    in_temp(%w[a.txt b/c.txt]) do |dir|
       list = PDD::Sources.new(dir).fetch
       assert_equal 2, list.size
     end
@@ -39,15 +39,7 @@ class TestSources < Minitest::Test
   def test_ignores_binary_files
     skip if Gem.win_platform?
     in_temp([]) do |dir|
-      [
-        'README.md',
-        '.git/index',
-        'test_assets/elegant-objects.png',
-        'test_assets/aladdin.jpg',
-        'test_assets/article.pdf',
-        'test_assets/cambria.woff',
-        'test_assets/favicon.ico'
-      ].each { |f| FileUtils.cp(File.join(Dir.pwd, f), dir) }
+      %w[README.md .git/index test_assets/elegant-objects.png test_assets/aladdin.jpg test_assets/article.pdf test_assets/cambria.woff test_assets/favicon.ico].each { |f| FileUtils.cp(File.join(Dir.pwd, f), dir) }
       list = PDD::Sources.new(dir).fetch
       assert_equal 1, list.size
     end
@@ -78,13 +70,27 @@ class TestSources < Minitest::Test
   def test_excludes_by_pattern
     in_temp(['a/first.txt', 'b/c/d/second.txt']) do |dir|
       list = PDD::Sources.new(dir).exclude('b/c/d/second.txt').fetch
-      assert_equal 1, list.size
+      assert_equal 0, list.size
     end
   end
 
   def test_excludes_recursively
     in_temp(['a/first.txt', 'b/c/second.txt', 'b/c/d/third.txt']) do |dir|
       list = PDD::Sources.new(dir).exclude('**/*').fetch
+      assert_equal 0, list.size
+    end
+  end
+
+  def test_includes_by_pattern
+    in_temp(['a/first.txt', 'b/c/d/second.txt']) do |dir|
+      list = PDD::Sources.new(dir).include('b/c/d/second.txt').fetch
+      assert_equal 0, list.size
+    end
+  end
+
+  def test_includes_recursively
+    in_temp(['a/first.txt', 'b/c/second.txt', 'b/c/d/third.txt']) do |dir|
+      list = PDD::Sources.new(dir).include('**/*').fetch
       assert_equal 0, list.size
     end
   end

@@ -54,6 +54,8 @@ begin
       o.string '-f', '--file', 'File to save XML into'
       o.array '-e', '--exclude', 'Glob pattern to exclude, e.g. "**/*.jpg"',
               default: []
+      o.array '-i', '--include', 'Glob pattern to include, e.g. "**/*.jpg"',
+              default: []
       o.string '-t', '--format', 'Format of the report (xml|html)'
       o.array(
         '-r', '--rule', 'Rule to apply (can be used many times)',
