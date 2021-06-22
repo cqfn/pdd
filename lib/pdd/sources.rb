@@ -30,6 +30,7 @@ module PDD
     def initialize(dir, ptns = [])
       @dir = File.absolute_path(dir)
       @exclude = ptns + ['.git/**/*']
+      @include = ptns + ['.git/**/*']
     end
 
     # Fetch all sources.
@@ -45,6 +46,14 @@ module PDD
         end
       end
       PDD.log.info "#{files.size} file(s) found, #{excluded} excluded"
+      included = 0
+      @include.each do |ptn|
+        Dir.glob(File.join(@dir, ptn), File::FNM_DOTMATCH) do |f|
+          files.delete_if { |i| i != f }
+          included += 1
+        end
+      end
+      PDD.log.info "#{files.size} file(s) found, but #{included} included"
       files.reject { |f| binary?(f) }.map do |file|
         path = file[@dir.length + 1, file.length]
         VerboseSource.new(path, Source.new(file, path))
@@ -53,6 +62,10 @@ module PDD
 
     def exclude(ptn)
       Sources.new(@dir, @exclude.push(ptn))
+    end
+
+    def include(ptn)
+      Sources.new(@dir, @include.push(ptn))
     end
 
     private
