@@ -39,7 +39,15 @@ class TestSources < Minitest::Test
   def test_ignores_binary_files
     skip if Gem.win_platform?
     in_temp([]) do |dir|
-      %w[README.md .git/index test_assets/elegant-objects.png test_assets/aladdin.jpg test_assets/article.pdf test_assets/cambria.woff test_assets/favicon.ico].each { |f| FileUtils.cp(File.join(Dir.pwd, f), dir) }
+      [
+        'README.md',
+        '.git/index',
+        'test_assets/elegant-objects.png',
+        'test_assets/aladdin.jpg',
+        'test_assets/article.pdf',
+        'test_assets/cambria.woff',
+        'test_assets/favicon.ico'
+      ].each { |f| FileUtils.cp(File.join(Dir.pwd, f), dir) }
       list = PDD::Sources.new(dir).fetch
       assert_equal 1, list.size
     end
