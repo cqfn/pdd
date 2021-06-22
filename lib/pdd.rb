@@ -1,3 +1,4 @@
+
 # Copyright (c) 2014-2020 Yegor Bugayenko
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -90,6 +91,10 @@ module PDD
       @opts[:exclude]&.each do |p|
         sources = sources.exclude(p)
         PDD.log.info "Excluding #{p}"
+      end
+      @opts[:include]&.each do |p|
+        sources = sources.include(p)
+        PDD.log.info "Including #{p}"
       end
       sanitize(
         rules(
