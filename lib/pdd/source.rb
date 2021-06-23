@@ -41,6 +41,7 @@ module PDD
       PDD.log.info "Reading #{@path}..."
       puzzles = []
       lines = File.readlines(@file, encoding: 'UTF-8')
+      # lines.force_encoding(Encoding::UTF_8)
       lines.each_with_index do |line, idx|
         begin
           check_rules(line)
