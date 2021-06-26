@@ -120,7 +120,7 @@ version and we will appreciate your feedback. Here is where you can find \
 more documentation: https://github.com/yegor256/pdd/blob/master/README.md."
   PDD.log.info 'Exit code is 1'
   exit(1)
-  # rescue StandardError => ex
+  rescue StandardError => ex
   puts "#{Rainbow('ERROR').red} (#{ex.class.name}): #{ex.message}"
   PDD.log.info 'Exit code is 255'
   exit(255)
