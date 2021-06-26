@@ -189,7 +189,7 @@ class TestSource < Minitest::Test
       assert_equal '1-de87adc8', puzzle.props[:id]
       assert_equal '1-1', puzzle.props[:lines]
       assert_equal 'this is the puzzle', puzzle.props[:body]
-      assert_equal 'test', puzzle.props[:author]
+      assert_equal '@torvalds', puzzle.props[:author]
       assert_nil puzzle.props[:email]
       assert_match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, puzzle.props[:time])
     end
