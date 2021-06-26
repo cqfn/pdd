@@ -89,6 +89,20 @@ class TestSources < Minitest::Test
     end
   end
 
+  def test_includes_by_pattern
+    in_temp(['a/first.txt', 'b/c/d/second.txt']) do |dir|
+      list = PDD::Sources.new(dir).include('b/c/d/second.txt').fetch
+      assert_equal 1, list.size
+    end
+  end
+
+  def test_includes_recursively
+    in_temp(['a/first.txt', 'b/c/second.txt', 'b/c/d/third.txt']) do |dir|
+      list = PDD::Sources.new(dir).include('**/*').fetch
+      assert_equal 0, list.size
+    end
+  end
+
   def test_fails_with_verbose_output
     in_temp do |dir|
       File.write(File.join(dir, 'z1.txt'), "\x40todobroken\n")
