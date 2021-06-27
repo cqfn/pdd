@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
   s.description = 'Collects PDD puzzles from a source code base'
   s.authors = ['Yegor Bugayenko']
   s.email = 'yegor256@gmail.com'
-  s.homepage = 'http://github.com/yegor256/pdd'
+  s.homepage = 'https://github.com/yegor256/pdd'
   s.files = `git ls-files`.split($RS)
   s.executables = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.test_files = s.files.grep(%r{^(test|spec|features)/})
