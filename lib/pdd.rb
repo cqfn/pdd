@@ -62,7 +62,7 @@ module PDD
           "#{msg}\n"
         end
       }
-      @logger.level = Logger::ERROR
+      @logger.level = Logger::WARN
     end
     @logger
   end
