@@ -34,6 +34,9 @@ class TestSource < Minitest::Test
       File.write(
         file,
         "
+        * \x40todo #56:30min this is a
+        *       multi-line comment!
+        Something else
         * \x40todo #44 привет,
         *  how are you\t\tdoing?
         * -something else
@@ -43,11 +46,11 @@ class TestSource < Minitest::Test
         "
       )
       list = PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
-      assert_equal 2, list.size
+      assert_equal 3, list.size
       puzzle = list.first
       assert_equal '2-3', puzzle.props[:lines]
-      assert_equal 'привет, how are you doing?', puzzle.props[:body]
-      assert_equal '44', puzzle.props[:ticket]
+      assert_equal 'this is a multi-line comment!', puzzle.props[:body]
+      assert_equal '56', puzzle.props[:ticket]
       assert puzzle.props[:author].nil?
       assert puzzle.props[:email].nil?
       assert puzzle.props[:time].nil?
