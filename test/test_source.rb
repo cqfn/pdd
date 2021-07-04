@@ -71,6 +71,31 @@ class TestSource < Minitest::Test
     end
   end
 
+  def test_succeed_despite_bad_puzzles
+    Dir.mktmpdir 'test' do |dir|
+      file = File.join(dir, 'a.txt')
+      File.write(
+        file,
+        "
+        * \x40todo #44 this is an incorrectly formatted puzzle,
+        * with a second line without a leading space
+        Another badly formatted puzzle
+        * \x40todo this puzzle misses ticket name/number
+        Something else
+        * \x40todo #123 This puzzle is correctly formatted
+        "
+      )
+      PDD.opts = { 'skip-errors' => true }
+      list = PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
+      PDD.opts = nil
+      assert_equal 1, list.size
+      puzzle = list.first
+      assert_equal '7-7', puzzle.props[:lines]
+      assert_equal 'This puzzle is correctly formatted', puzzle.props[:body]
+      assert_equal '123', puzzle.props[:ticket]
+    end
+  end
+
   def test_failing_on_incomplete_puzzle
     Dir.mktmpdir 't5' do |dir|
       file = File.join(dir, 'ff.txt')

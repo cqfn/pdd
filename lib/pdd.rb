@@ -56,6 +56,8 @@ module PDD
       @logger.formatter = proc { |severity, _, _, msg|
         if severity == 'ERROR'
           "#{Rainbow(severity).red}: #{msg}\n"
+        elsif severity == 'WARN'
+          "#{Rainbow(severity).orange}: #{msg}\n"
         else
           "#{msg}\n"
         end
@@ -67,6 +69,7 @@ module PDD
 
   class << self
     attr_writer :logger
+    attr_accessor :opts
   end
 
   # Code base abstraction
@@ -75,6 +78,7 @@ module PDD
     # +opts+:: Options
     def initialize(opts)
       @opts = opts
+      PDD.opts = opts
       PDD.log.level = Logger::INFO if @opts[:verbose]
       PDD.log.level = Logger::ERROR if @opts[:quiet]
       PDD.log.info "My version is #{PDD::VERSION}"

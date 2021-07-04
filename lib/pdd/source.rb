@@ -50,7 +50,9 @@ module PDD
             end
           end
         rescue Error, ArgumentError => ex
-          raise Error, "puzzle at line ##{idx + 1}; #{ex.message}"
+          message = "puzzle at line ##{idx + 1}; #{ex.message}"
+          raise Error, message unless PDD.opts && PDD.opts['skip-errors']
+          PDD.log.warn message
         end
       end
       puzzles
