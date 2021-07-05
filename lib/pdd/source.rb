@@ -205,13 +205,11 @@ at position ##{prefix.length + 1}."
 
     def find_github_user(info)
       email, author = info.values_at(:email, :author)
-
       # if email is not defined, changes have not been committed
       return if email.nil?
       base_uri = 'https://api.github.com/search/users?per_page=1'
       query = base_uri + "&q=#{email}+in:email"
       json = get_json query
-
       # find user by name instead since users can make github email private
       unless json['total_count'].positive?
         return if author.nil?
