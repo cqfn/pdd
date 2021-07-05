@@ -208,7 +208,6 @@ at position ##{prefix.length + 1}."
 
       # if email is not defined, changes have not been committed
       return if email.nil?
-
       base_uri = 'https://api.github.com/search/users?per_page=1'
       query = base_uri + "&q=#{email}+in:email"
       json = get_json query
@@ -216,11 +215,9 @@ at position ##{prefix.length + 1}."
       # find user by name instead since users can make github email private
       unless json['total_count'].positive?
         return if author.nil?
-
         query = base_uri + "&q=#{author}+in:fullname"
         json = get_json query
       end
-
       json['items'].first
     end
 
