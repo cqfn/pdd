@@ -60,10 +60,12 @@ to the leading space in every consecutive line):
  */
 [related code]
 ```
+
 \[\] - Replace with apropriate data (see text enclosed in brackets)
-<>   - Omitable (enclosed data can be left out)
+<> - Omitable (enclosed data can be left out)
 
 Example:
+
 ```java
 /**
  * @todo #234:15m/DEV This is something to do later
@@ -82,7 +84,10 @@ The specified markers will be included in the issues body
 along with some predefined text. If your comment is longer
 than 40 characters, it will be truncated in the title.
 
-It starts with `@todo`, followed by a space and a mandatory puzzle **marker**.
+There are 3 supported keywords, one of which must precede the mandatory puzzle marker.
+They are `@todo`, `TODO` and `TODO:`.
+
+As an example, it starts with `@todo`, followed by a space and a mandatory puzzle **marker**.
 Possible formats of puzzle markers (it doesn't matter what the
 line starts with and where it is located,
 as long as you have that `@todo` right in front
@@ -94,6 +99,8 @@ of the mandatory marker):
 # @todo #55:45min
 @todo #67/DES
 ;; @todo #678:40m/DEV
+// TODO: #1:30min
+(* TODO #42 *)
 ```
 
 Here `DES` and `DEV` are the roles of people who must fix that puzzles;
@@ -122,18 +129,18 @@ parameter specified after a colon.
 
 Here is a list of rules available now:
 
-  * `min-estimate:15` blocks all puzzles that don't have an estimate
+- `min-estimate:15` blocks all puzzles that don't have an estimate
   or their estimates are less than 15 minutes.
 
-  * `max-estimate:120` blocks all puzzles with estimates over 120 minutes.
+- `max-estimate:120` blocks all puzzles with estimates over 120 minutes.
 
-  * `available-roles:DEV,IMP,DES` specifies a list of roles that
+- `available-roles:DEV,IMP,DES` specifies a list of roles that
   are allowed in puzzles. Puzzles without explicitly specified
   roles will be rejected.
 
-  * `min-words:5` blocks puzzles with descriptions shorter than five words.
+- `min-words:5` blocks puzzles with descriptions shorter than five words.
 
-  * `max-duplicates:1` blocks more than one duplicate of any puzzle.
+- `max-duplicates:1` blocks more than one duplicate of any puzzle.
   This rule is used by default and you can't configure it at the moment,
   it must always be set to `1`.
 
@@ -166,18 +173,18 @@ The XML produced will look approximately like this (here is a
 [XSD Schema](http://pdd-xsd.teamed.io/0.19.4.xsd) is here.
 The most interesting parts of each puzzle are:
 
-  * `ticket` is a ticket name puzzle marker starts from, in most
-    cases it will be the number of GitHub issue.
+- `ticket` is a ticket name puzzle marker starts from, in most
+  cases it will be the number of GitHub issue.
 
-  * `estimate` is the amount of minutes the puzzle is supposed to take.
+- `estimate` is the amount of minutes the puzzle is supposed to take.
 
-  * `id` is a unique ID of the puzzle. It is calculated by the
-    internal algorithm that takes into account only the text of the puzzle.
-    Thus, if you move the puzzle from one file to another, the ID won't
-    change. Also, changing the location of a puzzle inside a file
-    won't change its ID.
+- `id` is a unique ID of the puzzle. It is calculated by the
+  internal algorithm that takes into account only the text of the puzzle.
+  Thus, if you move the puzzle from one file to another, the ID won't
+  change. Also, changing the location of a puzzle inside a file
+  won't change its ID.
 
-  * `lines` is where the puzzle is found, inside the file.
+- `lines` is where the puzzle is found, inside the file.
 
 ## How to contribute
 
