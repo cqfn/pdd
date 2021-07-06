@@ -84,13 +84,13 @@ The specified markers will be included in the issues body
 along with some predefined text. If your comment is longer
 than 40 characters, it will be truncated in the title.
 
-There are 3 supported keywords, one of which must precede the mandatory puzzle marker.
-They are `@todo`, `TODO` and `TODO:`.
+There are 3 supported keywords, one of which must precede the mandatory
+puzzle marker. They are `@todo`, `TODO` and `TODO:`.
 
-As an example, it starts with `@todo`, followed by a space and a mandatory puzzle **marker**.
-Possible formats of puzzle markers (it doesn't matter what the
+As an example, it starts with `@todo`, followed by a space and a mandatory
+puzzle **marker**. Possible formats of puzzle markers (it doesn't matter what the
 line starts with and where it is located,
-as long as you have that `@todo` right in front
+as long as you have one of the 3 supported keywords right in front
 of the mandatory marker):
 
 ```
@@ -105,8 +105,8 @@ of the mandatory marker):
 
 Here `DES` and `DEV` are the roles of people who must fix that puzzles;
 `45min` and `40m` is the amount of time the puzzle should take;
-`224`, `TEST-13`, `55`, `67`, and `678` are the IDs of the tickets these
-puzzles are coming from.
+`224`, `TEST-13`, `55`, `67`, `678`, `1`, and `42` are the IDs of the tickets
+these puzzles are coming from.
 
 Markers are absolutely necessary for all puzzles, because they allow
 us to build a hierarchical dependency tree of all puzzles, like
