@@ -60,19 +60,19 @@ module PDD
 
     def get_no_leading_space_error(todo)
       "#{todo} must have a leading space to become \
-a puzzle, as this page explains: https://github.com/yegor256/pdd#how-to-format"
+a puzzle, as this page explains: https://github.com/cqfn/pdd#how-to-format"
     end
 
     def get_no_puzzle_marker_error(todo)
       "#{todo} found, but puzzle can't be parsed, \
 most probably because #{todo} is not followed by a puzzle marker, \
-as this page explains: https://github.com/yegor256/pdd#how-to-format"
+as this page explains: https://github.com/cqfn/pdd#how-to-format"
     end
 
     def get_space_after_hash_error(todo)
       "#{todo} found, but there is an unexpected space \
 after the hash sign, it should not be there, \
-see https://github.com/yegor256/pdd#how-to-format"
+see https://github.com/cqfn/pdd#how-to-format"
     end
 
     def check_rules(line)
@@ -118,7 +118,7 @@ see https://github.com/yegor256/pdd#how-to-format"
       match = re.match(text)
       if match.nil?
         raise "Invalid puzzle marker \"#{text}\", most probably formatted \
-against the rules explained here: https://github.com/yegor256/pdd#how-to-format"
+against the rules explained here: https://github.com/cqfn/pdd#how-to-format"
       end
       {
         ticket: match[1],

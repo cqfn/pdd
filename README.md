@@ -4,19 +4,19 @@
 
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
 [![Managed by Zerocracy](https://www.0crat.com/badge/C3T46CUJJ.svg)](https://www.0crat.com/p/C3T46CUJJ)
-[![DevOps By Rultor.com](http://www.rultor.com/b/yegor256/pdd)](http://www.rultor.com/p/yegor256/pdd)
+[![DevOps By Rultor.com](http://www.rultor.com/b/cqfn/pdd)](http://www.rultor.com/p/cqfn/pdd)
 [![We recommend RubyMine](https://www.elegantobjects.org/rubymine.svg)](https://www.jetbrains.com/ruby/)
 
-[![Build Status](https://travis-ci.org/yegor256/pdd.svg)](https://travis-ci.org/yegor256/pdd)
-[![Build status](https://ci.appveyor.com/api/projects/status/b59sdhuu0gcku15b?svg=true)](https://ci.appveyor.com/project/yegor256/pdd)
-[![PDD status](http://www.0pdd.com/svg?name=yegor256/pdd)](http://www.0pdd.com/p?name=yegor256/pdd)
-[![Test Coverage](https://img.shields.io/codecov/c/github/yegor256/pdd.svg)](https://codecov.io/github/yegor256/pdd?branch=master)
-[![Hits-of-Code](https://hitsofcode.com/github/yegor256/pdd)](https://hitsofcode.com/view/github/yegor256/pdd)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/yegor256/pdd/blob/master/LICENSE.txt)
+[![Build Status](https://travis-ci.org/cqfn/pdd.svg)](https://travis-ci.org/cqfn/pdd)
+[![Build status](https://ci.appveyor.com/api/projects/status/b59sdhuu0gcku15b?svg=true)](https://ci.appveyor.com/project/cqfn/pdd)
+[![PDD status](http://www.0pdd.com/svg?name=cqfn/pdd)](http://www.0pdd.com/p?name=cqfn/pdd)
+[![Test Coverage](https://img.shields.io/codecov/c/github/cqfn/pdd.svg)](https://codecov.io/github/cqfn/pdd?branch=master)
+[![Hits-of-Code](https://hitsofcode.com/github/cqfn/pdd)](https://hitsofcode.com/view/github/cqfn/pdd)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/cqfn/pdd/blob/master/LICENSE.txt)
 
 [![Gem Version](https://badge.fury.io/rb/pdd.svg)](http://badge.fury.io/rb/pdd)
-[![Maintainability](https://api.codeclimate.com/v1/badges/c8e46256fdd8ddc817e5/maintainability)](https://codeclimate.com/github/yegor256/pdd/maintainability)
-[![Yard Docs](http://img.shields.io/badge/yard-docs-blue.svg)](http://rubydoc.info/github/yegor256/pdd/master/frames)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c8e46256fdd8ddc817e5/maintainability)](https://codeclimate.com/github/cqfn/pdd/maintainability)
+[![Yard Docs](http://img.shields.io/badge/yard-docs-blue.svg)](http://rubydoc.info/github/cqfn/pdd/master/frames)
 
 Read this article about
 [_Puzzle Driven Development_](http://www.yegor256.com/2009/03/04/pdd.html).
