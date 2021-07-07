@@ -50,7 +50,9 @@ module PDD
             end
           end
         rescue Error, ArgumentError => ex
-          raise Error, "puzzle at line ##{idx + 1}; #{ex.message}"
+          message = "puzzle at line ##{idx + 1}; #{ex.message}"
+          raise Error, message unless PDD.opts && PDD.opts['skip-errors']
+          PDD.log.warn message
         end
       end
       puzzles
@@ -144,13 +146,6 @@ against the rules explained here: https://github.com/cqfn/pdd#how-to-format"
           next if t.start_with?(' ')
           raise Error, "Space expected at #{start + i + 2}:#{prefix.length}; \
 make sure all lines in the puzzle body have a single leading space."
-        end
-        .each_with_index do |t, i|
-          next if t !~ /^\s{2,}/
-          raise Error, "Too many leading spaces \
-at #{start + i + 2}:#{prefix.length}; \
-make sure all lines that include the puzzle body start \
-at position ##{prefix.length + 1}."
         end
         .map { |t| t[1, t.length] }
     end

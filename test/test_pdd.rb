@@ -95,6 +95,7 @@ class TestPDD < Minitest::Test
     Slop.parse args do |o|
       o.bool '-v', '--verbose'
       o.bool '-q', '--quiet'
+      o.bool '--skip-errors'
       o.string '-s', '--source'
       o.array '-e', '--exclude'
       o.array '-r', '--rule'

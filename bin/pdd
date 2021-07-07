@@ -46,6 +46,8 @@ begin
       o.bool '-v', '--verbose', 'Enable verbose mode (a lot of logging)'
       o.bool '-q', '--quiet', 'Enable quiet mode (almost no logging)'
       o.bool '--skip-gitignore', 'Don\'t look into .gitignore for excludes'
+      o.bool '--skip-errors', 'Suppress error as warning and skip badly
+                      formatted puzzles'
       o.bool '-i', '--version', 'Show current version' do
         puts PDD::VERSION
         exit

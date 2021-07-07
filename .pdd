@@ -1,5 +1,6 @@
 --source=.
 --verbose
+--skip-errors
 --exclude .idea/**/*
 --exclude target/**/*
 --exclude coverage/**/*
