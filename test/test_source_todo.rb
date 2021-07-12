@@ -28,12 +28,14 @@ class TestSourceTodo < Minitest::Test
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'a.txt')
       File.write(file, text)
-      list = PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
-      assert_equal count, list.size
-      puzzle = list.first
-      assert_equal lines, puzzle.props[:lines]
-      assert_equal body, puzzle.props[:body]
-      assert_equal ticket, puzzle.props[:ticket]
+      stub_source_find_github_user(file, 'hey') do |source|
+        list = source.puzzles
+        assert_equal count, list.size
+        puzzle = list.first
+        assert_equal lines, puzzle.props[:lines]
+        assert_equal body, puzzle.props[:body]
+        assert_equal ticket, puzzle.props[:ticket]
+      end
     end
   end
 
@@ -42,7 +44,7 @@ class TestSourceTodo < Minitest::Test
       file = File.join(dir, 'a.txt')
       File.write(file, text)
       error = assert_raises PDD::Error do
-        PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
+        stub_source_find_github_user(file, 'hey', &:puzzles)
       end
       assert !error.message.index(error_msg).nil?
     end

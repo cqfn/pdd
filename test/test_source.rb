@@ -42,15 +42,17 @@ class TestSource < Minitest::Test
         ~~  and it also has to work
         "
       )
-      list = PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
-      assert_equal 2, list.size
-      puzzle = list.first
-      assert_equal '2-3', puzzle.props[:lines]
-      assert_equal 'привет, how are you doing?', puzzle.props[:body]
-      assert_equal '44', puzzle.props[:ticket]
-      assert puzzle.props[:author].nil?
-      assert puzzle.props[:email].nil?
-      assert puzzle.props[:time].nil?
+      stub_source_find_github_user(file, 'hey') do |source|
+        list = source.puzzles
+        assert_equal 2, list.size
+        puzzle = list.first
+        assert_equal '2-3', puzzle.props[:lines]
+        assert_equal 'привет, how are you doing?', puzzle.props[:body]
+        assert_equal '44', puzzle.props[:ticket]
+        assert puzzle.props[:author].nil?
+        assert puzzle.props[:email].nil?
+        assert puzzle.props[:time].nil?
+      end
     end
   end
 
@@ -65,12 +67,14 @@ class TestSource < Minitest::Test
         *     comment!
         "
       )
-      list = PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
-      assert_equal 1, list.size
-      puzzle = list.first
-      assert_equal '2-4', puzzle.props[:lines]
-      assert_equal 'this is a multi-line comment!', puzzle.props[:body]
-      assert_equal '56', puzzle.props[:ticket]
+      stub_source_find_github_user(file, 'hey') do |source|
+        list = source.puzzles
+        assert_equal 1, list.size
+        puzzle = list.first
+        assert_equal '2-4', puzzle.props[:lines]
+        assert_equal 'this is a multi-line comment!', puzzle.props[:body]
+        assert_equal '56', puzzle.props[:ticket]
+      end
     end
   end
 
@@ -85,7 +89,7 @@ class TestSource < Minitest::Test
         "
       )
       error = assert_raises PDD::Error do
-        PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
+        stub_source_find_github_user(file, 'hey', &:puzzles)
       end
       assert !error.message.index('Space expected').nil?
     end
@@ -106,13 +110,15 @@ class TestSource < Minitest::Test
         "
       )
       PDD.opts = { 'skip-errors' => true }
-      list = PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
-      PDD.opts = nil
-      assert_equal 1, list.size
-      puzzle = list.first
-      assert_equal '7-7', puzzle.props[:lines]
-      assert_equal 'This puzzle is correctly formatted', puzzle.props[:body]
-      assert_equal '123', puzzle.props[:ticket]
+      stub_source_find_github_user(file, 'hey') do |source|
+        list = source.puzzles
+        PDD.opts = nil
+        assert_equal 1, list.size
+        puzzle = list.first
+        assert_equal '7-7', puzzle.props[:lines]
+        assert_equal 'This puzzle is correctly formatted', puzzle.props[:body]
+        assert_equal '123', puzzle.props[:ticket]
+      end
     end
   end
 
@@ -126,7 +132,7 @@ class TestSource < Minitest::Test
         "
       )
       error = assert_raises PDD::Error do
-        PDD::VerboseSource.new(file, PDD::Source.new(file, 'ff')).puzzles
+        stub_source_find_github_user(file, 'ff', &:puzzles)
       end
       assert !error.to_s.index("\x40todo is not followed by").nil?
     end
@@ -137,7 +143,7 @@ class TestSource < Minitest::Test
       file = File.join(dir, 'xx.txt')
       File.write(file, ' * \x40todo #44 this is a broken unicode: ' + 0x92.chr)
       assert_raises PDD::Error do
-        PDD::VerboseSource.new(file, PDD::Source.new(file, 'xx')).puzzles
+        stub_source_find_github_user(file, 'xx', &:puzzles)
       end
     end
   end
@@ -152,7 +158,7 @@ class TestSource < Minitest::Test
         "
       )
       error = assert_raises PDD::Error do
-        PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
+        stub_source_find_github_user(file, 'hey', &:puzzles)
       end
       assert !error.message.index('is not followed by a puzzle marker').nil?
     end
@@ -168,7 +174,7 @@ class TestSource < Minitest::Test
         "
       )
       error = assert_raises PDD::Error do
-        PDD::VerboseSource.new(file, PDD::Source.new(file, 'x')).puzzles
+        stub_source_find_github_user(file, 'x', &:puzzles)
       end
       assert !error.message.index("\x40todo must have a leading space").nil?
     end
@@ -184,7 +190,7 @@ class TestSource < Minitest::Test
         "
       )
       error = assert_raises PDD::Error do
-        PDD::VerboseSource.new(file, PDD::Source.new(file, 'x')).puzzles
+        stub_source_find_github_user(file, 'x', &:puzzles)
       end
       assert !error.message.index('an unexpected space').nil?
     end
@@ -203,15 +209,18 @@ class TestSource < Minitest::Test
         git add a.txt
         git commit --quiet -am 'first version'
       ")
-      list = PDD::Source.new(File.join(dir, 'a.txt'), '').puzzles
-      assert_equal 1, list.size
-      puzzle = list.first
-      assert_equal '1-de87adc8', puzzle.props[:id]
-      assert_equal '1-1', puzzle.props[:lines]
-      assert_equal 'this is the puzzle', puzzle.props[:body]
-      assert_equal 'test_unknown', puzzle.props[:author]
-      assert_equal 'test@teamed.io', puzzle.props[:email]
-      assert_match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, puzzle.props[:time])
+      stub_source_find_github_user(File.join(dir, 'a.txt')) do |source|
+        list = source.puzzles
+        assert_equal 1, list.size
+        puzzle = list.first
+        assert_equal '1-de87adc8', puzzle.props[:id]
+        assert_equal '1-1', puzzle.props[:lines]
+        assert_equal 'this is the puzzle', puzzle.props[:body]
+        assert_equal 'test_unknown', puzzle.props[:author]
+        assert_equal 'test@teamed.io', puzzle.props[:email]
+        assert_match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/,
+                     puzzle.props[:time])
+      end
     end
   end
 
@@ -228,15 +237,18 @@ class TestSource < Minitest::Test
         git add a.txt
         git commit --quiet -am 'first version'
       ")
-      list = PDD::Source.new(File.join(dir, 'a.txt'), '').puzzles
-      assert_equal 1, list.size
-      puzzle = list.first
-      assert_equal '1-de87adc8', puzzle.props[:id]
-      assert_equal '1-1', puzzle.props[:lines]
-      assert_equal 'this is the puzzle', puzzle.props[:body]
-      assert_equal 'test', puzzle.props[:author]
-      assert_nil puzzle.props[:email]
-      assert_match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, puzzle.props[:time])
+      stub_source_find_github_user(File.join(dir, 'a.txt')) do |source|
+        list = source.puzzles
+        assert_equal 1, list.size
+        puzzle = list.first
+        assert_equal '1-de87adc8', puzzle.props[:id]
+        assert_equal '1-1', puzzle.props[:lines]
+        assert_equal 'this is the puzzle', puzzle.props[:body]
+        assert_equal 'test', puzzle.props[:author]
+        assert_nil puzzle.props[:email]
+        assert_match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/,
+                     puzzle.props[:time])
+      end
     end
   end
 
@@ -252,10 +264,12 @@ class TestSource < Minitest::Test
         git add a.txt
         git commit --quiet -am 'first version'
       ")
-      list = PDD::Source.new(File.join(dir, 'a.txt'), '').puzzles
-      assert_equal 1, list.size
-      puzzle = list.first
-      assert_equal '@yegor256', puzzle.props[:author]
+      stub_source_find_github_user(File.join(dir, 'a.txt')) do |source|
+        list = source.puzzles
+        assert_equal 1, list.size
+        puzzle = list.first
+        assert_equal '@yegor256', puzzle.props[:author]
+      end
     end
   end
 
@@ -272,11 +286,13 @@ class TestSource < Minitest::Test
         git commit --quiet -am 'first version'
         echo '\x40todo #1 this is a puzzle uncommitted' > a.txt
       ")
-      list = PDD::Source.new(File.join(dir, 'a.txt'), '').puzzles
-      assert_equal 1, list.size
-      puzzle = list.first
-      assert_nil puzzle.props[:email]
-      assert_equal 'Not Committed Yet', puzzle.props[:author]
+      stub_source_find_github_user(File.join(dir, 'a.txt')) do |source|
+        list = source.puzzles
+        assert_equal 1, list.size
+        puzzle = list.first
+        assert_nil puzzle.props[:email]
+        assert_equal 'Not Committed Yet', puzzle.props[:author]
+      end
     end
   end
 
@@ -287,12 +303,14 @@ class TestSource < Minitest::Test
         file,
         '<!--/* @todo #123 puzzle info */-->'
       )
-      list = PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
-      assert_equal 1, list.size
-      puzzle = list.first
-      assert_equal '1-1', puzzle.props[:lines]
-      assert_equal 'puzzle info', puzzle.props[:body]
-      assert_equal '123', puzzle.props[:ticket]
+      stub_source_find_github_user(file, 'hey') do |source|
+        list = source.puzzles
+        assert_equal 1, list.size
+        puzzle = list.first
+        assert_equal '1-1', puzzle.props[:lines]
+        assert_equal 'puzzle info', puzzle.props[:body]
+        assert_equal '123', puzzle.props[:ticket]
+      end
     end
   end
 end
