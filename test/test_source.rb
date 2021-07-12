@@ -198,7 +198,7 @@ class TestSource < Minitest::Test
         cd '#{dir}'
         git init --quiet .
         git config user.email test@teamed.io
-        git config user.name test
+        git config user.name test_unknown
         echo '\x40todo #1 this is the puzzle' > a.txt
         git add a.txt
         git commit --quiet -am 'first version'
@@ -209,7 +209,7 @@ class TestSource < Minitest::Test
       assert_equal '1-de87adc8', puzzle.props[:id]
       assert_equal '1-1', puzzle.props[:lines]
       assert_equal 'this is the puzzle', puzzle.props[:body]
-      assert_equal 'test', puzzle.props[:author]
+      assert_equal 'test_unknown', puzzle.props[:author]
       assert_equal 'test@teamed.io', puzzle.props[:email]
       assert_match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, puzzle.props[:time])
     end
@@ -234,7 +234,7 @@ class TestSource < Minitest::Test
       assert_equal '1-de87adc8', puzzle.props[:id]
       assert_equal '1-1', puzzle.props[:lines]
       assert_equal 'this is the puzzle', puzzle.props[:body]
-      # assert_equal 'test', puzzle.props[:author]
+      assert_equal 'test', puzzle.props[:author]
       assert_nil puzzle.props[:email]
       assert_match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, puzzle.props[:time])
     end
@@ -256,6 +256,27 @@ class TestSource < Minitest::Test
       assert_equal 1, list.size
       puzzle = list.first
       assert_equal '@yegor256', puzzle.props[:author]
+    end
+  end
+
+  def test_skips_uncommitted_changes
+    skip if Gem.win_platform?
+    Dir.mktmpdir 'test' do |dir|
+      raise unless system("
+        cd '#{dir}'
+        git init --quiet .
+        git config user.email yegor256@gmail.com
+        git config user.name test
+        echo 'hi' > a.txt
+        git add a.txt
+        git commit --quiet -am 'first version'
+        echo '\x40todo #1 this is a puzzle uncommitted' > a.txt
+      ")
+      list = PDD::Source.new(File.join(dir, 'a.txt'), '').puzzles
+      assert_equal 1, list.size
+      puzzle = list.first
+      assert_nil puzzle.props[:email]
+      assert_equal 'Not Committed Yet', puzzle.props[:author]
     end
   end
 
