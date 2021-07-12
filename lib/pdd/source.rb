@@ -26,6 +26,7 @@ require_relative '../pdd'
 require_relative '../pdd/puzzle'
 
 module PDD
+  MARKERS = ["\x40todo", 'TODO:?'].freeze
   # Source.
   class Source
     # Ctor.
@@ -36,6 +37,12 @@ module PDD
       @path = path
     end
 
+    def match_markers(line)
+      MARKERS.map do |mkr|
+        %r{(.*(?:^|\s))#{mkr}\s+#([\w\-\.:/]+)\s+(.+)}.match(line)
+      end.compact
+    end
+
     # Fetch all puzzles.
     def puzzles
       PDD.log.info "Reading #{@path}..."
@@ -44,10 +51,8 @@ module PDD
       lines.each_with_index do |line, idx|
         begin
           check_rules(line)
-          ["\x40todo", 'TODO:?'].each do |pfx|
-            %r{(.*(?:^|\s))#{pfx}\s+#([\w\-\.:/]+)\s+(.+)}.match(line) do |m|
-              puzzles << puzzle(lines.drop(idx + 1), m, idx)
-            end
+          match_markers(line).each do |m|
+            puzzles << puzzle(lines.drop(idx + 1), m, idx)
           end
         rescue Error, ArgumentError => ex
           message = "puzzle at line ##{idx + 1}; #{ex.message}"
@@ -139,7 +144,7 @@ against the rules explained here: https://github.com/yegor256/pdd#how-to-format"
     # Fetch puzzle tail (all lines after the first one)
     def tail(lines, prefix, start)
       lines
-        .take_while { |t| t.start_with?(prefix) }
+        .take_while { |t| match_markers(t).none? && t.start_with?(prefix) }
         .map { |t| t[prefix.length, t.length] }
         .take_while { |t| t =~ /^[ a-zA-Z0-9]/ }
         .each_with_index do |t, i|
