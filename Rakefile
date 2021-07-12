@@ -18,10 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# @todo #153:1h Hey, take a look at test_source.rb:192. I don't know
-#  what to do there. The test is supposed to work, but it doesn't.
-#  Please, investigate and it.
-
 require 'rubygems'
 require 'rake'
 require 'rdoc'

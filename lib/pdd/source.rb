@@ -183,7 +183,7 @@ make sure all lines in the puzzle body have a single leading space."
     end
 
     def add_github_login(info)
-      login = find_github_login(info[:email])
+      login = find_github_login(info)
       info[:author] = "@#{login}" unless login.empty?
       info
     end
@@ -198,15 +198,24 @@ make sure all lines in the puzzle body have a single leading space."
       JSON.parse res.body
     end
 
-    def find_github_user(email)
-      base_uri = 'https://api.github.com/search/users'
-      query = base_uri + "?q=#{email}+in:email&perpage=1"
+    def find_github_user(info)
+      email, author = info.values_at(:email, :author)
+      # if email is not defined, changes have not been committed
+      return if email.nil?
+      base_uri = 'https://api.github.com/search/users?per_page=1'
+      query = base_uri + "&q=#{email}+in:email"
       json = get_json query
+      # find user by name instead since users can make github email private
+      unless json['total_count'].positive?
+        return if author.nil?
+        query = base_uri + "&q=#{author}+in:fullname"
+        json = get_json query
+      end
       json['items'].first
     end
 
-    def find_github_login(email)
-      user = find_github_user email
+    def find_github_login(info)
+      user = find_github_user info
       user['login']
     rescue StandardError
       ''
