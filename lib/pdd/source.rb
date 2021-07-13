@@ -38,7 +38,7 @@ module PDD
 
     # Fetch all puzzles.
     def puzzles
-      PDD.log.info "Reading #{@path}..."
+      PDD.log.info "Reading #{@path} ..."
       puzzles = []
       lines = File.readlines(@file, encoding: 'UTF-8')
       lines.each_with_index do |line, idx|
@@ -50,7 +50,7 @@ module PDD
             end
           end
         rescue Error, ArgumentError => ex
-          message = "puzzle at line ##{idx + 1}; #{ex.message}"
+          message = "#{@path}:#{idx + 1} puzzle at line ##{idx + 1}; #{ex.message}"
           raise Error, message unless PDD.opts && PDD.opts['skip-errors']
           PDD.log.warn message
         end
