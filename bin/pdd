@@ -54,6 +54,8 @@ begin
       o.bool '-v', '--verbose', 'Enable verbose mode (a lot of logging)'
       o.bool '-q', '--quiet', 'Enable quiet mode (almost no logging)'
       o.bool '--skip-gitignore', 'Don\'t look into .gitignore for excludes'
+      o.bool '--skip-errors', 'Suppress error as warning and skip badly
+                      formatted puzzles'
       o.bool '-i', '--version', 'Show current version' do
         puts PDD::VERSION
         exit
@@ -77,7 +79,7 @@ begin
   if opts.help?
     puts opts
     puts "This is our README to learn more: \
-https://github.com/yegor256/pdd/blob/master/README.md"
+https://github.com/cqfn/pdd/blob/master/README.md"
     exit
   end
 
@@ -86,7 +88,7 @@ https://github.com/yegor256/pdd/blob/master/README.md"
   end
 
   if opts['skip-gitignore']
-    raise 'For --skip-gitignore see https://github.com/yegor256/pdd/issues/80'
+    raise 'For --skip-gitignore see https://github.com/cqfn/pdd/issues/80'
   end
 
   Encoding.default_external = Encoding::UTF_8
@@ -113,9 +115,9 @@ rescue PDD::Error => ex
   puts "#{Rainbow('ERROR').red}: #{ex.message}
 If you can't understand the cause of this issue or you don't know \
 how to fix it, please submit a GitHub issue, we will try to help you: \
-https://github.com/yegor256/pdd/issues. This tool is still in its beta \
+https://github.com/cqfn/pdd/issues. This tool is still in its beta \
 version and we will appreciate your feedback. Here is where you can find \
-more documentation: https://github.com/yegor256/pdd/blob/master/README.md."
+more documentation: https://github.com/cqfn/pdd/blob/master/README.md."
   PDD.log.info 'Exit code is 1'
   exit(1)
 rescue StandardError => ex

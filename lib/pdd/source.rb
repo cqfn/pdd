@@ -26,6 +26,7 @@ require_relative '../pdd'
 require_relative '../pdd/puzzle'
 
 module PDD
+  MARKERS = ["\x40todo", 'TODO:?'].freeze
   # Source.
   class Source
     # Ctor.
@@ -36,21 +37,27 @@ module PDD
       @path = path
     end
 
+    def match_markers(line)
+      MARKERS.map do |mkr|
+        %r{(.*(?:^|\s))#{mkr}\s+#([\w\-\.:/]+)\s+(.+)}.match(line)
+      end.compact
+    end
+
     # Fetch all puzzles.
     def puzzles
-      PDD.log.info "Reading #{@path}..."
+      PDD.log.info "Reading #{@path} ..."
       puzzles = []
       lines = File.readlines(@file, encoding: 'UTF-8')
       lines.each_with_index do |line, idx|
         begin
           check_rules(line)
-          ["\x40todo", 'TODO:?'].each do |pfx|
-            %r{(.*(?:^|\s))#{pfx}\s+#([\w\-\.:/]+)\s+(.+)}.match(line) do |m|
-              puzzles << puzzle(lines.drop(idx + 1), m, idx)
-            end
+          match_markers(line).each do |m|
+            puzzles << puzzle(lines.drop(idx + 1), m, idx)
           end
         rescue Error, ArgumentError => ex
-          raise Error, "puzzle at line ##{idx + 1}; #{ex.message}"
+          message = "#{@path}:#{idx + 1} #{ex.message}"
+          raise Error, message unless PDD.opts && PDD.opts['skip-errors']
+          PDD.log.warn message
         end
       end
       puzzles
@@ -60,19 +67,19 @@ module PDD
 
     def get_no_leading_space_error(todo)
       "#{todo} must have a leading space to become \
-a puzzle, as this page explains: https://github.com/yegor256/pdd#how-to-format"
+a puzzle, as this page explains: https://github.com/cqfn/pdd#how-to-format"
     end
 
     def get_no_puzzle_marker_error(todo)
       "#{todo} found, but puzzle can't be parsed, \
 most probably because #{todo} is not followed by a puzzle marker, \
-as this page explains: https://github.com/yegor256/pdd#how-to-format"
+as this page explains: https://github.com/cqfn/pdd#how-to-format"
     end
 
     def get_space_after_hash_error(todo)
       "#{todo} found, but there is an unexpected space \
 after the hash sign, it should not be there, \
-see https://github.com/yegor256/pdd#how-to-format"
+see https://github.com/cqfn/pdd#how-to-format"
     end
 
     def check_rules(line)
@@ -118,7 +125,7 @@ see https://github.com/yegor256/pdd#how-to-format"
       match = re.match(text)
       if match.nil?
         raise "Invalid puzzle marker \"#{text}\", most probably formatted \
-against the rules explained here: https://github.com/yegor256/pdd#how-to-format"
+against the rules explained here: https://github.com/cqfn/pdd#how-to-format"
       end
       {
         ticket: match[1],
@@ -137,20 +144,13 @@ against the rules explained here: https://github.com/yegor256/pdd#how-to-format"
     # Fetch puzzle tail (all lines after the first one)
     def tail(lines, prefix, start)
       lines
-        .take_while { |t| t.start_with?(prefix) }
+        .take_while { |t| match_markers(t).none? && t.start_with?(prefix) }
         .map { |t| t[prefix.length, t.length] }
         .take_while { |t| t =~ /^[ a-zA-Z0-9]/ }
         .each_with_index do |t, i|
           next if t.start_with?(' ')
           raise Error, "Space expected at #{start + i + 2}:#{prefix.length}; \
 make sure all lines in the puzzle body have a single leading space."
-        end
-        .each_with_index do |t, i|
-          next if t !~ /^\s{2,}/
-          raise Error, "Too many leading spaces \
-at #{start + i + 2}:#{prefix.length}; \
-make sure all lines that include the puzzle body start \
-at position ##{prefix.length + 1}."
         end
         .map { |t| t[1, t.length] }
     end
@@ -188,7 +188,7 @@ at position ##{prefix.length + 1}."
     end
 
     def add_github_login(info)
-      login = find_github_login(info[:email])
+      login = find_github_login(info)
       info[:author] = "@#{login}" unless login.empty?
       info
     end
@@ -203,15 +203,24 @@ at position ##{prefix.length + 1}."
       JSON.parse res.body
     end
 
-    def find_github_user(email)
-      base_uri = 'https://api.github.com/search/users'
-      query = base_uri + "?q=#{email}+in:email&perpage=1"
+    def find_github_user(info)
+      email, author = info.values_at(:email, :author)
+      # if email is not defined, changes have not been committed
+      return if email.nil?
+      base_uri = 'https://api.github.com/search/users?per_page=1'
+      query = base_uri + "&q=#{email}+in:email"
       json = get_json query
+      # find user by name instead since users can make github email private
+      unless json['total_count'].positive?
+        return if author.nil?
+        query = base_uri + "&q=#{author}+in:fullname"
+        json = get_json query
+      end
       json['items'].first
     end
 
-    def find_github_login(email)
-      user = find_github_user email
+    def find_github_login(info)
+      user = find_github_user info
       user['login']
     rescue StandardError
       ''

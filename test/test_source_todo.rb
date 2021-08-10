@@ -24,16 +24,18 @@ require_relative '../lib/pdd'
 require_relative '../lib/pdd/sources'
 
 class TestSourceTodo < Minitest::Test
-  def check_valid_puzzle(text, lines, body, ticket)
+  def check_valid_puzzle(text, lines, body, ticket, count = 1)
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'a.txt')
       File.write(file, text)
-      list = PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
-      assert_equal 1, list.size
-      puzzle = list.first
-      assert_equal lines, puzzle.props[:lines]
-      assert_equal body, puzzle.props[:body]
-      assert_equal ticket, puzzle.props[:ticket]
+      stub_source_find_github_user(file, 'hey') do |source|
+        list = source.puzzles
+        assert_equal count, list.size
+        puzzle = list.first
+        assert_equal lines, puzzle.props[:lines]
+        assert_equal body, puzzle.props[:body]
+        assert_equal ticket, puzzle.props[:ticket]
+      end
     end
   end
 
@@ -42,7 +44,7 @@ class TestSourceTodo < Minitest::Test
       file = File.join(dir, 'a.txt')
       File.write(file, text)
       error = assert_raises PDD::Error do
-        PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
+        stub_source_find_github_user(file, 'hey', &:puzzles)
       end
       assert !error.message.index(error_msg).nil?
     end
@@ -79,6 +81,19 @@ class TestSourceTodo < Minitest::Test
       '2-2',
       'task description',
       '45'
+    )
+  end
+
+  def test_multiple_todo_colon
+    check_valid_puzzle(
+      "
+      // TODO: #45 task description
+      // TODO: #46 another task description
+      ",
+      '2-2',
+      'task description',
+      '45',
+      2
     )
   end
 

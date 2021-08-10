@@ -21,22 +21,7 @@ Feature: Catches Broken Puzzles
     }
     """
     When I run pdd it fails with "Space expected"
-    When I run pdd it fails with "puzzle at line #6"
-
-  Scenario: Throwing exception on another broken puzzle
-    Given I have a "Sample.java" file with content:
-    """
-    public class Main {
-      /**
-       * @todo #13 This puzzle has an incorrect format
-       *    because its second line starts with too many spaces
-       */
-      public void main(String[] args) {
-        // later
-      }
-    }
-    """
-    When I run pdd it fails with "Too many leading spaces"
+    When I run pdd it fails with "Sample.java:6"
 
   Scenario: Throwing exception on yet another broken puzzle
     Given I have a "Sample.java" file with content:
