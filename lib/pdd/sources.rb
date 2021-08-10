@@ -45,7 +45,7 @@ module PDD
           included += 1
         end
       end
-      PDD.log.info "#{included} files included manually"
+      PDD.log.info "#{files.size} file(s) found, #{included} files included"
       excluded = 0
       @exclude.each do |ptn|
         Dir.glob(File.join(@dir, ptn), File::FNM_DOTMATCH) do |f|
