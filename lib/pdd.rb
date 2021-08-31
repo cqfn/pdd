@@ -52,7 +52,7 @@ module PDD
   # Get logger.
   def self.log
     unless defined?(@logger)
-      @logger = Logger.new(STDOUT)
+      @logger = Logger.new($stdout)
       @logger.formatter = proc { |severity, _, _, msg|
         if severity == 'ERROR'
           "#{Rainbow(severity).red}: #{msg}\n"

@@ -42,16 +42,14 @@ module PDD
       puzzles = []
       lines = File.readlines(@file, encoding: 'UTF-8')
       lines.each_with_index do |line, idx|
-        begin
-          check_rules(line)
-          ["\x40todo", 'TODO:?'].each do |pfx|
-            %r{(.*(?:^|\s))#{pfx}\s+#([\w\-\.:/]+)\s+(.+)}.match(line) do |m|
-              puzzles << puzzle(lines.drop(idx + 1), m, idx)
-            end
+        check_rules(line)
+        ["\x40todo", 'TODO:?'].each do |pfx|
+          %r{(.*(?:^|\s))#{pfx}\s+#([\w\-.:/]+)\s+(.+)}.match(line) do |m|
+            puzzles << puzzle(lines.drop(idx + 1), m, idx)
           end
-        rescue Error, ArgumentError => e
-          raise Error, "puzzle at line ##{idx + 1}; #{e.message}"
         end
+      rescue Error, ArgumentError => e
+        raise Error, "puzzle at line ##{idx + 1}; #{e.message}"
       end
       puzzles
     end
@@ -99,7 +97,7 @@ see https://github.com/yegor256/pdd#how-to-format"
     # Fetch puzzle
     def puzzle(lines, match, idx)
       tail = tail(lines, match[1], idx)
-      body = (match[3] + ' ' + tail.join(' ')).gsub(/\s+/, ' ').strip
+      body = "#{match[3]} #{tail.join(' ')}".gsub(/\s+/, ' ').strip
       body = body.chomp('*/-->').strip
       marker = marker(match[2])
       Puzzle.new(
@@ -114,7 +112,7 @@ see https://github.com/yegor256/pdd#how-to-format"
 
     # Parse a marker.
     def marker(text)
-      re = %r{([\w\-\.]+)(?::(\d+)(?:(m|h)[a-z]*)?)?(?:/([A-Z]+))?}
+      re = %r{([\w\-.]+)(?::(\d+)(?:(m|h)[a-z]*)?)?(?:/([A-Z]+))?}
       match = re.match(text)
       if match.nil?
         raise "Invalid puzzle marker \"#{text}\", most probably formatted \
@@ -170,11 +168,12 @@ at position ##{prefix.length + 1}."
         cmd = "#{git} blame -L #{pos},#{pos} --porcelain #{name}"
         add_github_login(Hash[
           `#{cmd}`.split("\n").map do |line|
-            if line =~ /^author /
+            case line
+            when /^author /
               [:author, line.sub(/^author /, '')]
-            elsif line =~ /^author-mail [^@]+@[^\.]+\..+/
+            when /^author-mail [^@]+@[^.]+\..+/
               [:email, line.sub(/^author-mail <(.+)>$/, '\1')]
-            elsif line =~ /^author-time /
+            when /^author-time /
               [
                 :time,
                 Time.at(

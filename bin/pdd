@@ -19,7 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-STDOUT.sync = true
+$stdout.sync = true
 
 require 'slop'
 require 'nokogiri'
@@ -71,17 +71,13 @@ https://github.com/yegor256/pdd/blob/master/README.md"
     exit
   end
 
-  if opts.verbose? && !opts.file?
-    raise '-f is mandatory when using -v, try --help for more information'
-  end
+  raise '-f is mandatory when using -v, try --help for more information' if opts.verbose? && !opts.file?
 
-  if opts['skip-gitignore']
-    raise 'For --skip-gitignore see https://github.com/yegor256/pdd/issues/80'
-  end
+  raise 'For --skip-gitignore see https://github.com/yegor256/pdd/issues/80' if opts['skip-gitignore']
 
   Encoding.default_external = Encoding::UTF_8
   Encoding.default_internal = Encoding::UTF_8
-  file = opts.file? ? File.new(opts[:file], 'w') : STDOUT
+  file = opts.file? ? File.new(opts[:file], 'w') : $stdout
   output = PDD::Base.new(opts).xml
   if opts[:format]
     if opts[:format] == 'html'

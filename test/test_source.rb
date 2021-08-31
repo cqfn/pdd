@@ -90,7 +90,7 @@ class TestSource < Minitest::Test
   def test_failing_on_broken_unicode
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'xx.txt')
-      File.write(file, ' * \x40todo #44 this is a broken unicode: ' + 0x92.chr)
+      File.write(file, " * \\x40todo #44 this is a broken unicode: #{0x92.chr}")
       assert_raises PDD::Error do
         PDD::VerboseSource.new(file, PDD::Source.new(file, 'xx')).puzzles
       end
