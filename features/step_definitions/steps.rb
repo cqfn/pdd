@@ -64,9 +64,9 @@ When(/^I run pdd it fails with "([^"]*)"$/) do |txt|
   begin
     PDD::Base.new(@opts).xml
     passed = true
-  rescue PDD::Error => ex
-    unless ex.message.include?(txt)
-      raise "PDD failed but exception doesn't contain \"#{txt}\": #{ex.message}"
+  rescue PDD::Error => e
+    unless e.message.include?(txt)
+      raise "PDD failed but exception doesn't contain \"#{txt}\": #{e.message}"
     end
   end
   raise "PDD didn't fail" if passed
@@ -90,6 +90,7 @@ end
 
 Then(/^XML file "([^"]+)" matches "([^"]+)"$/) do |file, xpath|
   raise "File #{file} doesn't exit" unless File.exist?(file)
+
   xml = Nokogiri::XML.parse(File.read(file))
   xml.remove_namespaces!
   if xml.xpath(xpath).empty?

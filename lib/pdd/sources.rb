@@ -63,6 +63,7 @@ module PDD
     #  `test_ignores_binary_files` in `test_sources.rb`.
     def binary?(file)
       return false if Gem.win_platform?
+
       `grep -qI '.' #{Shellwords.escape(file)}`
       if $CHILD_STATUS.success?
         false

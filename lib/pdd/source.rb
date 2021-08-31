@@ -49,8 +49,8 @@ module PDD
               puzzles << puzzle(lines.drop(idx + 1), m, idx)
             end
           end
-        rescue Error, ArgumentError => ex
-          raise Error, "puzzle at line ##{idx + 1}; #{ex.message}"
+        rescue Error, ArgumentError => e
+          raise Error, "puzzle at line ##{idx + 1}; #{e.message}"
         end
       end
       puzzles
@@ -142,11 +142,13 @@ against the rules explained here: https://github.com/yegor256/pdd#how-to-format"
         .take_while { |t| t =~ /^[ a-zA-Z0-9]/ }
         .each_with_index do |t, i|
           next if t.start_with?(' ')
+
           raise Error, "Space expected at #{start + i + 2}:#{prefix.length}; \
 make sure all lines in the puzzle body have a single leading space."
         end
         .each_with_index do |t, i|
           next if t !~ /^\s{2,}/
+
           raise Error, "Too many leading spaces \
 at #{start + i + 2}:#{prefix.length}; \
 make sure all lines that include the puzzle body start \
@@ -231,8 +233,8 @@ at position ##{prefix.length + 1}."
     # Fetch all puzzles.
     def puzzles
       @source.puzzles
-    rescue Error => ex
-      raise Error, "#{@file}; #{ex.message}"
+    rescue Error => e
+      raise Error, "#{@file}; #{e.message}"
     end
   end
 end

@@ -158,6 +158,7 @@ class TestSource < Minitest::Test
         git add a.txt
         git commit --quiet -am 'first version'
       ")
+
       list = PDD::Source.new(File.join(dir, 'a.txt'), '').puzzles
       assert_equal 1, list.size
       puzzle = list.first
@@ -183,6 +184,7 @@ class TestSource < Minitest::Test
         git add a.txt
         git commit --quiet -am 'first version'
       ")
+
       list = PDD::Source.new(File.join(dir, 'a.txt'), '').puzzles
       assert_equal 1, list.size
       puzzle = list.first
@@ -207,6 +209,7 @@ class TestSource < Minitest::Test
         git add a.txt
         git commit --quiet -am 'first version'
       ")
+
       list = PDD::Source.new(File.join(dir, 'a.txt'), '').puzzles
       assert_equal 1, list.size
       puzzle = list.first
