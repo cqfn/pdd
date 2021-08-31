@@ -1,4 +1,4 @@
-# Copyright (c) 2014-2020 Yegor Bugayenko
+# Copyright (c) 2014-2021 Yegor Bugayenko
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the 'Software'), to deal
@@ -30,7 +30,7 @@ require_relative 'pdd/rule/roles'
 
 # PDD main module.
 # Author:: Yegor Bugayenko (yegor256@gmail.com)
-# Copyright:: Copyright (c) 2014-2020 Yegor Bugayenko
+# Copyright:: Copyright (c) 2014-2021 Yegor Bugayenko
 # License:: MIT
 module PDD
   # If it breaks.
@@ -56,17 +56,20 @@ module PDD
       @logger.formatter = proc { |severity, _, _, msg|
         if severity == 'ERROR'
           "#{Rainbow(severity).red}: #{msg}\n"
+        elsif severity == 'WARN'
+          "#{Rainbow(severity).orange}: #{msg}\n"
         else
           "#{msg}\n"
         end
       }
-      @logger.level = Logger::ERROR
+      @logger.level = Logger::WARN
     end
     @logger
   end
 
   class << self
     attr_writer :logger
+    attr_accessor :opts
   end
 
   # Code base abstraction
@@ -75,6 +78,7 @@ module PDD
     # +opts+:: Options
     def initialize(opts)
       @opts = opts
+      PDD.opts = opts
       PDD.log.level = Logger::INFO if @opts[:verbose]
       PDD.log.level = Logger::ERROR if @opts[:quiet]
       PDD.log.info "My version is #{PDD::VERSION}"
@@ -87,6 +91,9 @@ module PDD
       PDD.log.info "Reading #{dir}"
       require_relative 'pdd/sources'
       sources = Sources.new(dir)
+      @opts[:include]&.each do |p|
+        sources = sources.include(p)
+      end
       @opts[:exclude]&.each do |p|
         sources = sources.exclude(p)
         PDD.log.info "Excluding #{p}"

@@ -1,4 +1,4 @@
-# Copyright (c) 2014-2020 Yegor Bugayenko
+# Copyright (c) 2014-2021 Yegor Bugayenko
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the 'Software'), to deal
@@ -26,7 +26,7 @@ require_relative '../lib/pdd'
 
 # PDD main module test.
 # Author:: Yegor Bugayenko (yegor256@gmail.com)
-# Copyright:: Copyright (c) 2014-2020 Yegor Bugayenko
+# Copyright:: Copyright (c) 2014-2021 Yegor Bugayenko
 # License:: MIT
 class TestPDD < Minitest::Test
   def test_basic
@@ -96,6 +96,7 @@ class TestPDD < Minitest::Test
     Slop.parse args do |o|
       o.bool '-v', '--verbose'
       o.bool '-q', '--quiet'
+      o.bool '--skip-errors'
       o.string '-s', '--source'
       o.array '-e', '--exclude'
       o.array '-r', '--rule'

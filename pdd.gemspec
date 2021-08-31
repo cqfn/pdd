@@ -1,4 +1,4 @@
-# Copyright (c) 2014-2020 Yegor Bugayenko
+# Copyright (c) 2014-2021 Yegor Bugayenko
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the 'Software'), to deal
@@ -36,7 +36,7 @@ Gem::Specification.new do |s|
   s.description = 'Collects PDD puzzles from a source code base'
   s.authors = ['Yegor Bugayenko']
   s.email = 'yegor256@gmail.com'
-  s.homepage = 'http://github.com/yegor256/pdd'
+  s.homepage = 'http://github.com/cqfn/pdd'
   s.files = `git ls-files`.split($RS)
   s.executables = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.test_files = s.files.grep(%r{^(test|spec|features)/})

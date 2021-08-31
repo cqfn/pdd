@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# Copyright (c) 2014-2020 Yegor Bugayenko
+# Copyright (c) 2014-2021 Yegor Bugayenko
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the 'Software'), to deal
@@ -21,6 +21,9 @@
 
 $stdout.sync = true
 
+require 'shellwords'
+require 'English'
+require 'find'
 require 'slop'
 require 'nokogiri'
 require 'rainbow'
@@ -39,6 +42,11 @@ begin
   end
   args += ARGV
 
+  dir = Dir.pwd
+  @dir = File.absolute_path(dir)
+  files = Dir.glob(
+    File.join(@dir, '**/*'), File::FNM_DOTMATCH
+  ).reject { |f| File.directory?(f) }
   begin
     opts = Slop.parse(args, strict: true, help: true) do |o|
       o.banner = "Usage (#{PDD::VERSION}): pdd [options]"
@@ -46,6 +54,8 @@ begin
       o.bool '-v', '--verbose', 'Enable verbose mode (a lot of logging)'
       o.bool '-q', '--quiet', 'Enable quiet mode (almost no logging)'
       o.bool '--skip-gitignore', 'Don\'t look into .gitignore for excludes'
+      o.bool '--skip-errors', 'Suppress error as warning and skip badly
+                      formatted puzzles'
       o.bool '-i', '--version', 'Show current version' do
         puts PDD::VERSION
         exit
@@ -54,6 +64,8 @@ begin
       o.string '-f', '--file', 'File to save XML into'
       o.array '-e', '--exclude', 'Glob pattern to exclude, e.g. "**/*.jpg"',
               default: []
+      o.array '-n', '--include', 'Glob pattern to include, e.g. "**/*.jpg"',
+              default: [files]
       o.string '-t', '--format', 'Format of the report (xml|html)'
       o.array(
         '-r', '--rule', 'Rule to apply (can be used many times)',
@@ -67,13 +79,17 @@ begin
   if opts.help?
     puts opts
     puts "This is our README to learn more: \
-https://github.com/yegor256/pdd/blob/master/README.md"
+https://github.com/cqfn/pdd/blob/master/README.md"
     exit
   end
 
   raise '-f is mandatory when using -v, try --help for more information' if opts.verbose? && !opts.file?
 
-  raise 'For --skip-gitignore see https://github.com/yegor256/pdd/issues/80' if opts['skip-gitignore']
+
+  if opts['skip-gitignore']
+    raise 'For --skip-gitignore see https://github.com/cqfn/pdd/issues/80'
+  end
+
 
   Encoding.default_external = Encoding::UTF_8
   Encoding.default_internal = Encoding::UTF_8
@@ -99,9 +115,9 @@ rescue PDD::Error => e
   puts "#{Rainbow('ERROR').red}: #{e.message}
 If you can't understand the cause of this issue or you don't know \
 how to fix it, please submit a GitHub issue, we will try to help you: \
-https://github.com/yegor256/pdd/issues. This tool is still in its beta \
+https://github.com/cqfn/pdd/issues. This tool is still in its beta \
 version and we will appreciate your feedback. Here is where you can find \
-more documentation: https://github.com/yegor256/pdd/blob/master/README.md."
+more documentation: https://github.com/cqfn/pdd/blob/master/README.md."
   PDD.log.info 'Exit code is 1'
   exit(1)
 rescue StandardError => e
