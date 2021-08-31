@@ -54,9 +54,10 @@ module PDD
     unless defined?(@logger)
       @logger = Logger.new($stdout)
       @logger.formatter = proc { |severity, _, _, msg|
-        if severity == 'ERROR'
+        case severity
+        when 'ERROR'
           "#{Rainbow(severity).red}: #{msg}\n"
-        elsif severity == 'WARN'
+        when 'WARN'
           "#{Rainbow(severity).orange}: #{msg}\n"
         else
           "#{msg}\n"

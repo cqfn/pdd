@@ -209,6 +209,7 @@ class TestSource < Minitest::Test
         git add a.txt
         git commit --quiet -am 'first version'
       ")
+
       stub_source_find_github_user(File.join(dir, 'a.txt')) do |source|
         list = source.puzzles
         assert_equal 1, list.size
@@ -221,7 +222,6 @@ class TestSource < Minitest::Test
         assert_match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/,
                      puzzle.props[:time])
       end
-
     end
   end
 
@@ -251,7 +251,6 @@ class TestSource < Minitest::Test
         assert_match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/,
                      puzzle.props[:time])
       end
-
     end
   end
 
@@ -290,6 +289,7 @@ class TestSource < Minitest::Test
         git commit --quiet -am 'first version'
         echo '\x40todo #1 this is a puzzle uncommitted' > a.txt
       ")
+
       stub_source_find_github_user(File.join(dir, 'a.txt')) do |source|
         list = source.puzzles
         assert_equal 1, list.size
@@ -297,7 +297,6 @@ class TestSource < Minitest::Test
         assert_nil puzzle.props[:email]
         assert_equal 'Not Committed Yet', puzzle.props[:author]
       end
-
     end
   end
 

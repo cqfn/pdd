@@ -39,7 +39,7 @@ module PDD
 
     def match_markers(line)
       MARKERS.map do |mkr|
-        %r{(.*(?:^|\s))#{mkr}\s+#([\w\-\.:/]+)\s+(.+)}.match(line)
+        %r{(.*(?:^|\s))#{mkr}\s+#([\w\-.:/]+)\s+(.+)}.match(line)
       end.compact
     end
 
@@ -49,19 +49,15 @@ module PDD
       puzzles = []
       lines = File.readlines(@file, encoding: 'UTF-8')
       lines.each_with_index do |line, idx|
-        begin
-          check_rules(line)
-          match_markers(line).each do |m|
-            puzzles << puzzle(lines.drop(idx + 1), m, idx)
-          end
-        rescue Error, ArgumentError => ex
-          message = "#{@path}:#{idx + 1} #{ex.message}"
-          raise Error, message unless PDD.opts && PDD.opts['skip-errors']
-          PDD.log.warn message
-
+        check_rules(line)
+        match_markers(line).each do |m|
+          puzzles << puzzle(lines.drop(idx + 1), m, idx)
         end
       rescue Error, ArgumentError => e
-        raise Error, "puzzle at line ##{idx + 1}; #{e.message}"
+        message = "#{@path}:#{idx + 1} #{e.message}"
+        raise Error, message unless PDD.opts && PDD.opts['skip-errors']
+
+        PDD.log.warn message
       end
       puzzles
     end
@@ -151,12 +147,11 @@ against the rules explained here: https://github.com/cqfn/pdd#how-to-format"
         .map { |t| t[prefix.length, t.length] }
         .take_while { |t| t =~ /^[ a-zA-Z0-9]/ }
         .each_with_index do |t, i|
-          next if t.start_with?(' ')
+        next if t.start_with?(' ')
 
-          raise Error, "Space expected at #{start + i + 2}:#{prefix.length}; \
+        raise Error, "Space expected at #{start + i + 2}:#{prefix.length}; \
 make sure all lines in the puzzle body have a single leading space."
-        end
-
+      end
         .map { |t| t[1, t.length] }
     end
 
@@ -172,22 +167,22 @@ make sure all lines in the puzzle body have a single leading space."
       if `#{git} rev-parse --is-inside-work-tree 2>/dev/null`.strip == 'true'
         cmd = "#{git} blame -L #{pos},#{pos} --porcelain #{name}"
         add_github_login(Hash[
-          `#{cmd}`.split("\n").map do |line|
-            case line
-            when /^author /
-              [:author, line.sub(/^author /, '')]
-            when /^author-mail [^@]+@[^.]+\..+/
-              [:email, line.sub(/^author-mail <(.+)>$/, '\1')]
-            when /^author-time /
-              [
-                :time,
-                Time.at(
-                  line.sub(/^author-time ([0-9]+)$/, '\1').to_i
-                ).utc.iso8601
-              ]
-            end
-          end.compact
-        ])
+                           `#{cmd}`.split("\n").map do |line|
+                             case line
+                             when /^author /
+                               [:author, line.sub(/^author /, '')]
+                             when /^author-mail [^@]+@[^.]+\..+/
+                               [:email, line.sub(/^author-mail <(.+)>$/, '\1')]
+                             when /^author-time /
+                               [
+                                 :time,
+                                 Time.at(
+                                   line.sub(/^author-time ([0-9]+)$/, '\1').to_i
+                                 ).utc.iso8601
+                               ]
+                             end
+                           end.compact
+                         ])
       else
         {}
       end
@@ -213,12 +208,14 @@ make sure all lines in the puzzle body have a single leading space."
       email, author = info.values_at(:email, :author)
       # if email is not defined, changes have not been committed
       return if email.nil?
+
       base_uri = 'https://api.github.com/search/users?per_page=1'
       query = base_uri + "&q=#{email}+in:email"
       json = get_json query
       # find user by name instead since users can make github email private
       unless json['total_count'].positive?
         return if author.nil?
+
         query = base_uri + "&q=#{author}+in:fullname"
         json = get_json query
       end
