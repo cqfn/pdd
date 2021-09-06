@@ -1,8 +1,8 @@
-coverage/
+coverage/**/*
 Gemfile.lock
-.idea/
+.idea/**/*
 *.gem
-.bundle/
+.bundle/**/*
 .DS_Store
-rdoc/
-tmp/
+rdoc/**/*
+tmp/**/*

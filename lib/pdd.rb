@@ -95,6 +95,13 @@ module PDD
         sources = sources.exclude(p)
         PDD.log.info "Excluding #{p}"
       end
+      if @opts['skip-gitignore']
+        PDD.log.info "\nExcluding from .gitignore (glob style) ..."
+        @opts['skip-gitignore']&.each do |p|
+          sources = sources.exclude(p)
+          PDD.log.info "Excluding #{p}"
+        end
+      end
       sanitize(
         rules(
           Nokogiri::XML::Builder.new do |xml|
