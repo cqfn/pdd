@@ -49,15 +49,16 @@ module PDD
       puzzles = []
       lines = File.readlines(@file, encoding: 'UTF-8')
       lines.each_with_index do |line, idx|
-        check_rules(line)
-        match_markers(line).each do |m|
-          puzzles << puzzle(lines.drop(idx + 1), m, idx)
+        begin
+          check_rules(line)
+          match_markers(line).each do |m|
+            puzzles << puzzle(lines.drop(idx + 1), m, idx)
+          end
+        rescue Error, ArgumentError => ex
+          message = "#{@path}:#{idx + 1} #{ex.message}"
+          raise Error, message unless PDD.opts && PDD.opts['skip-errors']
+          PDD.log.warn message
         end
-      rescue Error, ArgumentError => e
-        message = "#{@path}:#{idx + 1} #{e.message}"
-        raise Error, message unless PDD.opts && PDD.opts['skip-errors']
-
-        PDD.log.warn message
       end
       puzzles
     end

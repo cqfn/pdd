@@ -65,7 +65,9 @@ When(/^I run pdd it fails with "([^"]*)"$/) do |txt|
     PDD::Base.new(@opts).xml
     passed = true
   rescue PDD::Error => e
-    raise "PDD failed but exception doesn't contain \"#{txt}\": #{e.message}" unless e.message.include?(txt)
+    unless e.message.include?(txt)
+      raise "PDD failed but exception doesn't contain \"#{txt}\": #{e.message}"
+    end
   end
   raise "PDD didn't fail" if passed
 end
@@ -77,7 +79,9 @@ When(%r{^I run bin/pdd with "([^"]*)"$}) do |arg|
 end
 
 Then(/^Stdout contains "([^"]*)"$/) do |txt|
-  raise "STDOUT doesn't contain '#{txt}':\n#{@stdout}" unless @stdout.include?(txt)
+  unless @stdout.include?(txt)
+    raise "STDOUT doesn't contain '#{txt}':\n#{@stdout}"
+  end
 end
 
 Then(/^Stdout is empty$/) do
@@ -89,7 +93,9 @@ Then(/^XML file "([^"]+)" matches "([^"]+)"$/) do |file, xpath|
 
   xml = Nokogiri::XML.parse(File.read(file))
   xml.remove_namespaces!
-  raise "XML file #{file} doesn't match \"#{xpath}\":\n#{xml}" if xml.xpath(xpath).empty?
+  if xml.xpath(xpath).empty?
+    raise "XML file #{file} doesn't match \"#{xpath}\":\n#{xml}"
+  end
 end
 
 Then(/^Exit code is zero$/) do

@@ -83,9 +83,13 @@ https://github.com/cqfn/pdd/blob/master/README.md"
     exit
   end
 
-  raise '-f is mandatory when using -v, try --help for more information' if opts.verbose? && !opts.file?
+  if opts.verbose? && !opts.file?
+    raise '-f is mandatory when using -v, try --help for more information'
+  end
 
-  raise 'For --skip-gitignore see https://github.com/cqfn/pdd/issues/80' if opts['skip-gitignore']
+  if opts['skip-gitignore']
+    raise 'For --skip-gitignore see https://github.com/cqfn/pdd/issues/80'
+  end
 
   Encoding.default_external = Encoding::UTF_8
   Encoding.default_internal = Encoding::UTF_8
