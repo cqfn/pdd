@@ -83,7 +83,6 @@ https://github.com/cqfn/pdd/blob/master/README.md"
     extra = body.split(/\s+/).map(&:strip)
     opts['skip-gitignore'] = extra
     puts "Found #{body.split(/\n/).length} lines in #{File.absolute_path(cfg)}"
-    # raise 'For --skip-gitignore see https://github.com/cqfn/pdd/issues/80'
   end
 
   Encoding.default_external = Encoding::UTF_8
