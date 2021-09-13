@@ -71,6 +71,18 @@ class TestSourceTodo < Minitest::Test
     )
   end
 
+  def test_todo_utf8_encoded_body
+    check_valid_puzzle(
+      "
+      // TODO #45 Привет, мир, мне кофе
+      //  вторая линия
+      ",
+      '2-3',
+      'Привет, мир, мне кофе вторая линия',
+      '45'
+    )
+  end
+
   def test_todo_colon_parsing
     check_valid_puzzle(
       "
