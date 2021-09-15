@@ -6,6 +6,7 @@ module PDD
   # Rake task
   class RakeTask < Rake::TaskLib
     attr_accessor :name
+
     def initialize(*args, &task_block)
       # @todo #125:30m Needs to have more parameters to run this task.
       #  For now, we just have a single parameter - the name.

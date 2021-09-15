@@ -160,7 +160,7 @@ class TestSource < Minitest::Test
   def test_failing_on_broken_unicode
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'xx.txt')
-      File.write(file, ' * \x40todo #44 this is a broken unicode: ' + 0x92.chr)
+      File.write(file, " * \\x40todo #44 this is a broken unicode: #{0x92.chr}")
       assert_raises PDD::Error do
         stub_source_find_github_user(file, 'xx', &:puzzles)
       end
@@ -228,6 +228,7 @@ class TestSource < Minitest::Test
         git add a.txt
         git commit --quiet -am 'first version'
       ")
+
       stub_source_find_github_user(File.join(dir, 'a.txt')) do |source|
         list = source.puzzles
         assert_equal 1, list.size
@@ -256,6 +257,7 @@ class TestSource < Minitest::Test
         git add a.txt
         git commit --quiet -am 'first version'
       ")
+
       stub_source_find_github_user(File.join(dir, 'a.txt')) do |source|
         list = source.puzzles
         assert_equal 1, list.size
@@ -283,6 +285,7 @@ class TestSource < Minitest::Test
         git add a.txt
         git commit --quiet -am 'first version'
       ")
+
       stub_source_find_github_user(File.join(dir, 'a.txt')) do |source|
         list = source.puzzles
         assert_equal 1, list.size
@@ -305,6 +308,7 @@ class TestSource < Minitest::Test
         git commit --quiet -am 'first version'
         echo '\x40todo #1 this is a puzzle uncommitted' > a.txt
       ")
+
       stub_source_find_github_user(File.join(dir, 'a.txt')) do |source|
         list = source.puzzles
         assert_equal 1, list.size

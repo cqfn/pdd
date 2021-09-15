@@ -34,6 +34,7 @@ module PDD
           @xml.xpath('//puzzle').map do |p|
             role = p.xpath('role/text()').to_s
             next nil if @roles.include?(role)
+
             "puzzle #{p.xpath('file/text()')}:#{p.xpath('lines/text()')}" +
               if role.empty?
                 " doesn't define any role"\
