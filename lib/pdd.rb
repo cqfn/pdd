@@ -100,7 +100,7 @@ module PDD
       end
       sanitize(
         rules(
-          Nokogiri::XML::Builder.new do |xml|
+          Nokogiri::XML::Builder.new(encoding: 'UTF-8') do |xml|
             xml << "<?xml-stylesheet type='text/xsl' href='#{xsl}'?>"
             xml.puzzles(attrs) do
               sources.fetch.each do |source|

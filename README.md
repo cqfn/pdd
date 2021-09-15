@@ -169,6 +169,7 @@ The XML produced will look approximately like this (here is a
   </puzzle>
 </puzzles>
 ```
+NOTE: puzzles are saved with utf-8 encoding
 
 [XSD Schema](http://pdd-xsd.teamed.io/0.19.4.xsd) is here.
 The most interesting parts of each puzzle are:

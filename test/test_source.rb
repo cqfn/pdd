@@ -122,6 +122,25 @@ class TestSource < Minitest::Test
     end
   end
 
+  def test_succeed_utf8_encoded_body
+    Dir.mktmpdir 'test' do |dir|
+      file = File.join(dir, 'a.txt')
+      File.write(
+        file,
+        "
+        * \x40todo #44 Привет, мир, мне кофе
+        *  вторая линия
+        "
+      )
+      list = PDD::VerboseSource.new(file, PDD::Source.new(file, 'hey')).puzzles
+      assert_equal 1, list.size
+      puzzle = list.first
+      assert_equal '2-3', puzzle.props[:lines]
+      assert_equal 'Привет, мир, мне кофе вторая линия', puzzle.props[:body]
+      assert_equal '44', puzzle.props[:ticket]
+    end
+  end
+
   def test_failing_on_incomplete_puzzle
     Dir.mktmpdir 't5' do |dir|
       file = File.join(dir, 'ff.txt')
