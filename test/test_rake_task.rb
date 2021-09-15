@@ -8,7 +8,7 @@ class TestRakeTask < Minitest::Test
   def test_basic
     Dir.mktmpdir 'test' do |dir|
       Dir.chdir(dir)
-      File.write('a.xml', "\x40todo #55 hello!")
+      File.write('a.txt', "\x40todo #55 hello!")
       PDD::RakeTask.new(:pdd1) do |task|
         task.quiet = true
         # task.license = 'LICENSE.txt'

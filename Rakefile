@@ -67,9 +67,9 @@ Xcop::RakeTask.new :xcop do |task|
 end
 
 require 'pdd/rake_task'
-desc 'Validate all XML/XSL/XSD/HTML files for formatting'
+desc 'Collecting and parsing all puzzles in project'
 PDD::RakeTask.new :pdd do |task|
-  task.includes = ['**/*.txt', '**/*.xsl', '**/*.xsd', '**/*.html']
+  task.includes = ['**/*']
 end
 
 require 'cucumber/rake/task'
