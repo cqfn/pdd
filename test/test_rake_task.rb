@@ -11,7 +11,6 @@ class TestRakeTask < Minitest::Test
       File.write('a.txt', "\x40todo #55 hello!")
       PDD::RakeTask.new(:pdd1) do |task|
         task.quiet = true
-        # task.license = 'LICENSE.txt'
       end
       Rake::Task['pdd1'].invoke
     end
