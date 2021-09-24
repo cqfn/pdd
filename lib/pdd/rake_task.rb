@@ -33,6 +33,8 @@ module PDD
 
     def run
       # @todo #125:30m need to implement this method.
+      #  For now, it's just a task,
+      #  that prints a Running pdd... message to user.
       puts 'Running pdd...' unless @quiet
     end
   end
