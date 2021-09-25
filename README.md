@@ -46,12 +46,23 @@ $ pdd --help
 `` --exclude=glob ``
 
 You can skip any file(s) with a name suffix that matches the pattern glob, using wildcard matching; 
-a name suffix is either the whole path and name, or regexpr, for example:
+a name suffix is either the whole path and name, or reg expr, for example:
 
 ```bash
 pdd --exclude=src/**/*.java --exclude=target/**/*
 pdd --exclude=src/**/*.java # exclude .java files in src/
 pdd --exclude=src/**/* # exclude all files in src/
+```
+
+`` --include=glob ``
+
+Search only files whose name matches glob, using wildcard matching as described under ``--exclude``. 
+If contradictory ``--include`` and ``--exclude`` options are given, the last matching one wins. 
+If no ``--include`` or ``--exclude`` options are given, all files from working directory are included, example:
+
+```bash
+pdd --include=src/**/*.py # include only .py files in src/
+pdd --include=src/**/* # include all files in src/
 ```
 
 ## How to Format?
