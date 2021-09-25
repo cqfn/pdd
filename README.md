@@ -41,7 +41,12 @@ Run it locally and read its output:
 $ pdd --help
 ```
 
-You can exclude certain files from the search, for example:
+### File and Directory Selection
+
+`` --exclude=glob ``
+
+You can skip any file(s) with a name suffix that matches the pattern glob, using wildcard matching; 
+a name suffix is either the whole path and name, or regexpr, for example:
 
 ```bash
 pdd --exclude=src/**/*.java --exclude=target/**/*
