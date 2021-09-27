@@ -5,11 +5,14 @@ require_relative '../lib/pdd/rake_task'
 
 # Test for RakeTask
 class TestRakeTask < Minitest::Test
-  def test_base
-    PDD::RakeTask.new(:pdd1)
-    error = assert_raises SystemExit do
+  def test_basic
+    Dir.mktmpdir 'test' do |dir|
+      Dir.chdir(dir)
+      File.write('a.txt', "\x40todo #55 hello!")
+      PDD::RakeTask.new(:pdd1) do |task|
+        task.quiet = true
+      end
       Rake::Task['pdd1'].invoke
     end
-    assert_equal('NOT IMPLEMENTED', error.message)
   end
 end
