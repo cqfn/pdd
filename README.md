@@ -42,6 +42,7 @@ $ pdd --help
 ```
 
 ### File and Directory Selection
+You can exclude & include certain number of files from the search via these options:
 
 `` --exclude=glob ``
 
@@ -59,7 +60,7 @@ pdd --exclude=src/**/* # exclude all files in src/
 Search only files whose name matches glob, using wildcard matching as described under ``--exclude``. 
 If contradictory ``--include`` and ``--exclude`` options are given, the last matching one wins. 
 If no ``--include`` or ``--exclude`` options are given, all files from working directory are included, example:
-
+аомтрптм
 ```bash
 pdd --include=src/**/*.py # include only .py files in src/
 pdd --include=src/**/* # include all files in src/
