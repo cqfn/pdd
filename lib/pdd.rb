@@ -91,16 +91,10 @@ module PDD
       PDD.log.info "Reading #{dir}"
       require_relative 'pdd/sources'
       sources = Sources.new(dir)
-      @opts[:exclude]&.each do |p|
+      paths = (@opts[:exclude] || []) + (@opts['skip-gitignore'] || [])
+      paths&.each do |p|
         sources = sources.exclude(p)
         PDD.log.info "Excluding #{p}"
-      end
-      if @opts['skip-gitignore']
-        PDD.log.info "\nExcluding from .gitignore (glob style) ..."
-        @opts['skip-gitignore']&.each do |p|
-          sources = sources.exclude(p)
-          PDD.log.info "Excluding #{p}"
-        end
       end
       sanitize(
         rules(
