@@ -52,11 +52,12 @@ module PDD
   # Get logger.
   def self.log
     unless defined?(@logger)
-      @logger = Logger.new(STDOUT)
+      @logger = Logger.new($stdout)
       @logger.formatter = proc { |severity, _, _, msg|
-        if severity == 'ERROR'
+        case severity
+        when 'ERROR'
           "#{Rainbow(severity).red}: #{msg}\n"
-        elsif severity == 'WARN'
+        when 'WARN'
           "#{Rainbow(severity).orange}: #{msg}\n"
         else
           "#{msg}\n"
@@ -87,10 +88,13 @@ module PDD
 
     # Generate XML.
     def xml
-      dir = @opts[:source] ? @opts[:source] : Dir.pwd
+      dir = @opts[:source] || Dir.pwd
       PDD.log.info "Reading #{dir}"
       require_relative 'pdd/sources'
       sources = Sources.new(dir)
+      @opts[:include]&.each do |p|
+        sources = sources.include(p)
+      end
       paths = (@opts[:exclude] || []) + (@opts['skip-gitignore'] || [])
       paths&.each do |p|
         sources = sources.exclude(p)
@@ -98,7 +102,7 @@ module PDD
       end
       sanitize(
         rules(
-          Nokogiri::XML::Builder.new do |xml|
+          Nokogiri::XML::Builder.new(encoding: 'UTF-8') do |xml|
             xml << "<?xml-stylesheet type='text/xsl' href='#{xsl}'?>"
             xml.puzzles(attrs) do
               sources.fetch.each do |source|
@@ -150,16 +154,19 @@ module PDD
       unless list.select { |r| r.start_with?('max-duplicates:') }.empty?
         raise PDD::Error, 'You can\'t modify max-duplicates, it\'s always 1'
       end
+
       list.push('max-duplicates:1').map do |r|
         name, value = r.split(':')
         rule = RULES[name]
         raise "Rule '#{name}' doesn't exist" if rule.nil?
+
         rule.new(doc, value).errors.each do |e|
           PDD.log.error e
           total += 1
         end
       end
       raise PDD::Error, "#{total} errors, see log above" unless total.zero?
+
       xml
     end
 
@@ -171,6 +178,7 @@ module PDD
       errors.each { |e| PDD.log.error e }
       PDD.log.error(xml) unless errors.empty?
       raise SchemaError, errors.join('; ') unless errors.empty?
+
       xml
     end
   end

@@ -75,6 +75,7 @@ class TestPDD < Minitest::Test
         git add -f .
         git commit --quiet -am 'first version'
       ")
+
       matches(
         Nokogiri::XML(PDD::Base.new(opts).xml),
         [

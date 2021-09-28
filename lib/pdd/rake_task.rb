@@ -1,16 +1,25 @@
 require 'rake'
 require 'rake/tasklib'
+require 'minitest/autorun'
+require 'nokogiri'
+require 'tmpdir'
+require 'slop'
+require 'pdd'
 
 # PDD Rake task
 module PDD
   # Rake task
   class RakeTask < Rake::TaskLib
-    attr_accessor :name
+    attr_accessor :name, :fail_on_error, :includes, :license, :quiet
+
     def initialize(*args, &task_block)
-      # @todo #125:30m Needs to have more parameters to run this task.
-      #  For now, we just have a single parameter - the name.
-      #  Needs more parameters like the xcop rake task has.
       @name = args.shift || :pdd
+      @includes = Dir.glob(
+        File.join(Dir.pwd, '**/*'), File::FNM_DOTMATCH
+      ).reject { |f| File.directory?(f) }
+      @excludes = []
+      @license = nil
+      @quiet = false
       desc 'Run PDD' unless ::Rake.application.last_description
       task(name, *args) do |_, task_args|
         RakeFileUtils.send(:verbose, true) do
@@ -20,11 +29,13 @@ module PDD
       end
     end
 
+    private
+
     def run
       # @todo #125:30m need to implement this method.
       #  For now, it's just a task,
-      #  that accepts one parameter and throws a system error.
-      abort('NOT IMPLEMENTED')
+      #  that prints a simple Running pdd... message to user
+      puts 'Running pdd...' unless @quiet
     end
   end
 end

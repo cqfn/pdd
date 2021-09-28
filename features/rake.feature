@@ -1,19 +1,21 @@
 Feature: Rake Task
-  Scenario: For now we failed if run rake task
+  As a source code writer I want to be able to
+  run PDD from Rakefile
+  Scenario: PDD can be used in Rakefile
     Given It is Unix
-    And a file named "Rakefile" with:
+    And I have a "Rakefile" file with content:
     """
     require 'pdd/rake_task'
-    PDD::RakeTask.new
+    PDD::RakeTask.new(:pdd) do |task|
+      task.includes = ['a.txt']
+    end
     """
-    When I run the following commands with `bash`:
-    """bash
-    rake pdd
+    And I have a "a.txt" file with content:
     """
-    Then the exit status should be 1
-    And the stderr should contain:
+    \x40todo #55 hello!
     """
-    NOT IMPLEMENTED
-    """
-    When I remove a file named "Rakefile" with full force
-    Then a file named "Rakefile" does not exist
+
+    When I run bash with "rake pdd"
+    Then Exit code is zero
+
+

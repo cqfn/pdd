@@ -169,6 +169,7 @@ The XML produced will look approximately like this (here is a
   </puzzle>
 </puzzles>
 ```
+NOTE: puzzles are saved with utf-8 encoding
 
 [XSD Schema](http://pdd-xsd.teamed.io/0.19.4.xsd) is here.
 The most interesting parts of each puzzle are:
@@ -189,13 +190,19 @@ The most interesting parts of each puzzle are:
 ## How to contribute
 
 Read [these guidelines](https://www.yegor256.com/2014/04/15/github-guidelines.html).
-Make sure you build is green before you contribute
+Make sure your build is green before you contribute
 your pull request. You will need to have [Ruby](https://www.ruby-lang.org/en/) 2.3+ and
 [Bundler](https://bundler.io/) installed. Then:
 
 ```
-$ bundle update
+$ bundle install --path .bundle
 $ bundle exec rake
+```
+
+Next, install and run overcommit to install hooks (required once)
+```
+$ gem install overcommit -v '=0.58.0'
+$ overcommit --install
 ```
 
 If it's clean and you don't see any error messages, submit your pull request.

@@ -19,8 +19,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-STDOUT.sync = true
+$stdout.sync = true
 
+require 'shellwords'
+require 'English'
+require 'find'
 require 'slop'
 require 'nokogiri'
 require 'rainbow'
@@ -39,6 +42,11 @@ begin
   end
   args += ARGV
 
+  dir = Dir.pwd
+  @dir = File.absolute_path(dir)
+  files = Dir.glob(
+    File.join(@dir, '**/*'), File::FNM_DOTMATCH
+  ).reject { |f| File.directory?(f) }
   begin
     opts = Slop.parse(args, strict: true, help: true) do |o|
       o.banner = "Usage (#{PDD::VERSION}): pdd [options]"
@@ -56,14 +64,16 @@ begin
       o.string '-f', '--file', 'File to save XML into'
       o.array '-e', '--exclude', 'Glob pattern to exclude, e.g. "**/*.jpg"',
               default: []
+      o.array '-n', '--include', 'Glob pattern to include, e.g. "**/*.jpg"',
+              default: [files]
       o.string '-t', '--format', 'Format of the report (xml|html)'
       o.array(
         '-r', '--rule', 'Rule to apply (can be used many times)',
         delimiter: ';'
       )
     end
-  rescue Slop::Error => ex
-    raise StandardError, "#{ex.message}, try --help"
+  rescue Slop::Error => e
+    raise StandardError, "#{e.message}, try --help"
   end
 
   if opts.help?
@@ -87,7 +97,7 @@ https://github.com/cqfn/pdd/blob/master/README.md"
 
   Encoding.default_external = Encoding::UTF_8
   Encoding.default_internal = Encoding::UTF_8
-  file = opts.file? ? File.new(opts[:file], 'w') : STDOUT
+  file = opts.file? ? File.new(opts[:file], 'w') : $stdout
   output = PDD::Base.new(opts).xml
   if opts[:format]
     if opts[:format] == 'html'
@@ -101,12 +111,12 @@ https://github.com/cqfn/pdd/blob/master/README.md"
     end
   end
   file << output
-rescue SystemExit => ex
-  puts ex.message unless ex.success?
-  PDD.log.info "Exit code is #{ex.status}"
-  exit(ex.status)
-rescue PDD::Error => ex
-  puts "#{Rainbow('ERROR').red}: #{ex.message}
+rescue SystemExit => e
+  puts e.message unless e.success?
+  PDD.log.info "Exit code is #{e.status}"
+  exit(e.status)
+rescue PDD::Error => e
+  puts "#{Rainbow('ERROR').red}: #{e.message}
 If you can't understand the cause of this issue or you don't know \
 how to fix it, please submit a GitHub issue, we will try to help you: \
 https://github.com/cqfn/pdd/issues. This tool is still in its beta \
@@ -114,8 +124,8 @@ version and we will appreciate your feedback. Here is where you can find \
 more documentation: https://github.com/cqfn/pdd/blob/master/README.md."
   PDD.log.info 'Exit code is 1'
   exit(1)
-rescue StandardError => ex
-  puts "#{Rainbow('ERROR').red} (#{ex.class.name}): #{ex.message}"
+rescue StandardError => e
+  puts "#{Rainbow('ERROR').red} (#{e.class.name}): #{e.message}"
   PDD.log.info 'Exit code is 255'
   exit(255)
 end

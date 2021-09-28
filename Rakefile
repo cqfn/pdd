@@ -66,6 +66,12 @@ Xcop::RakeTask.new :xcop do |task|
   task.excludes = ['target/**/*', 'coverage/**/*']
 end
 
+require 'pdd/rake_task'
+desc 'Collecting and parsing all puzzles in project'
+PDD::RakeTask.new :pdd do |task|
+  task.includes = ['**/*']
+end
+
 require 'cucumber/rake/task'
 Cucumber::Rake::Task.new(:features) do |t|
   t.cucumber_opts = 'features --format progress'

@@ -30,6 +30,7 @@ module PDD
     def initialize(dir, ptns = [])
       @dir = File.absolute_path(dir)
       @exclude = ptns + ['.git/**/*']
+      @include = ptns + ['.git/**/*']
     end
 
     # Fetch all sources.
@@ -37,6 +38,14 @@ module PDD
       files = Dir.glob(
         File.join(@dir, '**/*'), File::FNM_DOTMATCH
       ).reject { |f| File.directory?(f) }
+      included = 0
+      @include.each do |ptn|
+        Dir.glob(File.join(@dir, ptn), File::FNM_DOTMATCH) do |f|
+          files.keep_if { |i| i != f }
+          included += 1
+        end
+      end
+      PDD.log.info "#{files.size} file(s) found, #{included} files included"
       excluded = 0
       @exclude.each do |ptn|
         Dir.glob(File.join(@dir, ptn), File::FNM_DOTMATCH) do |f|
@@ -55,6 +64,10 @@ module PDD
       Sources.new(@dir, @exclude.push(ptn))
     end
 
+    def include(ptn)
+      Sources.new(@dir, @include.push(ptn))
+    end
+
     private
 
     # @todo #98:30min Change the implementation of this method
@@ -63,6 +76,7 @@ module PDD
     #  `test_ignores_binary_files` in `test_sources.rb`.
     def binary?(file)
       return false if Gem.win_platform?
+
       `grep -qI '.' #{Shellwords.escape(file)}`
       if $CHILD_STATUS.success?
         false
