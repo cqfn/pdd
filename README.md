@@ -86,7 +86,7 @@ along with some predefined text. If your comment is longer
 than 40 characters, it will be truncated in the title.
 
 Note: if you create several puzzle duplicates (same text after puzzle keyword),
-0pdd will fail to parse puzzles and produce an error with duplicates list in PR message.
+pdd will fail to parse puzzles and produce an error with duplicates list.
 
 There are 3 supported keywords, one of which must precede the mandatory
 puzzle marker. They are `@todo`, `TODO` and `TODO:`.
