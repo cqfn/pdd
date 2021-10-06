@@ -95,7 +95,8 @@ module PDD
       @opts[:include]&.each do |p|
         sources = sources.include(p)
       end
-      @opts[:exclude]&.each do |p|
+      paths = (@opts[:exclude] || []) + (@opts['skip-gitignore'] || [])
+      paths&.each do |p|
         sources = sources.exclude(p)
         PDD.log.info "Excluding #{p}"
       end
