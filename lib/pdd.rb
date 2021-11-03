@@ -88,7 +88,7 @@ module PDD
 
     def include_files(sources)
       @opts[:include]&.each do |path|
-        PDD.log.info "#{Rainbow('Including:').blue} #{path}"
+        PDD.log.info "#{Rainbow('Including').blue} #{path}"
         sources.include(path)
       end
       sources
@@ -97,7 +97,7 @@ module PDD
     def exclude_files(sources)
       paths = (@opts[:exclude] || []) + (@opts['skip-gitignore'] || [])
       paths&.each do |path|
-        PDD.log.info "#{Rainbow('Excluding:').orange} #{path}"
+        PDD.log.info "#{Rainbow('Excluding').orange} #{path}"
         sources.exclude(path)
       end
       sources
@@ -105,10 +105,10 @@ module PDD
 
     # Generate XML.
     def xml
-      dir = File.expand_path(@opts[:source] || Dir.pwd)
-      PDD.log.info "Reading from base dir #{dir}"
+      dir = @opts[:source] || Dir.pwd
+      PDD.log.info "Reading from root dir #{dir}"
       require_relative 'pdd/sources'
-      sources = Sources.new(dir)
+      sources = Sources.new(File.expand_path(dir))
       sources = include_files sources
       sources = exclude_files sources
 

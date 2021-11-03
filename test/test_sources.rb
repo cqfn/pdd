@@ -92,14 +92,16 @@ class TestSources < Minitest::Test
   def test_includes_by_pattern
     in_temp(['a/first.txt', 'b/c/d/second.txt']) do |dir|
       list = PDD::Sources.new(dir).include('b/c/d/second.txt').fetch
-      assert_equal 1, list.size
+      assert_equal 2, list.size
     end
   end
 
   def test_includes_recursively
     in_temp(['a/first.txt', 'b/c/second.txt', 'b/c/d/third.txt']) do |dir|
-      list = PDD::Sources.new(dir).include('**/*').fetch
-      assert_equal 0, list.size
+      sources = PDD::Sources.new(dir).exclude('b/c/**')
+      sources.include('b/c/d/third.txt')
+      list = sources.fetch
+      assert_equal 2, list.size
     end
   end
 

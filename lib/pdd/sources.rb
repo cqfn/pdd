@@ -67,10 +67,12 @@ module PDD
 
     def exclude(ptn)
       @exclude.push(ptn)
+      self
     end
 
     def include(ptn)
       @include.push(ptn)
+      self
     end
 
     private
