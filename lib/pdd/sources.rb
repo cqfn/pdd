@@ -27,10 +27,10 @@ module PDD
   class Sources
     # Ctor.
     # +dir+:: Directory with source code files
-    def initialize(dir, ptns = [])
+    def initialize(dir)
       @dir = File.absolute_path(dir)
-      @exclude = ptns + ['.git/**/*']
-      @include = ptns + ['.git/**/*']
+      @exclude = ['.git/**/*']
+      @include = []
     end
 
     # Fetch all sources.
@@ -39,21 +39,26 @@ module PDD
         File.join(@dir, '**/*'), File::FNM_DOTMATCH
       ).reject { |f| File.directory?(f) }
       included = 0
-      @include.each do |ptn|
-        Dir.glob(File.join(@dir, ptn), File::FNM_DOTMATCH) do |f|
-          files.keep_if { |i| i != f }
-          included += 1
-        end
-      end
-      PDD.log.info "#{files.size} file(s) found, #{included} files included"
       excluded = 0
-      @exclude.each do |ptn|
-        Dir.glob(File.join(@dir, ptn), File::FNM_DOTMATCH) do |f|
-          files.delete_if { |i| i == f }
-          excluded += 1
+      unless @include.empty?
+        @include.each do |ptn|
+          Dir.glob(File.join(@dir, ptn), File::FNM_DOTMATCH) do |f|
+            files.push(f)
+            included += 1
+          end
         end
       end
-      PDD.log.info "#{files.size} file(s) found, #{excluded} excluded"
+      unless @exclude.empty?
+        @exclude.each do |ptn|
+          Dir.glob(File.join(@dir, ptn), File::FNM_DOTMATCH) do |f|
+            files.delete_if { |i| i == f }
+            excluded += 1
+          end
+        end
+      end
+      files = files.uniq # remove duplicates
+      PDD.log.info "#{files.size} file(s) found, "\
+      "#{included} files included, #{excluded} excluded"
       files.reject { |f| binary?(f) }.map do |file|
         path = file[@dir.length + 1, file.length]
         VerboseSource.new(path, Source.new(file, path))
@@ -61,11 +66,11 @@ module PDD
     end
 
     def exclude(ptn)
-      Sources.new(@dir, @exclude.push(ptn))
+      @exclude.push(ptn)
     end
 
     def include(ptn)
-      Sources.new(@dir, @include.push(ptn))
+      @include.push(ptn)
     end
 
     private

@@ -1,9 +1,13 @@
 --source=.
 --verbose
 --skip-errors
+--skip-gitignore
+--include lib/pdd/sources.rb
 --exclude .idea/**/*
+--exclude .bundle/**/*
 --exclude target/**/*
 --exclude coverage/**/*
+--exclude test_assets/**/*
 --exclude README.md
 --exclude features/cli.feature
 --exclude features/parsing.feature

@@ -14,9 +14,7 @@ module PDD
 
     def initialize(*args, &task_block)
       @name = args.shift || :pdd
-      @includes = Dir.glob(
-        File.join(Dir.pwd, '**/*'), File::FNM_DOTMATCH
-      ).reject { |f| File.directory?(f) }
+      @includes = []
       @excludes = []
       @license = nil
       @quiet = false
