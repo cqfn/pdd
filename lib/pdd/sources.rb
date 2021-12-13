@@ -51,6 +51,7 @@ module PDD
     end
 
     def exclude(paths)
+      paths = paths.nil? ? [] : paths
       paths = paths.is_a?(Array) ? paths : [paths]
       @exclude.push(*paths)
       paths&.each do |path|
@@ -60,6 +61,7 @@ module PDD
     end
 
     def include(paths)
+      paths = paths.nil? ? [] : paths
       paths = paths.is_a?(Array) ? paths : [paths]
       @include.push(*paths)
       paths&.each do |path|
