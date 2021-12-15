@@ -22,6 +22,7 @@ require 'rainbow'
 require 'shellwords'
 require 'English'
 require_relative 'source'
+require_relative '../../utils/glob'
 
 module PDD
   # Code base abstraction
@@ -36,10 +37,14 @@ module PDD
 
     # Fetch all sources.
     def fetch
+      exclude_paths = @exclude.map do |ptn|
+        Glob.new(File.join(@dir, ptn)).to_regexp
+      end
       files = Dir.glob(
-        File.join(@dir, '**/*')
-      ).reject { |f| File.directory?(f) }
-      files -= Dir.glob(@exclude.map { |ptn| File.join(@dir, ptn) })
+        File.join(@dir, '**/*'), File::FNM_DOTMATCH
+      ).reject do |f|
+        File.directory?(f) || exclude_paths.any? { |ptn| f.match(ptn) }
+      end
       files += Dir.glob(
         @include.map { |ptn| File.join(@dir, ptn) }
       ).reject { |f| File.directory?(f) }
