@@ -86,32 +86,14 @@ module PDD
       PDD.log.info "Ruby version is #{RUBY_VERSION} at #{RUBY_PLATFORM}"
     end
 
-    def include_files(sources)
-      @opts[:include]&.each do |path|
-        PDD.log.info "#{Rainbow('Including').blue} #{path}"
-        sources.include(path)
-      end
-      sources
-    end
-
-    def exclude_files(sources)
-      paths = (@opts[:exclude] || []) + (@opts['skip-gitignore'] || [])
-      paths&.each do |path|
-        PDD.log.info "#{Rainbow('Excluding').orange} #{path}"
-        sources.exclude(path)
-      end
-      sources
-    end
-
     # Generate XML.
     def xml
       dir = @opts[:source] || Dir.pwd
       PDD.log.info "Reading from root dir #{dir}"
       require_relative 'pdd/sources'
       sources = Sources.new(File.expand_path(dir))
-      sources = include_files sources
-      sources = exclude_files sources
-
+      sources.exclude((@opts[:exclude] || []) + (@opts['skip-gitignore'] || []))
+      sources.include(@opts[:include])
       sanitize(
         rules(
           Nokogiri::XML::Builder.new(encoding: 'UTF-8') do |xml|
