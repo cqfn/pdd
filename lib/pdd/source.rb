@@ -105,7 +105,7 @@ see https://github.com/cqfn/pdd#how-to-format"
 
     # Fetch puzzle
     def puzzle(lines, match, idx)
-      tail = tail(lines, match[1], idx)
+      tail = tail(lines, match[1])
       body = "#{match[3]} #{tail.join(' ')}".gsub(/\s+/, ' ').strip
       body = body.chomp('*/-->').strip
       marker = marker(match[2])
@@ -142,18 +142,17 @@ against the rules explained here: https://github.com/cqfn/pdd#how-to-format"
     end
 
     # Fetch puzzle tail (all lines after the first one)
-    def tail(lines, prefix, start)
+    def tail(lines, prefix)
+      prefix = prefix.rstrip
       lines
         .take_while { |t| match_markers(t).none? && t.start_with?(prefix) }
+        .take_while do |t|
+          # account for carriage return in line endings
+          t_len = t.length - 1
+          t_len <= prefix.length || t_len > prefix.length + 2
+        end
         .map { |t| t[prefix.length, t.length] }
-        .take_while { |t| t =~ /^[ a-zA-Z0-9]/ }
-        .each_with_index do |t, i|
-        next if t.start_with?(' ')
-
-        raise Error, "Space expected at #{start + i + 2}:#{prefix.length}; \
-make sure all lines in the puzzle body have a single leading space."
-      end
-        .map { |t| t[1, t.length] }
+        .map { |t| t.start_with?(' ') ? t[1, t.length] : t }
     end
 
     # @todo #75:30min Let's make it possible to fetch Subversion data
