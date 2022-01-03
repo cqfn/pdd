@@ -34,6 +34,9 @@ Feature: Parsing
        * @todo #ABC-67:15min And this one ever later
        * @todo #F-78-3:2h/DEV This is for a developer
        *  who will join us later
+       * @todo #44 This puzzle has a correct format
+       * even though it doesn't start with a space on
+       * the second and the third lines
        */
       public void main(String[] args) {
         // later
@@ -48,3 +51,4 @@ Feature: Parsing
     And XML matches "//puzzle[ticket='F-78-3' and lines='5-6']"
     And XML matches "//puzzle[ticket='ABC-67' and estimate='15']"
     And XML matches "//puzzle[ticket='F-78-3' and estimate='120']"
+    And XML matches "//puzzle[ticket='44' and lines='7-9']"
