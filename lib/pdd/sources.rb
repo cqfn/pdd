@@ -18,8 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-require 'shellwords'
 require 'English'
+require 'filemagic'
 require_relative 'source'
 
 module PDD
@@ -77,20 +77,20 @@ module PDD
 
     private
 
-    # @todo #98:30min Change the implementation of this method
-    #  to also work in Windows machines. Investigate the possibility
-    #  of use a gem for this. After that, remove the skip of the test
-    #  `test_ignores_binary_files` in `test_sources.rb`.
     def binary?(file)
-      return false if Gem.win_platform?
-
-      `grep -qI '.' #{Shellwords.escape(file)}`
-      if $CHILD_STATUS.success?
+      if text_file?(file)
         false
       else
         PDD.log.info "#{file} is a binary file (#{File.size(file)} bytes)"
         true
       end
+    end
+
+    def text_file?(file)
+      fm = FileMagic.new(FileMagic::MAGIC_MIME)
+      fm.file(file) =~ %r{^text/}
+    ensure
+      fm.close
     end
   end
 end
