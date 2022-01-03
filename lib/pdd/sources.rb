@@ -18,9 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+require 'rainbow'
 require 'English'
 require 'filemagic'
 require_relative 'source'
+require_relative '../../utils/glob'
 
 module PDD
   # Code base abstraction
@@ -35,43 +37,41 @@ module PDD
 
     # Fetch all sources.
     def fetch
+      exclude_paths = @exclude.map do |ptn|
+        Glob.new(File.join(@dir, ptn)).to_regexp
+      end
       files = Dir.glob(
         File.join(@dir, '**/*'), File::FNM_DOTMATCH
+      ).reject do |f|
+        File.directory?(f) || exclude_paths.any? { |ptn| f.match(ptn) }
+      end
+      files += Dir.glob(
+        @include.map { |ptn| File.join(@dir, ptn) }
       ).reject { |f| File.directory?(f) }
-      included = 0
-      excluded = 0
-      unless @include.empty?
-        @include.each do |ptn|
-          Dir.glob(File.join(@dir, ptn), File::FNM_DOTMATCH) do |f|
-            files.push(f)
-            included += 1
-          end
-        end
-      end
-      unless @exclude.empty?
-        @exclude.each do |ptn|
-          Dir.glob(File.join(@dir, ptn), File::FNM_DOTMATCH) do |f|
-            files.delete_if { |i| i == f }
-            excluded += 1
-          end
-        end
-      end
       files = files.uniq # remove duplicates
-      PDD.log.info "#{files.size} file(s) found, "\
-      "#{included} files included, #{excluded} excluded"
       files.reject { |f| binary?(f) }.map do |file|
         path = file[@dir.length + 1, file.length]
         VerboseSource.new(path, Source.new(file, path))
       end
     end
 
-    def exclude(ptn)
-      @exclude.push(ptn)
+    def exclude(paths)
+      paths = paths.nil? ? [] : paths
+      paths = paths.is_a?(Array) ? paths : [paths]
+      @exclude.push(*paths)
+      paths&.each do |path|
+        PDD.log.info "#{Rainbow('Excluding').orange} #{path}"
+      end
       self
     end
 
-    def include(ptn)
-      @include.push(ptn)
+    def include(paths)
+      paths = paths.nil? ? [] : paths
+      paths = paths.is_a?(Array) ? paths : [paths]
+      @include.push(*paths)
+      paths&.each do |path|
+        PDD.log.info "#{Rainbow('Including').blue} #{path}"
+      end
       self
     end
 
