@@ -37,7 +37,6 @@ class TestSources < Minitest::Test
   end
 
   def test_ignores_binary_files
-    skip if Gem.win_platform?
     in_temp([]) do |dir|
       [
         'README.md',

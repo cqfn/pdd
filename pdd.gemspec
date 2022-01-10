@@ -47,6 +47,7 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt']
   s.add_runtime_dependency 'nokogiri', '~> 1.10'
   s.add_runtime_dependency 'rainbow', '~> 3.0'
+  s.add_runtime_dependency 'ruby-filemagic', '~> 0.7.2'
   s.add_runtime_dependency 'slop', '~> 4.6'
   s.add_development_dependency 'aruba', '~> 0.14.1'
   s.add_development_dependency 'codecov', '0.2.12'
