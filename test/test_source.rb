@@ -79,6 +79,31 @@ class TestSource < Minitest::Test
     end
   end
 
+  def test_multiple_puzzles_single_comment_block
+    Dir.mktmpdir 'test' do |dir|
+      file = File.join(dir, 'a.txt')
+      File.write(
+        file,
+        "
+        /*
+         * \x40todo #1 First one with
+         * a few lines
+         * \x40todo #1 Second one also
+         * with a few lines
+         */
+        "
+      )
+      stub_source_find_github_user(file, 'hey') do |source|
+        PDD.opts = nil
+        assert_equal 2, source.puzzles.size
+        puzzle = source.puzzles.last
+        assert_equal '5-6', puzzle.props[:lines]
+        assert_equal 'Second one also with a few lines', puzzle.props[:body]
+        assert_equal '1', puzzle.props[:ticket]
+      end
+    end
+  end
+
   def test_succeed_despite_bad_puzzles
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'a.txt')
