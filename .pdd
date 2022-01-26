@@ -1,22 +1,5 @@
---source=.
+--source=../g2w-master
 --verbose
---exclude .idea/**/*
---exclude target/**/*
---exclude coverage/**/*
---exclude README.md
---exclude features/cli.feature
---exclude features/parsing.feature
---exclude features/catches_broken_puzzles.feature
---exclude features/uses_config.feature
---exclude features/html_output.feature
---exclude features/avoiding_duplicates.feature
---exclude features/applies_rules.feature
---exclude features/unicode.feature
---exclude lib/pdd/source.rb
---exclude test/test_source.rb
---exclude test/test_source_todo.rb
---exclude test/test_pdd.rb
---exclude src/main/resources/images/**/*
---rule min-words:20
---rule min-estimate:15
+--rule min-words:0
+--rule min-estimate:0
 --rule max-estimate:90

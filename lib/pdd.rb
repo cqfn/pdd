@@ -20,6 +20,7 @@
 
 require 'nokogiri'
 require 'logger'
+require 'stackprof'
 require 'time'
 require 'rainbow'
 require_relative 'pdd/version'
@@ -32,6 +33,8 @@ require_relative 'pdd/rule/roles'
 # Author:: Yegor Bugayenko (yegor256@gmail.com)
 # Copyright:: Copyright (c) 2014-2020 Yegor Bugayenko
 # License:: MIT
+
+#StackProf.run(mode: :cpu, out: 'stackprof-output.dump') do
 module PDD
   # If it breaks.
   class Error < StandardError
@@ -83,31 +86,33 @@ module PDD
 
     # Generate XML.
     def xml
-      dir = @opts[:source] ? @opts[:source] : Dir.pwd
-      PDD.log.info "Reading #{dir}"
-      require_relative 'pdd/sources'
-      sources = Sources.new(dir)
-      @opts[:exclude]&.each do |p|
-        sources = sources.exclude(p)
-        PDD.log.info "Excluding #{p}"
-      end
-      sanitize(
-        rules(
-          Nokogiri::XML::Builder.new do |xml|
-            xml << "<?xml-stylesheet type='text/xsl' href='#{xsl}'?>"
-            xml.puzzles(attrs) do
-              sources.fetch.each do |source|
-                source.puzzles.each do |puzzle|
-                  PDD.log.info "Puzzle #{puzzle.props[:id]} " \
+      StackProf.run(mode: :cpu, out: 'stackprof-cpu-myapp.dump', raw: true) do
+        dir = @opts[:source] ? @opts[:source] : Dir.pwd
+        PDD.log.info "Reading #{dir}"
+        require_relative 'pdd/sources'
+        sources = Sources.new(dir)
+        @opts[:exclude]&.each do |p|
+          sources = sources.exclude(p)
+          PDD.log.info "Excluding #{p}"
+        end
+        sanitize(
+          rules(
+            Nokogiri::XML::Builder.new do |xml|
+              xml << "<?xml-stylesheet type='text/xsl' href='#{xsl}'?>"
+              xml.puzzles(attrs) do
+                sources.fetch.each do |source|
+                  source.puzzles.each do |puzzle|
+                    PDD.log.info "Puzzle #{puzzle.props[:id]} " \
                     "#{puzzle.props[:estimate]}/#{puzzle.props[:role]}" \
                     " at #{puzzle.props[:file]}"
-                  render puzzle, xml
+                    render puzzle, xml
+                  end
                 end
               end
-            end
-          end.to_xml
+            end.to_xml
+          )
         )
-      )
+      end
     end
 
     private
@@ -170,3 +175,4 @@ module PDD
     end
   end
 end
+#end
