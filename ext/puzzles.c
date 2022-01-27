@@ -4,46 +4,45 @@
 #include <regex.h>
 
 static VALUE check_rules_extension(VALUE self, VALUE value){
-    Check_Type(value, T_STRING);
-
     regex_t regex;
     int reti;
     char msgbuf[100];
-
-    /* Compile regular expressions */
-
-    // original regexp /[^\s]\x40todo/
-    reti = regcomp(&regex, "[^[[:blank:]]]\x40todo", 0);
-    // original regexp /\x40todo(?!\s+#)/
-    reti1 = regcomp(&regex, "\x40todo(?![[:blank:]]+#)", 0);
-    // original regexp /\x40todo\s+#\s/
-    reti2 = regcomp(&regex, "\x40todo[[:blank:]]+#[[:blank:]]", 0);
-    // original regexp /[^\s]TODO:?/
-    reti3 = regcomp(&regex, "[^[[:blank:]]]TODO:?", 0);
-    // original regexp /TODO(?!:?\s+#)/
-    reti4 = regcomp(&regex, "[^[[:blank:]]]TODO:?", 0);
-    // original regexp /TODO:?\s+#\s/
-    reti5 = regcomp(&regex, "TODO:?[[:blank:]]+#[[:blank:]]", 0);
-    if( reti ){ fprintf(stderr, "Could not compile regex\n"); exit(1); }
-
-    /* Execute regular expression */
-    reti = regexec(&regex, "abc", 0, NULL, 0);
-    if( !reti ){
-       puts("Match");
-    }
-    else if( reti == REG_NOMATCH ){
-       puts("No match");
-    }
-    else{
-       regerror(reti, &regex, msgbuf, sizeof(msgbuf));
-       fprintf(stderr, "Regex match failed: %s\n", msgbuf);
-       exit(1);
-    }
-
-    /* Free compiled regular expression if you want to use the regex_t again */
-    regfree(&regex);
-
     Check_Type(value, T_STRING);
+
+    char regexpArray[] = {
+        "[^[[:space:]]]\x40todo",
+        "\x40todo(?![[:space:]]+#)",
+        "\x40todo[[:space:]]+#[[:space:]]",
+        "[^[[:space:]]]TODO:?",
+        "TODO(?!:?[[:space:]]+#",
+        "TODO:?[[:space:]]+#[[:space:]]"
+        };
+
+    for (int i = 0, i < 6; ++i){
+
+        /* Compile regular expressions */
+        reti = regcomp(&regex, regexpArray[i], 0);
+        if( reti ){ fprintf(stderr, "Could not compile regex\n"); exit(1); }
+
+        /* Execute regular expression */
+        reti = regexec(&regex, value, 0, NULL, 0);
+        if( !reti ){
+            puts("Match");
+        }
+        else if( reti == REG_NOMATCH ){
+            puts("No match");
+        }
+        else{
+            regerror(reti, &regex, msgbuf, sizeof(msgbuf));
+            fprintf(stderr, "Regex match failed: %s\n", msgbuf);
+            exit(1);
+        }
+
+        /* Free compiled regular expression if you want to use the regex_t again */
+        regfree(&regex);
+
+    }
+
     //TODO: implement parsing current line to check if suitable
     return T_NIL;
 }
