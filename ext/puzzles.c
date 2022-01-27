@@ -3,7 +3,7 @@
 #include "library.h"
 #include <regex.h>
 
-static VALUE check_rules_extension(VALUE self, VALUE value){
+static void check_rules_extension(VALUE self, VALUE value){
     regex_t regex;
     int reti;
     char msgbuf[100];
@@ -42,9 +42,6 @@ static VALUE check_rules_extension(VALUE self, VALUE value){
         regfree(&regex);
 
     }
-
-    //TODO: implement parsing current line to check if suitable
-    return T_NIL;
 }
 
 static VALUE puzzle_collector(VALUE self, VALUE value){
