@@ -11,9 +11,8 @@ Feature: Catches Broken Puzzles
        * Some other documentation
        * text that is not relevant to
        * the puzzle below.
-       * @todo #13 This puzzle has an incorrect format
-       * because it doesn't start with a space on
-       * the second and the third lines
+       * @todo This puzzle has an incorrect format
+       * because it doesn't have a ticket number
        */
       public void main(String[] args) {
         // later
