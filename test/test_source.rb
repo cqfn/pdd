@@ -46,8 +46,9 @@ class TestSource < Minitest::Test
         list = source.puzzles
         assert_equal 2, list.size
         puzzle = list.first
-        assert_equal '2-3', puzzle.props[:lines]
-        assert_equal 'привет, how are you doing?', puzzle.props[:body]
+        assert_equal '2-4', puzzle.props[:lines]
+        assert_equal 'привет, how are you doing? -something else', \
+                     puzzle.props[:body]
         assert_equal '44', puzzle.props[:ticket]
         assert puzzle.props[:author].nil?
         assert puzzle.props[:email].nil?
@@ -78,20 +79,28 @@ class TestSource < Minitest::Test
     end
   end
 
-  def test_failing_on_invalid_puzzle
+  def test_multiple_puzzles_single_comment_block
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'a.txt')
       File.write(
         file,
         "
-        * \x40todo #44 this is an incorrectly formatted puzzle,
-        * with a second line without a leading space
+        /*
+         * \x40todo #1 First one with
+         * a few lines
+         * \x40todo #1 Second one also
+         * with a few lines
+         */
         "
       )
-      error = assert_raises PDD::Error do
-        stub_source_find_github_user(file, 'hey', &:puzzles)
+      stub_source_find_github_user(file, 'hey') do |source|
+        PDD.opts = nil
+        assert_equal 2, source.puzzles.size
+        puzzle = source.puzzles.last
+        assert_equal '5-6', puzzle.props[:lines]
+        assert_equal 'Second one also with a few lines', puzzle.props[:body]
+        assert_equal '1', puzzle.props[:ticket]
       end
-      assert !error.message.index('Space expected').nil?
     end
   end
 
@@ -101,10 +110,10 @@ class TestSource < Minitest::Test
       File.write(
         file,
         "
-        * \x40todo #44 this is an incorrectly formatted puzzle,
+        * \x40todo #44 this is a correctly formatted puzzle,
         * with a second line without a leading space
         Another badly formatted puzzle
-        * \x40todo this puzzle misses ticket name/number
+        * \x40todo this bad puzzle misses ticket name/number
         Something else
         * \x40todo #123 This puzzle is correctly formatted
         "
@@ -113,11 +122,12 @@ class TestSource < Minitest::Test
       stub_source_find_github_user(file, 'hey') do |source|
         list = source.puzzles
         PDD.opts = nil
-        assert_equal 1, list.size
+        assert_equal 2, list.size
         puzzle = list.first
-        assert_equal '7-7', puzzle.props[:lines]
-        assert_equal 'This puzzle is correctly formatted', puzzle.props[:body]
-        assert_equal '123', puzzle.props[:ticket]
+        assert_equal '2-3', puzzle.props[:lines]
+        assert_equal 'this is a correctly formatted puzzle, with a second ' \
+                     'line without a leading space', puzzle.props[:body]
+        assert_equal '44', puzzle.props[:ticket]
       end
     end
   end

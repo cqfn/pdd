@@ -121,24 +121,6 @@ class TestSourceTodo < Minitest::Test
     )
   end
 
-  def test_todo_failing_no_space_on_second_line
-    check_invalid_puzzle(
-      "
-      * TODO #45 this puzzle
-      * has not space on second line",
-      'Space expected'
-    )
-  end
-
-  def test_todo_colon_failing_no_space_on_second_line
-    check_invalid_puzzle(
-      "
-      * TODO: #45 this puzzle
-      * has not space on second line",
-      'Space expected'
-    )
-  end
-
   def test_todo_failing_no_ticket
     check_invalid_puzzle(
       "
