@@ -31,6 +31,8 @@ require_relative '../lib/pdd'
 require_relative '../lib/pdd/version'
 require_relative '../lib/pdd/source'
 
+Rainbow.enabled = ENV['PDD_ENV'] == 'development'
+
 begin
   args = []
   if File.exist?('.pdd')
