@@ -8,6 +8,8 @@ Layout/EndOfLine:
   EnforcedStyle: lf
 Metrics/ClassLength:
   Max: 300
+Metrics/LineLength:
+  Max: 90
 Metrics/MethodLength:
   Max: 30
 Metrics/AbcSize:

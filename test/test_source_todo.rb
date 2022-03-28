@@ -53,7 +53,7 @@ class TestSourceTodo < Minitest::Test
   def test_todo_parsing
     check_valid_puzzle(
       "
-      // TODO #45 task description
+      // @todo #45 task description
       ",
       '2-2',
       'task description',
@@ -64,7 +64,7 @@ class TestSourceTodo < Minitest::Test
   def test_todo_parsing_multi_line
     check_valid_puzzle(
       "
-      // TODO #45 task description
+      // @todo #45 task description
       //  second line
       ",
       '2-3',

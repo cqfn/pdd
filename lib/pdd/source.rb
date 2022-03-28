@@ -39,7 +39,7 @@ module PDD
 
     def match_markers(l)
       if l.downcase.include? 'todo'
-        a = [%r{(.*(?:^|\s))(?:\x40todo|TODO:)\s+#([\w\-.:/]+)\s+(.+)}.match(l)]
+        a = [%r{(.*(?:^|\s))(?:\x40todo|TODO:|TODO)\s+#([\w\-.:/]+)\s+(.+)}.match(l)]
         a.compact
       else
         []

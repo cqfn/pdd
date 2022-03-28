@@ -79,9 +79,7 @@ When(%r{^I run bin/pdd with "([^"]*)"$}) do |arg|
 end
 
 Then(/^Stdout contains "([^"]*)"$/) do |txt|
-  unless @stdout.include?(txt)
-    raise "STDOUT doesn't contain '#{txt}':\n#{@stdout}"
-  end
+  raise "STDOUT doesn't contain '#{txt}':\n#{@stdout}" unless @stdout.include?(txt)
 end
 
 Then(/^Stdout is empty$/) do
@@ -93,9 +91,7 @@ Then(/^XML file "([^"]+)" matches "([^"]+)"$/) do |file, xpath|
 
   xml = Nokogiri::XML.parse(File.read(file))
   xml.remove_namespaces!
-  if xml.xpath(xpath).empty?
-    raise "XML file #{file} doesn't match \"#{xpath}\":\n#{xml}"
-  end
+  raise "XML file #{file} doesn't match \"#{xpath}\":\n#{xml}" if xml.xpath(xpath).empty?
 end
 
 Then(/^Exit code is zero$/) do
