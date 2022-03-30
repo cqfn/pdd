@@ -27,7 +27,6 @@ class Glob
   end
 
   # rubocop:disable Metrics/CyclomaticComplexity
-  # rubocop:disable Metrics/MethodLength
   def to_regexp
     chars = @glob_string.gsub(%r{(\*\*\/\*)|(\*\*)}, '*').split('')
     in_curlies = 0, escaping = false
@@ -63,5 +62,4 @@ class Glob
     end.join
   end
   # rubocop:enable Metrics/CyclomaticComplexity
-  # rubocop:enable Metrics/MethodLength
 end

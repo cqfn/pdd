@@ -39,6 +39,24 @@ module PDD
 
     def match_markers(l)
       if l.downcase.include? 'todo'
+        /[^\s]\x40todo/.match(l) do |_|
+          raise Error, get_no_leading_space_error("\x40todo")
+        end
+        /\x40todo(?!\s+#)/.match(l) do |_|
+          raise Error, get_no_puzzle_marker_error("\x40todo")
+        end
+        /\x40todo\s+#\s/.match(l) do |_|
+          raise Error, get_space_after_hash_error("\x40todo")
+        end
+        /[^\s]TODO:?/.match(l) do |_|
+          raise Error, get_no_leading_space_error('TODO')
+        end
+        /TODO(?!:?\s+#)/.match(l) do |_|
+          raise Error, get_no_puzzle_marker_error('TODO')
+        end
+        /TODO:?\s+#\s/.match(l) do |_|
+          raise Error, get_space_after_hash_error('TODO')
+        end
         a = [%r{(.*(?:^|\s))(?:\x40todo|TODO:|TODO)\s+#([\w\-.:/]+)\s+(.+)}.match(l)]
         a.compact
       else
@@ -53,7 +71,6 @@ module PDD
       lines = File.readlines(@file, encoding: 'UTF-8')
       lines.each_with_index do |line, idx|
         begin
-          check_rules(line)
           match_markers(line).each do |m|
             puzzles << puzzle(lines.drop(idx + 1), m, idx)
           end
@@ -83,27 +100,6 @@ as this page explains: https://github.com/cqfn/pdd#how-to-format"
       "#{todo} found, but there is an unexpected space \
 after the hash sign, it should not be there, \
 see https://github.com/cqfn/pdd#how-to-format"
-    end
-
-    def check_rules(line)
-      /[^\s]\x40todo/.match(line) do |_|
-        raise Error, get_no_leading_space_error("\x40todo")
-      end
-      /\x40todo(?!\s+#)/.match(line) do |_|
-        raise Error, get_no_puzzle_marker_error("\x40todo")
-      end
-      /\x40todo\s+#\s/.match(line) do |_|
-        raise Error, get_space_after_hash_error("\x40todo")
-      end
-      /[^\s]TODO:?/.match(line) do |_|
-        raise Error, get_no_leading_space_error('TODO')
-      end
-      /TODO(?!:?\s+#)/.match(line) do |_|
-        raise Error, get_no_puzzle_marker_error('TODO')
-      end
-      /TODO:?\s+#\s/.match(line) do |_|
-        raise Error, get_space_after_hash_error('TODO')
-      end
     end
 
     # Fetch puzzle
