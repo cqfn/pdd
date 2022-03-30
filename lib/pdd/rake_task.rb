@@ -22,18 +22,8 @@ module PDD
       task(name, *args) do |_, task_args|
         RakeFileUtils.send(:verbose, true) do
           yield(*[self, task_args].slice(0, task_block.arity)) if block_given?
-          run
         end
       end
-    end
-
-    private
-
-    def run
-      # @todo #125:30m need to implement this method.
-      #  For now, it's just a task,
-      #  that prints a simple Running pdd... message to user
-      puts 'Running pdd...' unless @quiet
     end
   end
 end
