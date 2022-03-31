@@ -11,7 +11,7 @@ Metrics/ClassLength:
 Metrics/LineLength:
   Max: 90
 Metrics/MethodLength:
-  Max: 30
+  Max: 35
 Metrics/AbcSize:
   Max: 40
 Style/MultilineBlockChain:
