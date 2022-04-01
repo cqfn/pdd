@@ -1,6 +1,5 @@
 --source=.
 --verbose
---skip-gitignore
 --exclude .idea/**/*
 --exclude .bundle/**/*
 --exclude target/**/*
