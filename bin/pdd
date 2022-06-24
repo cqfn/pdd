@@ -68,6 +68,7 @@ begin
         '-r', '--rule', 'Rule to apply (can be used many times)',
         delimiter: ';'
       )
+      o.bool '-m', '--model', 'Opt-in to use ml model to prioritize puzzles'
     end
   rescue Slop::Error => e
     raise StandardError, "#{e.message}, try --help"

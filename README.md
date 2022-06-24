@@ -66,6 +66,14 @@ pdd --include=src/**/*.py # include only .py files in src/
 pdd --include=src/**/* # include all files in src/
 ```
 
+`` --model ``
+
+Opt-in to use inbuilt ML model to prioritize puzzles found in code. 
+```bash
+pdd --model
+pdd -m
+```
+
 ## How to Format?
 
 Every puzzle has to be formatted like this (pay attention

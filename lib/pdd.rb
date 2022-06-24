@@ -121,7 +121,7 @@ module PDD
         'xsi:noNamespaceSchemaLocation' => "#{host('xsd')}/#{PDD::VERSION}.xsd",
         'version' => PDD::VERSION,
         'date' => Time.now.utc.iso8601
-      }
+      }.merge(@opts[:model] ? { 'model' => true } : {})
     end
 
     def host(suffix)
