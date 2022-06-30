@@ -6,6 +6,7 @@
 
 [![PDD status](http://www.0pdd.com/svg?name=cqfn/pdd)](http://www.0pdd.com/p?name=cqfn/pdd)
 [![Test Coverage](https://img.shields.io/codecov/c/github/cqfn/pdd.svg)](https://codecov.io/github/cqfn/pdd?branch=master)
+![Lines of code](https://img.shields.io/tokei/lines/github/cqfn/pdd)
 [![Hits-of-Code](https://hitsofcode.com/github/cqfn/pdd)](https://hitsofcode.com/view/github/cqfn/pdd)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/cqfn/pdd/blob/master/LICENSE.txt)
 
