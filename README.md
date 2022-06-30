@@ -1,4 +1,4 @@
-<img alt="pdd logo" src="https://avatars2.githubusercontent.com/u/24456188" width="64px" height="64px"/>
+<img alt="pdd logo" src="https://avatars2.githubusercontent.com/u/24456188" width="92px" height="92px"/>
 
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
 [![DevOps By Rultor.com](http://www.rultor.com/b/cqfn/pdd)](http://www.rultor.com/p/cqfn/pdd)
