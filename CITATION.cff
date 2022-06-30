@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Bugayenko"
+  given-names: "Yegor"
+  orcid: "https://orcid.org/0000-0001-6370-0678"
+- family-names: "Bakare"
+  given-names: "Ayomide"
+- family-names: "Cheverda"
+  given-names: "Arina"
+- family-names: "Farina"
+  given-names: "Mirko"
+- family-names: "Kruglov"
+  given-names: "Artem"
+- family-names: "Plaksin"
+  given-names: "Yaroslav"
+- family-names: "Succi"
+  given-names: "Giancarlo"
+- family-names: "Pedrycz"
+  given-names: "Witold"
+title: "Automatically Prioritizing and Assigning Tasks from Code Repositories in Puzzle Driven Development"
+version: 0.21.0
+doi: 10.1145/3524842.3528512
+date-released: 2022-05-09
+url: "https://github.com/cqfn/pdd"
