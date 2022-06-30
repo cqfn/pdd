@@ -25,7 +25,8 @@ Read
 [_PDD in Action_](http://www.yegor256.com/2017/04/05/pdd-in-action.html)
 and watch [this webinar](https://www.youtube.com/watch?v=nsYGC2aUwfQ).
 
-Install it first:
+You should have [Ruby installed](https://www.ruby-lang.org/en/documentation/installation/).
+Then, install our gem:
 
 ```bash
 $ gem install pdd
@@ -39,26 +40,32 @@ $ pdd --help
 
 You can exclude & include certain number of files from the search via these options:
 
-`` --exclude=glob ``
+```
+$ pdd --exclude=glob
+```
 
 You can skip any file(s) with a name suffix that matches the pattern glob, using wildcard matching; 
 a name suffix is either the whole path and name, or reg expr, for example:
 
 ```bash
-pdd --exclude=src/**/*.java --exclude=target/**/*
-pdd --exclude=src/**/*.java # exclude .java files in src/
-pdd --exclude=src/**/* # exclude all files in src/
+$ pdd --exclude=src/**/*.java --exclude=target/**/*
+$ pdd --exclude=src/**/*.java # exclude .java files in src/
+$ pdd --exclude=src/**/* # exclude all files in src/
 ```
 
-`` --include=glob ``
+You can include too:
+
+```
+$ pdd --include=glob
+```
 
 Search only files whose name matches glob, using wildcard matching as described under ``--exclude``. 
 If contradictory ``--include`` and ``--exclude`` options are given, the last matching one wins. 
 If no ``--include`` or ``--exclude`` options are given, all files from working directory are included, example:
-аомтрптм
+
 ```bash
-pdd --include=src/**/*.py # include only .py files in src/
-pdd --include=src/**/* # include all files in src/
+$ pdd --include=src/**/*.py # include only .py files in src/
+$ pdd --include=src/**/* # include all files in src/
 ```
 
 ## How to Format?
