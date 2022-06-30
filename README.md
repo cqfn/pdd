@@ -1,14 +1,9 @@
 <img src="https://avatars2.githubusercontent.com/u/24456188" width="64px" height="64px"/>
 
-[![Donate via Zerocracy](https://www.0crat.com/contrib-badge/C3T46CUJJ.svg)](https://www.0crat.com/contrib/C3T46CUJJ)
-
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
-[![Managed by Zerocracy](https://www.0crat.com/badge/C3T46CUJJ.svg)](https://www.0crat.com/p/C3T46CUJJ)
 [![DevOps By Rultor.com](http://www.rultor.com/b/cqfn/pdd)](http://www.rultor.com/p/cqfn/pdd)
 [![We recommend RubyMine](https://www.elegantobjects.org/rubymine.svg)](https://www.jetbrains.com/ruby/)
 
-[![Build Status](https://travis-ci.org/cqfn/pdd.svg)](https://travis-ci.org/cqfn/pdd)
-[![Build status](https://ci.appveyor.com/api/projects/status/b59sdhuu0gcku15b?svg=true)](https://ci.appveyor.com/project/cqfn/pdd)
 [![PDD status](http://www.0pdd.com/svg?name=cqfn/pdd)](http://www.0pdd.com/p?name=cqfn/pdd)
 [![Test Coverage](https://img.shields.io/codecov/c/github/cqfn/pdd.svg)](https://codecov.io/github/cqfn/pdd?branch=master)
 [![Hits-of-Code](https://hitsofcode.com/github/cqfn/pdd)](https://hitsofcode.com/view/github/cqfn/pdd)
@@ -41,7 +36,6 @@ Run it locally and read its output:
 $ pdd --help
 ```
 
-### File and Directory Selection
 You can exclude & include certain number of files from the search via these options:
 
 `` --exclude=glob ``
@@ -216,7 +210,7 @@ your pull request. You will need to have [Ruby](https://www.ruby-lang.org/en/) 2
 [Bundler](https://bundler.io/) installed. Then:
 
 ```
-$ bundle install --path .bundle
+$ bundle install
 $ bundle exec rake
 ```
 
