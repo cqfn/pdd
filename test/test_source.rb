@@ -79,6 +79,30 @@ class TestSource < Minitest::Test
     end
   end
 
+  def test_no_prefix_multiline_puzzle_block
+    Dir.mktmpdir 'test' do |dir|
+      file = File.join(dir, 'a.txt')
+      File.write(
+        file,
+        "
+        <!--
+        \x40todo #01:30min correctly formatted multi-line puzzle, with no
+          comment prefix before todo marker
+        -->
+        "
+      )
+      stub_source_find_github_user(file, 'hey') do |source|
+        PDD.opts = nil
+        assert_equal 1, source.puzzles.size
+        puzzle = source.puzzles.last
+        assert_equal '3-4', puzzle.props[:lines]
+        assert_equal 'correctly formatted multi-line puzzle, with no ' \
+                     'comment prefix before todo marker', puzzle.props[:body]
+        assert_equal '01', puzzle.props[:ticket]
+      end
+    end
+  end
+
   def test_multiple_puzzles_single_comment_block
     Dir.mktmpdir 'test' do |dir|
       file = File.join(dir, 'a.txt')

@@ -104,7 +104,8 @@ see https://github.com/cqfn/pdd#how-to-format"
 
     # Fetch puzzle
     def puzzle(lines, match, idx)
-      tail = tail(lines, match[1])
+      col_idx = match[0].length - match[0].lstrip.length
+      tail = tail(lines, match[1], col_idx)
       body = "#{match[3]} #{tail.join(' ')}".gsub(/\s+/, ' ').strip
       body = body.chomp('*/-->').strip
       marker = marker(match[2])
@@ -141,8 +142,9 @@ against the rules explained here: https://github.com/cqfn/pdd#how-to-format"
     end
 
     # Fetch puzzle tail (all lines after the first one)
-    def tail(lines, prefix)
+    def tail(lines, prefix, start)
       prefix = prefix.rstrip
+      prefix = " #{' ' * start}" if prefix.empty? # fallback to space indentation
       lines
         .take_while { |t| match_markers(t).none? && t.start_with?(prefix) }
         .take_while do |t|

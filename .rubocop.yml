@@ -1,13 +1,13 @@
 AllCops:
   Exclude:
-    - 'assets/**/*'
+    - "assets/**/*"
   DisplayCopNames: true
   TargetRubyVersion: 2.3
 
 Layout/EndOfLine:
   EnforcedStyle: lf
 Metrics/ClassLength:
-  Max: 300
+  Max: 360
 Metrics/LineLength:
   Max: 90
 Metrics/MethodLength:
