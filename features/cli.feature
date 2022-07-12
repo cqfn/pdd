@@ -43,8 +43,8 @@ Feature: Command Line Processing
     """
     ~~
     ~~ @todo #44 First
-    ~~  and second
-    ~~
+    ~~  and
+    ~~ second
     """
     When I run bin/pdd with "> out.xml"
     Then Exit code is zero

@@ -141,12 +141,21 @@ against the rules explained here: https://github.com/cqfn/pdd#how-to-format"
       min
     end
 
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # @todo #209:30min temporarily disabled cyclomatic complexity for the method.
+    #  below. Please fix soon.
+    #
     # Fetch puzzle tail (all lines after the first one)
     def tail(lines, prefix, start)
       prefix = prefix.rstrip
       prefix = " #{' ' * start}" if prefix.empty? # fallback to space indentation
+      line = lines[0][prefix.length + 1, lines[0].length] if lines[0]
+      is_indented = line&.start_with?(' ')
       lines
         .take_while { |t| match_markers(t).none? && t.start_with?(prefix) }
+        .take_while do |t|
+          !is_indented || t[prefix.length + 1, t.length].start_with?(' ')
+        end
         .take_while do |t|
           # account for carriage return in line endings
           t_len = t.length - 1
@@ -155,6 +164,7 @@ against the rules explained here: https://github.com/cqfn/pdd#how-to-format"
         .map { |t| t[prefix.length, t.length] }
         .map { |t| t.start_with?(' ') ? t[1, t.length] : t }
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     # @todo #75:30min Let's make it possible to fetch Subversion data
     #  in a similar way as we are doing with Git. We should also just

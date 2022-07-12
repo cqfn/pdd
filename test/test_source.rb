@@ -22,6 +22,7 @@ require 'minitest/autorun'
 require 'tmpdir'
 require_relative '../lib/pdd'
 require_relative '../lib/pdd/sources'
+require_relative 'test__helper'
 
 # Source test.
 # Author:: Yegor Bugayenko (yegor256@gmail.com)
@@ -46,8 +47,8 @@ class TestSource < Minitest::Test
         list = source.puzzles
         assert_equal 2, list.size
         puzzle = list.first
-        assert_equal '2-4', puzzle.props[:lines]
-        assert_equal 'привет, how are you doing? -something else', \
+        assert_equal '2-3', puzzle.props[:lines]
+        assert_equal 'привет, how are you doing?', \
                      puzzle.props[:body]
         assert_equal '44', puzzle.props[:ticket]
         assert puzzle.props[:author].nil?
@@ -99,6 +100,28 @@ class TestSource < Minitest::Test
         assert_equal 'correctly formatted multi-line puzzle, with no ' \
                      'comment prefix before todo marker', puzzle.props[:body]
         assert_equal '01', puzzle.props[:ticket]
+      end
+    end
+  end
+
+  def test_space_indented_multiline_puzzle_block
+    Dir.mktmpdir 'test' do |dir|
+      file = File.join(dir, 'a.txt')
+      File.write(
+        file,
+        "
+         # \x40todo #99:30min hello
+         #  good bye
+         # hello again
+        "
+      )
+      stub_source_find_github_user(file, 'hey') do |source|
+        PDD.opts = nil
+        assert_equal 1, source.puzzles.size
+        puzzle = source.puzzles.last
+        assert_equal '2-3', puzzle.props[:lines]
+        assert_equal 'hello good bye', puzzle.props[:body]
+        assert_equal '99', puzzle.props[:ticket]
       end
     end
   end
