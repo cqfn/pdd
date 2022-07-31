@@ -9,7 +9,6 @@
 ![Lines of code](https://img.shields.io/tokei/lines/github/cqfn/pdd)
 [![Hits-of-Code](https://hitsofcode.com/github/cqfn/pdd)](https://hitsofcode.com/view/github/cqfn/pdd)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/cqfn/pdd/blob/master/LICENSE.txt)
-
 [![Gem Version](https://badge.fury.io/rb/pdd.svg)](http://badge.fury.io/rb/pdd)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c8e46256fdd8ddc817e5/maintainability)](https://codeclimate.com/github/cqfn/pdd/maintainability)
 [![Yard Docs](http://img.shields.io/badge/yard-docs-blue.svg)](http://rubydoc.info/github/cqfn/pdd/master/frames)
