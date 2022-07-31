@@ -236,3 +236,9 @@ This is how you run the tool locally to test how it works:
 ```bash
 $ ./bin/pdd --help
 ```
+
+To run a single unit test:
+
+```bash
+$ bundle exec ruby test/test_many.rb
+```
