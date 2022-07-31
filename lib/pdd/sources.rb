@@ -56,8 +56,8 @@ module PDD
     end
 
     def exclude(paths)
-      paths = paths.nil? ? [] : paths
-      paths = paths.is_a?(Array) ? paths : [paths]
+      paths = [] if paths.nil?
+      paths = [paths] unless paths.is_a?(Array)
       @exclude.push(*paths)
       paths&.each do |path|
         PDD.log.info "#{Rainbow('Excluding').orange} #{path}"
@@ -66,8 +66,8 @@ module PDD
     end
 
     def include(paths)
-      paths = paths.nil? ? [] : paths
-      paths = paths.is_a?(Array) ? paths : [paths]
+      paths = [] if paths.nil?
+      paths = [paths] unless paths.is_a?(Array)
       @include.push(*paths)
       paths&.each do |path|
         PDD.log.info "#{Rainbow('Including').blue} #{path}"

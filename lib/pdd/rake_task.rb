@@ -13,6 +13,7 @@ module PDD
     attr_accessor :name, :fail_on_error, :includes, :license, :quiet
 
     def initialize(*args, &task_block)
+      super()
       @name = args.shift || :pdd
       @includes = []
       @excludes = []

@@ -102,8 +102,8 @@ module PDD
               sources.fetch.each do |source|
                 source.puzzles.each do |puzzle|
                   PDD.log.info "Puzzle #{puzzle.props[:id]} " \
-                    "#{puzzle.props[:estimate]}/#{puzzle.props[:role]}" \
-                    " at #{puzzle.props[:file]}"
+                               "#{puzzle.props[:estimate]}/#{puzzle.props[:role]} " \
+                               "at #{puzzle.props[:file]}"
                   render puzzle, xml
                 end
               end

@@ -25,12 +25,10 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require_relative 'lib/pdd/version'
 
 Gem::Specification.new do |s|
-  s.specification_version = 2 if s.respond_to? :specification_version=
   if s.respond_to? :required_rubygems_version=
     s.required_rubygems_version =
       Gem::Requirement.new('>= 0')
   end
-  s.rubygems_version = '2.3'
   s.required_ruby_version = '~> 2.3'
   s.name = 'pdd'
   s.version = PDD::VERSION
@@ -42,7 +40,6 @@ Gem::Specification.new do |s|
   s.homepage = 'http://github.com/cqfn/pdd'
   s.files = `git ls-files`.split($RS)
   s.executables = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  s.test_files = s.files.grep(%r{^(test|spec|features)/})
   s.rdoc_options = ['--charset=UTF-8']
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt']
   s.add_runtime_dependency 'nokogiri', '~> 1.10'
@@ -50,14 +47,15 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'ruby-filemagic', '~> 0.7.2'
   s.add_runtime_dependency 'slop', '~> 4.6'
   s.add_development_dependency 'aruba', '~> 0.14.1'
-  s.add_development_dependency 'codecov', '0.2.12'
-  s.add_development_dependency 'cucumber', '3.1.0'
-  s.add_development_dependency 'minitest', '5.5.0'
-  s.add_development_dependency 'rake', '12.0.0'
-  s.add_development_dependency 'rdoc', '4.2.0'
-  s.add_development_dependency 'rspec-rails', '3.1.0'
-  s.add_development_dependency 'rubocop', '0.52.1'
-  s.add_development_dependency 'rubocop-rspec', '1.15.1'
-  s.add_development_dependency 'slop', '4.9.1'
-  s.add_development_dependency 'xcop', '0.5.8'
+  s.add_development_dependency 'codecov', '0.6.0'
+  s.add_development_dependency 'cucumber', '8.0.0'
+  s.add_development_dependency 'minitest', '5.16.2'
+  s.add_development_dependency 'rake', '13.0.6'
+  s.add_development_dependency 'rdoc', '6.4.0'
+  s.add_development_dependency 'rspec-rails', '5.1.2'
+  s.add_development_dependency 'rubocop', '1.32.0'
+  s.add_development_dependency 'rubocop-rspec', '2.12.1'
+  s.add_development_dependency 'slop', '4.9.2'
+  s.add_development_dependency 'xcop', '0.7.1'
+  s.metadata['rubygems_mfa_required'] = 'true'
 end

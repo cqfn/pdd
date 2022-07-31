@@ -37,27 +37,27 @@ module PDD
       @path = path
     end
 
-    def match_markers(l)
-      if l.downcase.include? 'todo'
-        /[^\s]\x40todo/.match(l) do |_|
+    def match_markers(line)
+      if line.downcase.include? 'todo'
+        /[^\s]\x40todo/.match(line) do |_|
           raise Error, get_no_leading_space_error("\x40todo")
         end
-        /\x40todo(?!\s+#)/.match(l) do |_|
+        /\x40todo(?!\s+#)/.match(line) do |_|
           raise Error, get_no_puzzle_marker_error("\x40todo")
         end
-        /\x40todo\s+#\s/.match(l) do |_|
+        /\x40todo\s+#\s/.match(line) do |_|
           raise Error, get_space_after_hash_error("\x40todo")
         end
-        /[^\s]TODO:?/.match(l) do |_|
+        /[^\s]TODO:?/.match(line) do |_|
           raise Error, get_no_leading_space_error('TODO')
         end
-        /TODO(?!:?\s+#)/.match(l) do |_|
+        /TODO(?!:?\s+#)/.match(line) do |_|
           raise Error, get_no_puzzle_marker_error('TODO')
         end
-        /TODO:?\s+#\s/.match(l) do |_|
+        /TODO:?\s+#\s/.match(line) do |_|
           raise Error, get_space_after_hash_error('TODO')
         end
-        a = [%r{(.*(?:^|\s))(?:\x40todo|TODO:|TODO)\s+#([\w\-.:/]+)\s+(.+)}.match(l)]
+        a = [%r{(.*(?:^|\s))(?:\x40todo|TODO:|TODO)\s+#([\w\-.:/]+)\s+(.+)}.match(line)]
         a.compact
       else
         []
@@ -74,9 +74,10 @@ module PDD
           match_markers(line).each do |m|
             puzzles << puzzle(lines.drop(idx + 1), m, idx)
           end
-        rescue Error, ArgumentError => ex
-          message = "#{@path}:#{idx + 1} #{ex.message}"
+        rescue Error, ArgumentError => e
+          message = "#{@path}:#{idx + 1} #{e.message}"
           raise Error, message unless PDD.opts && PDD.opts['skip-errors']
+
           PDD.log.warn message
         end
       end
@@ -177,23 +178,21 @@ against the rules explained here: https://github.com/cqfn/pdd#how-to-format"
       git = "cd #{dir} && git"
       if `#{git} rev-parse --is-inside-work-tree 2>/dev/null`.strip == 'true'
         cmd = "#{git} blame -L #{pos},#{pos} --porcelain #{name}"
-        login = Hash[
-          `#{cmd}`.split("\n").map do |line|
-            case line
-            when /^author /
-              [:author, line.sub(/^author /, '')]
-            when /^author-mail [^@]+@[^.]+\..+/
-              [:email, line.sub(/^author-mail <(.+)>$/, '\1')]
-            when /^author-time /
-              [
-                :time,
-                Time.at(
-                  line.sub(/^author-time ([0-9]+)$/, '\1').to_i
-                ).utc.iso8601
-              ]
-            end
-          end.compact
-        ]
+        login = `#{cmd}`.split("\n").map do |line|
+          case line
+          when /^author /
+            [:author, line.sub(/^author /, '')]
+          when /^author-mail [^@]+@[^.]+\..+/
+            [:email, line.sub(/^author-mail <(.+)>$/, '\1')]
+          when /^author-time /
+            [
+              :time,
+              Time.at(
+                line.sub(/^author-time ([0-9]+)$/, '\1').to_i
+              ).utc.iso8601
+            ]
+          end
+        end.compact.to_h
         add_github_login(login)
       else
         {}

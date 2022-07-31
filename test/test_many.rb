@@ -36,6 +36,7 @@ class TestMany < Minitest::Test
       puzzle = list.first
       puts "#{name}: \"#{puzzle.props[:body]}\""
       next if name.start_with?('_')
+
       assert_equal name, puzzle.props[:id]
     end
   end

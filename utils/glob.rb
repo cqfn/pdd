@@ -28,7 +28,7 @@ class Glob
 
   # rubocop:disable Metrics/CyclomaticComplexity
   def to_regexp
-    chars = @glob_string.gsub(%r{(\*\*\/\*)|(\*\*)}, '*').split('')
+    chars = @glob_string.gsub(%r{(\*\*/\*)|(\*\*)}, '*').chars
     in_curlies = 0, escaping = false
     chars.map do |char|
       if escaping

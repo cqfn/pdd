@@ -3,12 +3,18 @@ AllCops:
     - "assets/**/*"
   DisplayCopNames: true
   TargetRubyVersion: 2.3
+  NewCops: enable
+  SuggestExtensions: false
 
+Metrics/CyclomaticComplexity:
+  Max: 10
+Metrics/PerceivedComplexity:
+  Max: 15
 Layout/EndOfLine:
   EnforcedStyle: lf
 Metrics/ClassLength:
   Max: 360
-Metrics/LineLength:
+Layout/LineLength:
   Max: 90
 Metrics/MethodLength:
   Max: 35

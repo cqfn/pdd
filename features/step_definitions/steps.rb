@@ -27,7 +27,7 @@ require_relative '../../lib/pdd'
 Before do
   @cwd = Dir.pwd
   @dir = Dir.mktmpdir('test')
-  FileUtils.mkdir_p(@dir) unless File.exist?(@dir)
+  FileUtils.mkdir_p(@dir)
   Dir.chdir(@dir)
   @opts = Slop.parse ['-q', '-s', @dir] do |o|
     o.bool '-v', '--verbose'
@@ -38,7 +38,7 @@ end
 
 After do
   Dir.chdir(@cwd)
-  FileUtils.rm_rf(@dir) if File.exist?(@dir)
+  FileUtils.rm_rf(@dir)
 end
 
 Given(/skip/) do
