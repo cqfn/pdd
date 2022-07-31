@@ -177,23 +177,24 @@ against the rules explained here: https://github.com/cqfn/pdd#how-to-format"
       git = "cd #{dir} && git"
       if `#{git} rev-parse --is-inside-work-tree 2>/dev/null`.strip == 'true'
         cmd = "#{git} blame -L #{pos},#{pos} --porcelain #{name}"
-        add_github_login(Hash[
-                           `#{cmd}`.split("\n").map do |line|
-                             case line
-                             when /^author /
-                               [:author, line.sub(/^author /, '')]
-                             when /^author-mail [^@]+@[^.]+\..+/
-                               [:email, line.sub(/^author-mail <(.+)>$/, '\1')]
-                             when /^author-time /
-                               [
-                                 :time,
-                                 Time.at(
-                                   line.sub(/^author-time ([0-9]+)$/, '\1').to_i
-                                 ).utc.iso8601
-                               ]
-                             end
-                           end.compact
-                         ])
+        login = Hash[
+          `#{cmd}`.split("\n").map do |line|
+            case line
+            when /^author /
+              [:author, line.sub(/^author /, '')]
+            when /^author-mail [^@]+@[^.]+\..+/
+              [:email, line.sub(/^author-mail <(.+)>$/, '\1')]
+            when /^author-time /
+              [
+                :time,
+                Time.at(
+                  line.sub(/^author-time ([0-9]+)$/, '\1').to_i
+                ).utc.iso8601
+              ]
+            end
+          end.compact
+        ]
+        add_github_login(login)
       else
         {}
       end
