@@ -12,6 +12,7 @@
 [![Gem Version](https://badge.fury.io/rb/pdd.svg)](http://badge.fury.io/rb/pdd)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c8e46256fdd8ddc817e5/maintainability)](https://codeclimate.com/github/cqfn/pdd/maintainability)
 [![Yard Docs](http://img.shields.io/badge/yard-docs-blue.svg)](http://rubydoc.info/github/cqfn/pdd/master/frames)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1792d42f96fb45448e8d495ebc4348aa)](https://www.codacy.com/gh/cqfn/pdd/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cqfn/pdd&amp;utm_campaign=Badge_Grade)
 
 Read this article about
 [_Puzzle Driven Development_](http://www.yegor256.com/2009/03/04/pdd.html).
