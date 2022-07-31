@@ -4,6 +4,7 @@
 [![DevOps By Rultor.com](http://www.rultor.com/b/cqfn/pdd)](http://www.rultor.com/p/cqfn/pdd)
 [![We recommend RubyMine](https://www.elegantobjects.org/rubymine.svg)](https://www.jetbrains.com/ruby/)
 
+[![rake](https://github.com/cqfn/pdd/actions/workflows/rake.yml/badge.svg)](https://github.com/cqfn/pdd/actions/workflows/rake.yml)
 [![PDD status](http://www.0pdd.com/svg?name=cqfn/pdd)](http://www.0pdd.com/p?name=cqfn/pdd)
 [![codecov](https://codecov.io/gh/cqfn/pdd/branch/master/graph/badge.svg)](https://codecov.io/gh/cqfn/pdd)
 ![Lines of code](https://img.shields.io/tokei/lines/github/cqfn/pdd)
