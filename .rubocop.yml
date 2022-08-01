@@ -6,6 +6,8 @@ AllCops:
   NewCops: enable
   SuggestExtensions: false
 
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
 Metrics/CyclomaticComplexity:
   Max: 10
 Metrics/PerceivedComplexity:
