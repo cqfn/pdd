@@ -148,22 +148,18 @@ against the rules explained here: https://github.com/cqfn/pdd#how-to-format"
     #
     # Fetch puzzle tail (all lines after the first one)
     def tail(lines, prefix, start)
-      prefix = prefix.rstrip
       prefix = " #{' ' * start}" if prefix.empty? # fallback to space indentation
-      line = lines[0][prefix.length + 1, lines[0].length] if lines[0]
+      line = lines[0][prefix.length, lines[0].length] if lines[0]
       is_indented = line&.start_with?(' ')
       lines
-        .take_while { |t| match_markers(t).none? && t.start_with?(prefix) }
         .take_while do |t|
-          !is_indented || t[prefix.length + 1, t.length].start_with?(' ')
+          start = t.length > prefix.length ? prefix : prefix.rstrip
+          match_markers(t).none? && t.start_with?(start)
         end
         .take_while do |t|
-          # account for carriage return in line endings
-          t_len = t.length - 1
-          t_len <= prefix.length || t_len > prefix.length + 2
+          !is_indented || t[prefix.length, t.length].start_with?(' ')
         end
-        .map { |t| t[prefix.length, t.length] }
-        .map { |t| t.start_with?(' ') ? t[1, t.length] : t }
+        .map { |t| t[prefix.length, t.length]&.lstrip }
     end
     # rubocop:enable Metrics/CyclomaticComplexity
 
