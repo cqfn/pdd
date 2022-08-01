@@ -19,7 +19,3 @@ release:
 merge:
   script: |-
     LC_ALL=US-ASCII bundle exec rake
-deploy:
-  script: |-
-    echo "There is nothing to deploy"
-    exit -1
