@@ -75,10 +75,8 @@ module PDD
             puzzles << puzzle(lines.drop(idx + 1), m, idx)
           end
         rescue Error, ArgumentError => e
-          message = "#{@path}:#{idx + 1} #{e.message}"
+          message = "#{e.class} at #{@path}:#{idx + 1}: #{e.message}"
           raise Error, message unless PDD.opts && PDD.opts['skip-errors']
-
-          PDD.log.warn message
         end
       end
       puzzles
