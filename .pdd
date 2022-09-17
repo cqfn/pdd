@@ -9,6 +9,7 @@
 --exclude features/cli.feature
 --exclude features/parsing.feature
 --exclude features/catches_broken_puzzles.feature
+--exclude features/remove.feature
 --exclude features/uses_config.feature
 --exclude features/html_output.feature
 --exclude features/avoiding_duplicates.feature
