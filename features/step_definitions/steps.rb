@@ -79,6 +79,7 @@ When(%r{^I run bin/pdd with "([^"]*)"$}) do |arg|
 end
 
 Then(/^Stdout contains "([^"]*)"$/) do |txt|
+  raise 'STDOUT is empty!' if @stdout.empty?
   raise "STDOUT doesn't contain '#{txt}':\n#{@stdout}" unless @stdout.include?(txt)
 end
 

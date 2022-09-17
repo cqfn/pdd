@@ -50,6 +50,7 @@ begin
       o.bool '-h', '--help', 'Show these instructions'
       o.bool '-v', '--verbose', 'Enable verbose mode (a lot of logging)'
       o.bool '-q', '--quiet', 'Enable quiet mode (almost no logging)'
+      o.bool '--remove', 'Remove all found puzzles from the source code'
       o.bool '--skip-gitignore', 'Don\'t look into .gitignore for excludes'
       o.bool '--skip-errors', 'Suppress error as warning and skip badly
                       formatted puzzles'
@@ -89,31 +90,52 @@ https://github.com/cqfn/pdd/blob/master/README.md"
     body = File.read(cfg)
     extra = body.split(/\s+/).map(&:strip)
     opts['skip-gitignore'] = extra
-    puts "Found #{body.split(/\n/).length} lines in #{File.absolute_path(cfg)}"
+    PDD.log.info "Found #{body.split(/\n/).length} lines in #{File.absolute_path(cfg)}"
   end
 
   Encoding.default_external = Encoding::UTF_8
   Encoding.default_internal = Encoding::UTF_8
   file = opts.file? ? File.new(opts[:file], 'w') : $stdout
-  output = PDD::Base.new(opts).xml
+  xml = PDD::Base.new(opts).xml
+  output = xml
   if opts[:format]
     if opts[:format] == 'html'
       xslt = File.join(
         File.dirname(File.dirname(__FILE__)),
         'assets', 'puzzles.xsl'
       )
-      output = Nokogiri::XSLT(File.read(xslt)).transform(Nokogiri::XML(output))
+      output = Nokogiri::XSLT(File.read(xslt)).transform(Nokogiri::XML(xml))
     elsif opts[:format] != 'xml'
       raise 'Invalid format, use html or xml'
     end
   end
   file << output
+  if opts.remove?
+    home = opts[:source] || Dir.pwd
+    PDD.log.info "Removing puzzles from #{home}..."
+    files = {}
+    Nokogiri::XML(xml).xpath('/puzzles/puzzle').each do |p|
+      file = p.xpath('file/text()').to_s
+      files[file] = [] if files[file].nil?
+      files[file] << p.xpath('lines/text()').to_s.split('-').map(&:to_i)
+    end
+    files.each do |src, all|
+      f = File.join(home, src)
+      File.write(
+        f,
+        File.readlines(f).reject.each_with_index do |_t, i|
+          all.any? { |pair| i + 1 >= pair[0] && i + 1 <= pair[1] }
+        end.join
+      )
+      PDD.log.info "#{all.count} puzzles removed from #{src}"
+    end
+  end
 rescue SystemExit => e
   puts e.message unless e.success?
   PDD.log.info "Exit code is #{e.status}"
   exit(e.status)
 rescue PDD::Error => e
-  puts "#{Rainbow('ERROR').red}: #{e.message}
+  PDD.log.error "#{Rainbow('ERROR').red}: #{e.message}
 If you can't understand the cause of this issue or you don't know \
 how to fix it, please submit a GitHub issue, we will try to help you: \
 https://github.com/cqfn/pdd/issues. This tool is still in its beta \
@@ -122,7 +144,7 @@ more documentation: https://github.com/cqfn/pdd/blob/master/README.md."
   PDD.log.info 'Exit code is 1'
   exit(1)
 rescue StandardError => e
-  puts "#{Rainbow('ERROR').red} (#{e.class.name}): #{e.message}"
+  PDD.log.error "#{Rainbow('ERROR').red} (#{e.class.name}): #{e.message}"
   PDD.log.info 'Exit code is 255'
   exit(255)
 end
