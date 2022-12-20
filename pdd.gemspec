@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
     s.required_rubygems_version =
       Gem::Requirement.new('>= 0')
   end
-  s.required_ruby_version = '~> 2.3'
+  s.required_ruby_version = '~>2'
   s.name = 'pdd'
   s.version = PDD::VERSION
   s.license = 'MIT'

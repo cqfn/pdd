@@ -6,6 +6,8 @@ AllCops:
   NewCops: enable
   SuggestExtensions: false
 
+Gemspec/RequiredRubyVersion:
+  Enabled: false
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 Metrics/CyclomaticComplexity:
