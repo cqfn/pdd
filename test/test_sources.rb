@@ -74,6 +74,14 @@ class TestSources < Minitest::Test
     end
   end
 
+  def test_detects_js_file
+    in_temp(['a.xml']) do |dir|
+      File.write(File.join(dir, 'a.js'), "#!/usr/bin/env node\nconsole.log('Hi!');")
+      list = PDD::Sources.new(dir).fetch
+      assert_equal 1, list.size
+    end
+  end
+
   def test_excludes_by_pattern
     in_temp(['a/first.txt', 'b/c/d/second.txt']) do |dir|
       list = PDD::Sources.new(dir).exclude('b/c/d/second.txt').fetch
