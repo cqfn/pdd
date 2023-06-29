@@ -40,7 +40,7 @@ begin
     body = File.read(cfg)
     extra = body.split(/\s+/).map(&:strip)
     args += extra
-    puts "Found #{body.split(/\n/).length} lines in #{File.absolute_path(cfg)}"
+    puts "Found #{body.split("\n").length} lines in #{File.absolute_path(cfg)}"
   end
   args += ARGV
 
@@ -90,7 +90,7 @@ https://github.com/cqfn/pdd/blob/master/README.md"
     body = File.read(cfg)
     extra = body.split(/\s+/).map(&:strip)
     opts['skip-gitignore'] = extra
-    PDD.log.info "Found #{body.split(/\n/).length} lines in #{File.absolute_path(cfg)}"
+    PDD.log.info "Found #{body.split("\n").length} lines in #{File.absolute_path(cfg)}"
   end
 
   Encoding.default_external = Encoding::UTF_8

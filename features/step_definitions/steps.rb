@@ -48,7 +48,7 @@ end
 Given(/^I have a "([^"]*)" file with content:$/) do |file, text|
   FileUtils.mkdir_p(File.dirname(file)) unless File.exist?(file)
   File.open(file, 'w:ASCII-8BIT') do |f|
-    f.write(text.gsub(/\\xFF/, 0xFF.chr))
+    f.write(text.gsub('\\xFF', 0xFF.chr))
   end
 end
 

@@ -145,7 +145,7 @@ module PDD
       doc = Nokogiri::XML(xml)
       total = 0
       list = @opts[:rule] || []
-      unless list.select { |r| r.start_with?('max-duplicates:') }.empty?
+      unless list.none? { |r| r.start_with?('max-duplicates:') }
         raise PDD::Error, 'You can\'t modify max-duplicates, it\'s always 1'
       end
 
