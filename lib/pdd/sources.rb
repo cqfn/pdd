@@ -88,7 +88,8 @@ module PDD
 
     def text_file?(file)
       fm = FileMagic.new(FileMagic::MAGIC_MIME)
-      fm.file(file) =~ %r{^text/}
+      type = fm.file(file)
+      type =~ %r{^(text/|application/javascript)}
     ensure
       fm.close
     end
