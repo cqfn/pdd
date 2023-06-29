@@ -54,7 +54,7 @@ class TestSources < Minitest::Test
 
   def test_detects_all_text_files
     in_temp([]) do |dir|
-      exts = %w[(xsl java rb cpp apt)]
+      exts = %w[(xsl java rb cpp apt js xml c go h txt)]
       exts.each do |ext|
         File.write(File.join(dir, "test.#{ext}"), 'text')
       end
