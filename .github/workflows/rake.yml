@@ -12,7 +12,7 @@ jobs:
     name: rake
     strategy:
       matrix:
-        os: [ubuntu-20.04, macos-12]
+        os: [ubuntu-20.04]
         ruby: ['2.7', '3.0']
     runs-on: ${{ matrix.os }}
     steps:
