@@ -25,7 +25,37 @@ Read
 [_PDD in Action_](http://www.yegor256.com/2017/04/05/pdd-in-action.html)
 and watch [this webinar](https://www.youtube.com/watch?v=nsYGC2aUwfQ).
 
-You should have [Ruby installed](https://www.ruby-lang.org/en/documentation/installation/).
+## Installation
+<details><summary>
+
+### Prerequisites: `Ruby installed` and `Libmagic`
+</summary>
+<details><summary>
+
+#### Ruby version 2.7+
+</summary>
+[Ruby installation instruction](https://www.ruby-lang.org/en/documentation/installation/)
+</details>
+<details>
+<summary>
+
+#### Libmagic library
+</summary>
+
+**For \*nix**
+```bash
+$ apt install libmagic-dev
+```
+**For Mac**
+```bash
+$ brew install libmagic
+```
+**For Windows**
+Unfortunately, there is no easy way to install, please use WSL
+
+</details>
+</details>
+
 Then, install our gem:
 
 ```bash
@@ -38,9 +68,10 @@ Run it locally and read its output:
 $ pdd --help
 ```
 
+## Usage
 You can exclude & include certain number of files from the search via these options:
 
-```
+```bash
 $ pdd --exclude=glob
 ```
 
@@ -55,7 +86,7 @@ $ pdd --exclude=src/**/* # exclude all files in src/
 
 You can include too:
 
-```
+```bash
 $ pdd --include=glob
 ```
 
@@ -80,9 +111,9 @@ to the leading space in every consecutive line):
 [related code]
 ```
 
-`[]` - Replace with apropriate data (see text enclosed in brackets)
+`[]` - Replace with appropriate data (see text enclosed in brackets)
 
-`<>` - Omitable (enclosed data can be left out)
+`<>` - Optional (enclosed data can be left out)
 
 Example:
 
@@ -142,7 +173,7 @@ and put a dummy `#1` marker everywhere.
 You can specify post-parsing rules for your puzzles, in command line,
 for example:
 
-```
+```bash
 $ pdd --rule=min-estimate:60 --rule=max-estimate:120
 ```
 
@@ -217,13 +248,13 @@ Make sure your build is green before you contribute
 your pull request. You will need to have [Ruby](https://www.ruby-lang.org/en/) 2.3+ and
 [Bundler](https://bundler.io/) installed. Then:
 
-```
+```bash
 $ bundle install
 $ bundle exec rake
 ```
 
 Next, install and run overcommit to install hooks (required once)
-```
+```bash
 $ gem install overcommit -v '=0.58.0'
 $ overcommit --install
 ```
