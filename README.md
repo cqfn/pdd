@@ -34,6 +34,7 @@ and watch [this webinar](https://www.youtube.com/watch?v=nsYGC2aUwfQ).
 
 #### Ruby version 2.7+
 </summary>
+
 [Ruby installation instruction](https://www.ruby-lang.org/en/documentation/installation/)
 </details>
 <details>
