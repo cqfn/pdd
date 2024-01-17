@@ -115,8 +115,8 @@ $ pdd [--verbose] [--quiet] [--remove] [--skip-gitignore] [--skip-errors] \
 | --skip-errors           | Suppress error as warning and skip badly formatted puzzles (do not skip broken rules) |
 | --source <project-path> | Source directory to parse ("." by default)                                            |
 | --file puzzles.xml      | File to save report into into (xml of html) (displayed in console by default)         |
-| --include src/*.py      | Glob pattern to exclude (can be used several times)                                   |
-| --exclude src/*.java    | Glob pattern to include (can be used several times)                                   |
+| --include *.py          | Glob pattern to exclude (can be used several times)                                   |
+| --exclude *.java        | Glob pattern to include (can be used several times)                                   |
 | --format xml            | Format of the report xml or html  (xml is default)                                    |
 | --rule min-words:5      | Rule to apply (can be used several times), described later                            |
 
