@@ -106,19 +106,19 @@ $ pdd [--verbose] [--quiet] [--remove] [--skip-gitignore] [--skip-errors] \
       [--source <project_dir_path>] [--file puzzles_file.xml] [--include src/**/*.py] \
       [--format xml|html] [--rule min-words:5] [--exclude src/**/*.java]
 ```
-| Parameter                   | Description                                                                           |
-|-----------------------------|---------------------------------------------------------------------------------------|
-| --verbose                   | Enable verbose (debug) mode. --file must be used in case of using                     |
-| --quiet                     | Disable logs                                                                          |
-| --remove                    | Remove all found puzzles from the source code                                         |
-| --skip-gitignore            | Don't look into .gitignore for excludes                                               |
-| --skip-errors               | Suppress error as warning and skip badly formatted puzzles (do not skip broken rules) |
-| --source <project_dir_path> | Source directory to parse ("." by default)                                            |
-| --file puzzles_file.xml     | File to save report into into (xml of html) (displayed in console by default)         |
-| --include src/**/*.py       | Glob pattern to exclude, e.g. src/**/*.py (can be used several times)                 |
-| --exclude src/**/*.java     | Glob pattern to include, e.g. src/**/*.java (can be used several times)               |
-| --format xml                | Format of the report xml or html  (xml is default)                                    |
-| --rule min-words:5          | Rule to apply (can be used several times), described later                            |
+| Parameter               | Description                                                                           |
+|-------------------------|---------------------------------------------------------------------------------------|
+| --verbose               | Enable verbose (debug) mode. --file must be used in case of using                     |
+| --quiet                 | Disable logs                                                                          |
+| --remove                | Remove all found puzzles from the source code                                         |
+| --skip-gitignore        | Don't look into .gitignore for excludes                                               |
+| --skip-errors           | Suppress error as warning and skip badly formatted puzzles (do not skip broken rules) |
+| --source <project-path> | Source directory to parse ("." by default)                                            |
+| --file puzzles.xml      | File to save report into into (xml of html) (displayed in console by default)         |
+| --include src/*.py      | Glob pattern to exclude, e.g. src/*.py (can be used several times)                    |
+| --exclude src/*.java    | Glob pattern to include, e.g. src/*.java (can be used several times)                  |
+| --format xml            | Format of the report xml or html  (xml is default)                                    |
+| --rule min-words:5      | Rule to apply (can be used several times), described later                            |
 
 :bulb: There is an option to create a .pdd file in your project and save all required parameters in it.
 File example you can see in this project.
