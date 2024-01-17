@@ -108,13 +108,13 @@ $ pdd [--verbose] [--quiet] [--remove] [--skip-gitignore] [--skip-errors] \
 ```
 | Parameter               | Description                                                                           |
 |-------------------------|---------------------------------------------------------------------------------------|
-| --verbose               | Enable verbose (debug) mode. --file must be used in case of using                     |
+| --verbose               | Enable verbose (debug) mode. --file must be used in case of using this option         |
 | --quiet                 | Disable logs                                                                          |
 | --remove                | Remove all found puzzles from the source code                                         |
 | --skip-gitignore        | Don't look into .gitignore for excludes                                               |
 | --skip-errors           | Suppress error as warning and skip badly formatted puzzles (do not skip broken rules) |
 | --source <project-path> | Source directory to parse ("." by default)                                            |
-| --file puzzles.xml      | File to save report into (xml of html) (displayed in console by default)         |
+| --file puzzles.xml      | File to save report into (xml of html) (displayed in console by default)              |
 | --include *.py          | Glob pattern to exclude (can be used several times)                                   |
 | --exclude *.java        | Glob pattern to exclude (can be used several times)                                   |
 | --format xml            | Format of the report xml or html  (xml is default)                                    |
