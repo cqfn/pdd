@@ -43,7 +43,7 @@ and watch [this webinar](https://www.youtube.com/watch?v=nsYGC2aUwfQ).
 #### Libmagic library
 </summary>
 
-**For \*nix**
+**For Debian/Ubuntu/\*nix/\*nux**
 ```bash
 $ apt install libmagic-dev
 ```
@@ -269,7 +269,7 @@ The most interesting parts of each puzzle are:
 
 Read [these guidelines](https://www.yegor256.com/2014/04/15/github-guidelines.html).
 Make sure your build is green before you contribute
-your pull request. You will need to have [Ruby](https://www.ruby-lang.org/en/) 2.3+ and
+your pull request. You will need to have [Ruby](https://www.ruby-lang.org/en/) 2.7+ and
 [Bundler](https://bundler.io/) installed. Then:
 
 ```bash
