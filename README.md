@@ -72,22 +72,22 @@ $ pdd --help
 You can exclude & include certain number of files from the search via these options:
 
 ```bash
-$ pdd --exclude=glob
+$ pdd --exclude glob
 ```
 
 You can skip any file(s) with a name suffix that matches the pattern glob, using wildcard matching; 
 a name suffix is either the whole path and name, or reg expr, for example:
 
 ```bash
-$ pdd --exclude=src/**/*.java --exclude=target/**/*
-$ pdd --exclude=src/**/*.java # exclude .java files in src/
-$ pdd --exclude=src/**/* # exclude all files in src/
+$ pdd --exclude src/**/*.java --exclude target/**/*
+$ pdd --exclude src/**/*.java # exclude .java files in src/
+$ pdd --exclude src/**/* # exclude all files in src/
 ```
 
 You can include too:
 
 ```bash
-$ pdd --include=glob
+$ pdd --include glob
 ```
 
 Search only files whose name matches glob, using wildcard matching as described under ``--exclude``. 
@@ -95,9 +95,32 @@ If contradictory ``--include`` and ``--exclude`` options are given, the last mat
 If no ``--include`` or ``--exclude`` options are given, all files from working directory are included, example:
 
 ```bash
-$ pdd --include=src/**/*.py # include only .py files in src/
-$ pdd --include=src/**/* # include all files in src/
+$ pdd --include src/**/*.py # include only .py files in src/
+$ pdd --include src/**/* # include all files in src/
 ```
+
+Full command format is (all parameters are optional):
+```bash
+$ pdd [--verbose] [--quiet] [--remove] [--skip-gitignore] [--skip-errors] \
+      [--source <project_dir_path>] [--file puzzles_file.xml] [--include src/**/*.py] \
+      [--format xml|html] [--rule min-words:5] [--exclude src/**/*.java]
+```
+| Parameter                   | Description                                                                           |
+|-----------------------------|---------------------------------------------------------------------------------------|
+| --verbose                   | Enable verbose (debug) mode. --file must be used in case of using                     |
+| --quiet                     | Disable logs                                                                          |
+| --remove                    | Remove all found puzzles from the source code                                         |
+| --skip-gitignore            | Don't look into .gitignore for excludes                                               |
+| --skip-errors               | Suppress error as warning and skip badly formatted puzzles (do not skip broken rules) |
+| --source <project_dir_path> | Source directory to parse ("." by default)                                            |
+| --file puzzles_file.xml     | File to save report into into (xml of html) (displayed in console by default)         |
+| --include src/**/*.py       | Glob pattern to exclude, e.g. src/**/*.py (can be used several times)                 |
+| --exclude src/**/*.java     | Glob pattern to include, e.g. src/**/*.java (can be used several times)               |
+| --format xml                | Format of the report xml or html  (xml is default)                                    |
+| --rule min-words:5          | Rule to apply (can be used several times), described later                            |
+
+:bulb: There is an option to create a .pdd file in your project and save all required parameters in it.
+File example you can see in this project.
 
 ## How to Format?
 
@@ -174,7 +197,7 @@ You can specify post-parsing rules for your puzzles, in command line,
 for example:
 
 ```bash
-$ pdd --rule=min-estimate:60 --rule=max-estimate:120
+$ pdd --rule min-estimate:60 --rule max-estimate:120
 ```
 
 These two parameters will add two post-parsing rules `min-estimate`
@@ -198,7 +221,7 @@ Here is a list of rules available now:
   This rule is used by default and you can't configure it at the moment,
   it must always be set to `1`.
 
-You can put all command line options into `.pdd` file. The options from the
+:bulb: You can put all command line options into `.pdd` file. The options from the
 file will be used first. Command line options may be added on top of them.
 See, how it is done in [yegor256/0pdd](https://github.com/yegor256/0pdd/blob/master/.pdd).
 
