@@ -43,7 +43,7 @@ and watch [this webinar](https://www.youtube.com/watch?v=nsYGC2aUwfQ).
 #### Libmagic library
 </summary>
 
-**For Debian/Ubuntu/\*nix/\*nux**
+**For Debian/Ubuntu:**
 ```bash
 $ apt install libmagic-dev
 ```
