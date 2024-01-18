@@ -96,7 +96,7 @@ Then(/^XML file "([^"]+)" matches "([^"]+)"$/) do |file, xpath|
 end
 
 Then(/^Text File "([^"]+)" contains "([^"]+)"$/) do |file, substring|
-  raise "File #{file} doesn't exit" unless File.exist?(file)
+  raise "File #{file} doesn't exist" unless File.exist?(file)
 
   content = File.read(file)
   raise "File #{file} doesn't contain \"#{substring}\":\n#{content}" \
