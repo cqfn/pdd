@@ -51,7 +51,7 @@ module PDD
         /[^\s]TODO:?/.match(line) do |_|
           raise Error, get_no_leading_space_error('TODO')
         end
-        /TODO(?!:?\s+#)/.match(line) do |_|
+        /TODO(?=[:\s])(?!:?\s+#)/.match(line) do |_|
           raise Error, get_no_puzzle_marker_error('TODO')
         end
         /TODO:?\s+#\s/.match(line) do |_|

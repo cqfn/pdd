@@ -22,6 +22,7 @@ require 'minitest/autorun'
 require 'tmpdir'
 require_relative '../lib/pdd'
 require_relative '../lib/pdd/sources'
+require_relative 'test__helper'
 
 class TestSourceTodo < Minitest::Test
   def check_valid_puzzle(text, lines, body, ticket, count = 1)
@@ -47,6 +48,21 @@ class TestSourceTodo < Minitest::Test
         stub_source_find_github_user(file, 'hey', &:puzzles)
       end
       assert !error.message.index(error_msg).nil?
+    end
+  end
+
+  def check_missing_puzzle(text)
+    Dir.mktmpdir 'test' do |dir|
+      file = File.join(dir, 'a.txt')
+      File.write(file, text)
+      begin
+        stub_source_find_github_user(file, 'hey') do |source|
+          list = source.puzzles
+          assert_equal 0, list.size
+        end
+      rescue PDD::Error => e
+        assert_nil e, "Error is raised #{e.message}"
+      end
     end
   end
 
@@ -172,6 +188,14 @@ class TestSourceTodo < Minitest::Test
       *TODO: #45 this puzzle has no space before todo
       ",
       'TODO must have a leading space'
+    )
+  end
+
+  def test_todo_not_puzzle
+    check_missing_puzzle(
+      "
+      TODOS_DIR=$PWD
+      "
     )
   end
 end
