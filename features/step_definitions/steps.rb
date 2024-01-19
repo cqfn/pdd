@@ -95,6 +95,14 @@ Then(/^XML file "([^"]+)" matches "([^"]+)"$/) do |file, xpath|
   raise "XML file #{file} doesn't match \"#{xpath}\":\n#{xml}" if xml.xpath(xpath).empty?
 end
 
+Then(/^Text File "([^"]+)" contains "([^"]+)"$/) do |file, substring|
+  raise "File #{file} doesn't exist" unless File.exist?(file)
+
+  content = File.read(file)
+  raise "File #{file} doesn't contain \"#{substring}\":\n#{content}" \
+    if content.index(substring).nil?
+end
+
 Then(/^Exit code is zero$/) do
   raise "Non-zero exit code #{@exitstatus}" unless @exitstatus.zero?
 end

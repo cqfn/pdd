@@ -80,6 +80,9 @@ end
 Cucumber::Rake::Task.new(:'features:html') do |t|
   t.profile = 'html_report'
 end
+Cucumber::Rake::Task.new(:'features:json') do |t|
+  t.profile = 'json_report'
+end
 
 task :copyright do
   sh "grep -q -r '2014-#{Date.today.strftime('%Y')}' \

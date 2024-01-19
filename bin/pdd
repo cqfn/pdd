@@ -59,12 +59,12 @@ begin
         exit
       end
       o.string '-s', '--source', 'Source directory to parse ("." by default)'
-      o.string '-f', '--file', 'File to save XML into'
+      o.string '-f', '--file', 'File to save report into'
       o.array '-e', '--exclude', 'Glob pattern to exclude, e.g. "**/*.jpg"',
               default: []
       o.array '-n', '--include', 'Glob pattern to include, e.g. "**/*.jpg"',
               default: []
-      o.string '-t', '--format', 'Format of the report (xml|html)'
+      o.string '-t', '--format', 'Format of the report (xml|html|json)'
       o.array(
         '-r', '--rule', 'Rule to apply (can be used many times)',
         delimiter: ';'
@@ -105,8 +105,15 @@ https://github.com/cqfn/pdd/blob/master/README.md"
         'assets', 'puzzles.xsl'
       )
       output = Nokogiri::XSLT(File.read(xslt)).transform(Nokogiri::XML(xml))
+    elsif opts[:format] == 'json'
+      xslt = File.join(
+        File.dirname(File.dirname(__FILE__)),
+        'assets', 'puzzles_json.xsl'
+      )
+      # result is not xml, so use apply
+      output = Nokogiri::XSLT(File.read(xslt)).apply_to(Nokogiri::XML(xml))
     elsif opts[:format] != 'xml'
-      raise 'Invalid format, use html or xml'
+      raise 'Invalid format, use html or xml or json'
     end
   end
   file << output

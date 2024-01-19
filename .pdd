@@ -12,6 +12,7 @@
 --exclude features/remove.feature
 --exclude features/uses_config.feature
 --exclude features/html_output.feature
+--exclude features/json_output.feature
 --exclude features/avoiding_duplicates.feature
 --exclude features/applies_rules.feature
 --exclude features/unicode.feature
