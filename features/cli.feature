@@ -64,15 +64,54 @@ Feature: Command Line Processing
     Then Exit code is zero
     And XML file "out.xml" matches "/puzzles[count(puzzle)=0]"
 
-  Scenario: Excluding unnecessary files from gitignore
-    Given this step says to skip
-    And I have a "a/b/c/test.txt" file with content:
+  Scenario: Excluding unnecessary files from .gitignore
+    Given I have a "a/b/c/test.txt" file with content:
     """
     ~~ @todo #44 some puzzle to be excluded
     """
     And I have a "f/g/h/hello.md" file with content:
     """
-    ~~ @todo #44 some puzzle to be excluded as well
+    ~~ @todo #45 some puzzle to be excluded as well
+    """
+    And I have a ".gitignore" file with content:
+    """
+    # This is the list of patterns
+    a/**/*
+    !/f
+    """
+    When I run bin/pdd with "--skip-gitignore > out.xml"
+    Then Exit code is zero
+    And XML file "out.xml" matches "/puzzles/puzzle[./ticket='45']"
+    And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
+
+  Scenario: Excluding unnecessary files from .gitignore and ignore comments
+    Given I have a "a/b/c/test.txt" file with content:
+    """
+    ~~ @todo #44 some puzzle to be excluded
+    """
+    And I have a "f/g/h/hello.md" file with content:
+    """
+    ~~ @todo #45 some puzzle to be excluded as well
+    """
+    And I have a ".gitignore" file with content:
+    """
+    # This is the list of patterns
+    # a/**/*
+    f/**/*
+    """
+    When I run bin/pdd with "--skip-gitignore > out.xml"
+    Then Exit code is zero
+    And XML file "out.xml" matches "/puzzles/puzzle[./ticket='44']"
+    And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
+
+  Scenario: Files from .gitignore is not excluded by default
+    Given I have a "a/b/c/test.txt" file with content:
+    """
+    ~~ @todo #44 some puzzle to be excluded
+    """
+    And I have a "f/g/h/hello.md" file with content:
+    """
+    ~~ @todo #45 some puzzle to be excluded as well
     """
     And I have a ".gitignore" file with content:
     """
@@ -82,7 +121,9 @@ Feature: Command Line Processing
     """
     When I run bin/pdd with "> out.xml"
     Then Exit code is zero
-    And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
+    And XML file "out.xml" matches "/puzzles/puzzle[./ticket='44']"
+    And XML file "out.xml" matches "/puzzles/puzzle[./ticket='45']"
+    And XML file "out.xml" matches "/puzzles[count(puzzle)=2]"
 
   Scenario: Rejects unknown options
     Given I have a "test.txt" file with content:
