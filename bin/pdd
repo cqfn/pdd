@@ -87,7 +87,8 @@ https://github.com/cqfn/pdd/blob/master/README.md"
 
   if opts['skip-gitignore'] && File.exist?('.gitignore')
     cfg = File.new('.gitignore')
-    body = File.read(cfg)
+    body = ''
+    File.foreach(cfg) { |line| body << line unless line.start_with?('#') }
     extra = body.split(/\s+/).map(&:strip)
     opts['skip-gitignore'] = extra
     PDD.log.info "Found #{body.split("\n").length} lines in #{File.absolute_path(cfg)}"

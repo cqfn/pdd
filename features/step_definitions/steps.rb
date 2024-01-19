@@ -41,7 +41,7 @@ After do
   FileUtils.rm_rf(@dir)
 end
 
-Given(/skip/) do
+Given(/skip test/) do
   skip_this_scenario
 end
 
