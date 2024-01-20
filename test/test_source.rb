@@ -136,7 +136,7 @@ class TestSource < Minitest::Test
          * \x40todo #1 First one with
          * a few lines
          * \x40todo #1 Second one also
-         * with a few lines
+         * with a few lines of text
          */
         "
       )
@@ -145,7 +145,7 @@ class TestSource < Minitest::Test
         assert_equal 2, source.puzzles.size
         puzzle = source.puzzles.last
         assert_equal '5-6', puzzle.props[:lines]
-        assert_equal 'Second one also with a few lines', puzzle.props[:body]
+        assert_equal 'Second one also with a few lines of text', puzzle.props[:body]
         assert_equal '1', puzzle.props[:ticket]
       end
     end

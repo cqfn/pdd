@@ -137,6 +137,36 @@ class TestSourceTodo < Minitest::Test
     )
   end
 
+  def test_todo_colon_parsing_multi_line_with_empty_line
+    check_valid_puzzle(
+      "
+      // TODO: #45 task description
+      //
+      //  second line after empty line is not a puzzle text
+      ",
+      '2-2',
+      'task description',
+      '45'
+    )
+  end
+
+  # space is needed in test data in the comment
+  # rubocop:disable Layout/TrailingWhitespace
+  def test_todo_colon_parsing_multi_line_with_empty_line_and_space
+    check_valid_puzzle(
+      '
+      // TODO: #46 task description
+      // 
+      //  second line after empty line is a part of the puzzle in case of space exists
+      ',
+      '2-4',
+      'task description second line after empty line is a part ' \
+      'of the puzzle in case of space exists',
+      '46'
+    )
+  end
+  # rubocop:enable Layout/TrailingWhitespace
+
   def test_todo_failing_no_ticket
     check_invalid_puzzle(
       "
