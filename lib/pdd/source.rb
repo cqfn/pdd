@@ -140,9 +140,6 @@ against the rules explained here: https://github.com/cqfn/pdd#how-to-format"
       min
     end
 
-    # @todo #209:30min temporarily disabled cyclomatic complexity for the method.
-    #  below. Please fix soon.
-    #
     # Fetch puzzle tail (all lines after the first one)
     def tail(lines, prefix, start)
       return [] if lines.empty?
