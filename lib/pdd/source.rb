@@ -148,8 +148,7 @@ against the rules explained here: https://github.com/cqfn/pdd#how-to-format"
       prefix = "#{prefix} " if lines[0][prefix.length, 1]&.start_with?(' ')
       lines
         .take_while do |t|
-          match_markers(t).none? && \
-            (t.start_with?(prefix) || t.start_with?(empty_prefix))
+          match_markers(t).none? && (t.start_with?(prefix) || t.start_with?(empty_prefix))
         end
         .map { |t| t[prefix.length, t.length]&.lstrip }
     end
