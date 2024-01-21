@@ -146,6 +146,10 @@ Example:
  * @todo #234:15m/DEV This is something to do later
  *  in one of the next releases. I can't figure out
  *  how to implement it now, that's why the puzzle.
+ *  The text can be so long, as needed, just use 
+ *  the same anount of spaces, as the second line.
+ * This text will be not a part of the puzzle, as 
+ * has less spaces. 
  */
 void sendEmail() {
   throw new UnsupportedOperationException();
@@ -172,13 +176,11 @@ as long as you have one of the 3 supported keywords right in front
 of the mandatory marker):
 
 ```
-// @todo #224
-/* @todo #TEST-13 */
-# @todo #55:45min
-@todo #67/DES
-;; @todo #678:40m/DEV
-// TODO: #1:30min
-(* TODO #42 *)
+// @todo #224 Puzzle description
+# @todo #55:45min Puzzle description
+@todo #67/DES Puzzle description
+;; @todo #678:40m/DEV Puzzle description
+// TODO: #1:30min Puzzle description
 ```
 
 Here `DES` and `DEV` are the roles of people who must fix that puzzles;
@@ -191,6 +193,33 @@ us to build a hierarchical dependency tree of all puzzles, like
 [this one](http://www.0pdd.com/p?name=yegor256/takes),
 for example. Technically, of course, you can abuse the system
 and put a dummy `#1` marker everywhere.
+
+### Multiline examples
+
+```xml
+<!-- 
+ ~ if comment should be started and closed by special symbols, then place them in
+ ~ a separate lines without any text
+ ~ And any symbols can be used as a prefix, it will be excluded from the text
+ ~
+ ~ @todo #34 Description can not be created in one line with comment
+ ~ symbols. Just use at least the same amount of the spaces, as on the first line. 
+-->
+```
+
+```java
+/**
+ * @todo #36 Multiline text can use the same prefix in all lines or the same 
+ *  amount of spaces.
+    So this will be added to the puzzle description. If you want to divide the 
+ *  puzzle by empty line, just add a space to that line  
+ *   
+ *  and continue the text after.
+ *
+ *  This line is not part of the puzzle, because the line before contains less
+ *  spaces then the second line.
+ */
+```
 
 ## How to Configure Rules?
 
