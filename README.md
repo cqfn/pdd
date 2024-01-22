@@ -200,7 +200,7 @@ and put a dummy `#1` marker everywhere.
 <!-- 
  ~ if comment should be started and closed by special symbols, then place them in
  ~ a separate lines without any text
- ~ And any symbols can be used as a prefix, it will be excluded from the text
+ ~ Any symbol can be used as a prefix, it will be excluded from the text
  ~
  ~ @todo #34 Description can not be created in one line with comment
  ~ symbols. Just use at least the same amount of the spaces, as on the first line. 
