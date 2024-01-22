@@ -149,7 +149,7 @@ Example:
  *  The text can be so long, as needed, just use 
  *  the same anount of spaces, as the second line.
  * This text will be not a part of the puzzle, as 
- * has less spaces. 
+ * it has less spaces. 
  */
 void sendEmail() {
   throw new UnsupportedOperationException();
