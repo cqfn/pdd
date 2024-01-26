@@ -249,9 +249,9 @@ For Mac:
 $ brew install libmagic
 ```
 
-For Windows:
-
-Unfortunately, there is no easy way to install, try to use WSL.
+Unfortunately, there is no easy way to install on Windows, try to use 
+[WSL](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux) or 
+[Docker](https://www.docker.com/).
 
 ## How to contribute
 
