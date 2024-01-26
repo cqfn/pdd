@@ -25,39 +25,7 @@ Read
 [_PDD in Action_](http://www.yegor256.com/2017/04/05/pdd-in-action.html)
 and watch [this webinar](https://www.youtube.com/watch?v=nsYGC2aUwfQ).
 
-## Installation
-<details><summary>
-
-### Prerequisites: `Ruby installed` and `Libmagic`
-</summary>
-<details><summary>
-
-#### Ruby version 2.7+
-</summary>
-
-[Ruby installation instruction](https://www.ruby-lang.org/en/documentation/installation/)
-</details>
-<details>
-<summary>
-
-#### Libmagic library
-</summary>
-
-**For Debian/Ubuntu:**
-```bash
-$ apt install libmagic-dev
-```
-**For Mac**
-```bash
-$ brew install libmagic
-```
-**For Windows**
-Unfortunately, there is no easy way to install, please use WSL
-
-</details>
-</details>
-
-Then, install our gem:
+First, make sure Ruby 2.6+ and `libmagic` are installed. Then, install our gem:
 
 ```bash
 $ gem install pdd
@@ -70,6 +38,7 @@ $ pdd --help
 ```
 
 ## Usage
+
 You can exclude & include certain number of files from the search via these options:
 
 ```bash
@@ -106,6 +75,7 @@ $ pdd [--verbose] [--quiet] [--remove] [--skip-gitignore] [--skip-errors] \
       [--source <project_dir_path>] [--file puzzles_file.xml] [--include src/**/*.py] \
       [--format xml|html] [--rule min-words:5] [--exclude src/**/*.java]
 ```
+
 | Parameter               | Description                                                                           |
 |-------------------------|---------------------------------------------------------------------------------------|
 | --verbose               | Enable verbose (debug) mode. --file must be used in case of using this option         |
@@ -264,6 +234,24 @@ The most interesting parts of each puzzle are:
   won't change its ID.
 
 - `lines` is where the puzzle is found, inside the file.
+
+## How to install libmagic
+
+For Debian/Ubuntu:
+
+```bash
+$ apt install libmagic-dev
+```
+
+For Mac:
+
+```bash
+$ brew install libmagic
+```
+
+For Windows:
+
+Unfortunately, there is no easy way to install, try to use WSL.
 
 ## How to contribute
 
