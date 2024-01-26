@@ -25,7 +25,7 @@ Read
 [_PDD in Action_](http://www.yegor256.com/2017/04/05/pdd-in-action.html)
 and watch [this webinar](https://www.youtube.com/watch?v=nsYGC2aUwfQ).
 
-First, make sure Ruby 2.6+ and `libmagic` are installed. Then, install our gem:
+First, make sure Ruby 2.6+ and [`libmagic`](#how-to-install-libmagic) are installed. Then, install our gem:
 
 ```bash
 $ gem install pdd
