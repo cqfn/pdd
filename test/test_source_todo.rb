@@ -112,6 +112,17 @@ class TestSourceTodo < Minitest::Test
     )
   end
 
+  def test_todo_backslash_escape
+    check_valid_puzzle(
+      "
+      // TODO #45 task description with \\
+      ",
+      '2-2',
+      'task description with \\',
+      '45'
+    )
+  end
+
   def test_multiple_todo_colon
     check_valid_puzzle(
       "
@@ -150,22 +161,47 @@ class TestSourceTodo < Minitest::Test
     )
   end
 
-  # space is needed in test data in the comment
-  # rubocop:disable Layout/TrailingWhitespace
   def test_todo_colon_parsing_multi_line_with_empty_line_and_space
     check_valid_puzzle(
       '
       // TODO: #46 task description
-      // 
-      //  second line after empty line is a part of the puzzle in case of space exists
+      // \
+      //  second line after empty line is a part of the puzzle in case of backslash exists
       ',
       '2-4',
       'task description second line after empty line is a part ' \
-      'of the puzzle in case of space exists',
+      'of the puzzle in case of backslash exists',
       '46'
     )
   end
-  # rubocop:enable Layout/TrailingWhitespace
+
+  def test_todo_colon_parsing_double_puzzle_with_empty_line
+    check_valid_puzzle(
+      '
+      // TODO: #46 task description for first
+      // \
+      // TODO: #47 task description
+      ',
+      '2-2',
+      'task description for first',
+      '46',
+      2
+    )
+  end
+
+  def test_todo_colon_parsing_multi_line_random_prefix
+    check_valid_puzzle(
+      '
+    ~~
+    ~~ @todo #44 First
+    ~~  and
+    ~~ second
+      ',
+      '3-4',
+      'First and',
+      '44'
+    )
+  end
 
   def test_todo_failing_no_ticket
     check_invalid_puzzle(

@@ -83,10 +83,6 @@ Then(/^Stdout contains "([^"]*)"$/) do |txt|
   raise "STDOUT doesn't contain '#{txt}':\n#{@stdout}" unless @stdout.include?(txt)
 end
 
-Then(/^Stdout is empty$/) do
-  raise "STDOUT is not empty:\n#{@stdout}" unless @stdout == ''
-end
-
 Then(/^XML file "([^"]+)" matches "([^"]+)"$/) do |file, xpath|
   raise "File #{file} doesn't exit" unless File.exist?(file)
 
@@ -103,14 +99,6 @@ Then(/^Text File "([^"]+)" contains "([^"]+)"$/) do |file, substring|
     if content.index(substring).nil?
 end
 
-Then(/^Exit code is zero$/) do
-  raise "Non-zero exit code #{@exitstatus}" unless @exitstatus.zero?
-end
-
-Then(/^Exit code is not zero$/) do
-  raise 'Zero exit code' if @exitstatus.zero?
-end
-
 When(/^I run bash with$/) do |text|
   FileUtils.copy_entry(@cwd, File.join(@dir, 'pdd'))
   @stdout = `#{text}`
@@ -121,12 +109,4 @@ When(/^I run bash with "([^"]*)"$/) do |text|
   FileUtils.copy_entry(@cwd, File.join(@dir, 'pdd'))
   @stdout = `#{text}`
   @exitstatus = $CHILD_STATUS.exitstatus
-end
-
-Given(/^It is Unix$/) do
-  pending if Gem.win_platform?
-end
-
-Given(/^It is Windows$/) do
-  pending unless Gem.win_platform?
 end

@@ -211,9 +211,9 @@ and put a dummy `#1` marker everywhere.
 /**
  * @todo #36 Multiline text can use the same prefix in all lines or the same 
  *  amount of spaces.
-    So this will be added to the puzzle description. If you want to divide the 
- *  puzzle by empty line, just add a space to that line  
- *   
+ *  So this will be added to the puzzle description. If you want to divide the 
+ *  puzzle by empty line, just add a backspace to that line  
+ *  \
  *  and continue the text after.
  *
  *  This line is not part of the puzzle, because the line before contains less
