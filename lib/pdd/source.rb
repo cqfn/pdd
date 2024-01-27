@@ -144,38 +144,37 @@ against the rules explained here: https://github.com/cqfn/pdd#how-to-format"
     def tail(lines, prefix, start)
       return [] if lines.empty?
       prefix = " #{' ' * start}" if prefix.empty? # fallback to space indentation
-      prefix = puzzle_text_prefix(lines, prefix)
+      tail_prefix = puzzle_tail_prefix(lines, prefix)
       tail = lines
-             .take_while { |t| puzzle_text?(t, prefix) }
+             .take_while { |t| puzzle_text?(t, tail_prefix, prefix) }
              .map do |t|
-               content = t[prefix.length, t.length]&.lstrip
+               content = t[tail_prefix.length, t.length]&.lstrip
                puzzle_empty_line?(content, '') ? '' : content
              end
       tail.pop if tail[-1].eql?('')
       tail
     end
 
-    def puzzle_text_prefix(lines, prefix)
+    def puzzle_tail_prefix(lines, prefix)
       return prefix if lines.empty?
       i = 0
       while i < lines.length
-        l = lines[i] unless puzzle_empty_line?(lines[i], prefix)
-        unless l.nil?
-          return l.start_with?("#{prefix} ") ? "#{prefix} " : prefix
+        unless puzzle_empty_line?(lines[i], prefix)
+          return lines[i].start_with?("#{prefix} ") ? "#{prefix} " : prefix
         end
         i += 1
       end
       prefix
     end
 
-    def puzzle_text?(line, prefix)
+    def puzzle_text?(line, prefix, intro_prefix)
       return false unless match_markers(line).none?
-      line.start_with?(prefix) || puzzle_empty_line?(line, prefix)
+      line.start_with?(prefix) || puzzle_empty_line?(line, intro_prefix)
     end
 
     def puzzle_empty_line?(line, prefix)
       return true if line.nil?
-      line.start_with?(prefix.lstrip) && line.gsub(prefix, '').chomp.strip.eql?('\\')
+      line.start_with?(prefix) && line.gsub(prefix, '').chomp.strip.eql?('\\')
     end
 
     # @todo #75:30min Let's make it possible to fetch Subversion data

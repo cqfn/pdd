@@ -189,6 +189,21 @@ class TestSourceTodo < Minitest::Test
     )
   end
 
+  def test_todo_parsing_puzzle_javadoc_with_empty_line
+    check_valid_puzzle(
+      '
+      /**
+       * TODO: #46 task description
+       * \
+       */
+       * some text
+      ',
+      '3-3',
+      'task description',
+      '46'
+    )
+  end
+
   def test_todo_colon_parsing_multi_line_random_prefix
     check_valid_puzzle(
       '
