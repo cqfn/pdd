@@ -18,21 +18,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-if Gem.win_platform?
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+SimpleCov.formatter = if Gem.win_platform?
+  SimpleCov::Formatter::MultiFormatter[
     SimpleCov::Formatter::HTMLFormatter
   ]
-  SimpleCov.start do
-    add_filter '/test/'
-    add_filter '/features/'
-  end
-else
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
+                      else
+  SimpleCov::Formatter::MultiFormatter.new(
     SimpleCov::Formatter::HTMLFormatter
   )
-  SimpleCov.start do
-    add_filter '/test/'
-    add_filter '/features/'
-    minimum_coverage 90
-  end
+                      end
+
+SimpleCov.start do
+  add_filter '/test/'
+  add_filter '/features/'
+  minimum_coverage 90
 end
