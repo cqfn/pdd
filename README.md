@@ -185,7 +185,7 @@ of the mandatory marker):
 
 Here `DES` and `DEV` are the roles of people who must fix that puzzles;
 `45min` and `40m` is the amount of time the puzzle should take;
-`224`, `TEST-13`, `55`, `67`, `678`, `1`, and `42` are the IDs of the tickets
+`224`, `55`, `67`, `678` and `1` are the IDs of the tickets
 these puzzles are coming from.
 
 Markers are absolutely necessary for all puzzles, because they allow
