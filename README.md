@@ -180,12 +180,12 @@ of the mandatory marker):
 # @todo #55:45min Puzzle description
 @todo #67/DES Puzzle description
 ;; @todo #678:40m/DEV Puzzle description
-// TODO: #1:30min Puzzle description
+// TODO: #TEST-21:30min Puzzle description
 ```
 
 Here `DES` and `DEV` are the roles of people who must fix that puzzles;
 `45min` and `40m` is the amount of time the puzzle should take;
-`224`, `55`, `67`, `678` and `1` are the IDs of the tickets
+`224`, `55`, `67`, `678` and `TEST-21` are the IDs of the tickets
 these puzzles are coming from.
 
 Markers are absolutely necessary for all puzzles, because they allow
