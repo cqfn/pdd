@@ -74,7 +74,7 @@ end
 
 require 'cucumber/rake/task'
 Cucumber::Rake::Task.new(:features) do |t|
-  t.cucumber_opts = 'features'
+  t.cucumber_opts = %w[features --strict-undefined]
   Rake::Cleaner.cleanup_files(['coverage'])
 end
 Cucumber::Rake::Task.new(:'features:html') do |t|
