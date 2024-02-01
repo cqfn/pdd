@@ -204,6 +204,19 @@ class TestSourceTodo < Minitest::Test
     )
   end
 
+  def test_todo_parsing_puzzle_last_empty_line
+    check_valid_puzzle(
+      '
+      /**
+       * TODO: #47 task description
+       * \
+',
+      '3-3',
+      'task description',
+      '47'
+    )
+  end
+
   def test_todo_colon_parsing_multi_line_random_prefix
     check_valid_puzzle(
       '
