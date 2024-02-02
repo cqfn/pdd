@@ -166,14 +166,24 @@ and put a dummy `#1` marker everywhere.
 
 ### Multiline examples
 
+For multiline puzzles there are two important things:
+- **prefix** - any optional text followed by space before puzzle keyword (todo). 
+It should be the same for all lines of puzzle description.
+- \ symbol can be used to logically divide puzzle description.
+prefix should be presented with it.
+
+Examples:
+
 ```xml
 <!-- 
  ~ if comment should be started and closed by special symbols, then place them in
- ~ a separate lines without any text
- ~ Any symbol can be used as a prefix, it will be excluded from the text
+ ~ a separate lines
+ ~ Any symbol can be used as a prefix, it will be excluded from the text.
+ ~ But do not forget about the space before puzzle keyword.
  ~
- ~ @todo #34 Description can not be created in one line with comment
- ~ symbols. Just use at least the same amount of the spaces, as on the first line. 
+ ~ @todo #34 Description can be as long as needed.
+ ~  Just use at least the same amount of the spaces, as on the first line. 
+ ~  It will be added to description.
 -->
 ```
 
@@ -182,12 +192,12 @@ and put a dummy `#1` marker everywhere.
  * @todo #36 Multiline text can use the same prefix in all lines or the same 
  *  amount of spaces.
  *  So this will be added to the puzzle description. If you want to divide the 
- *  puzzle by empty line, just add a backspace to that line  
+ *  puzzle logically by empty line, just add a backspace to that line  
  *  \
  *  and continue the text after.
  *
- *  This line is not part of the puzzle, because the line before contains less
- *  spaces then the second line.
+ *  This line is not part of the puzzle, because the line before does not contain
+ *  prefix.
  */
 ```
 
