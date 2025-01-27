@@ -17,5 +17,3 @@ Feature: Rake Task
 
     When I run bash with "rake pdd"
     Then Exit code is zero
-
-

@@ -45,7 +45,7 @@ You can exclude & include certain number of files from the search via these opti
 $ pdd --exclude glob
 ```
 
-You can skip any file(s) with a name suffix that matches the pattern glob, using wildcard matching; 
+You can skip any file(s) with a name suffix that matches the pattern glob, using wildcard matching;
 a name suffix is either the whole path and name, or reg expr, for example:
 
 ```bash
@@ -60,8 +60,8 @@ You can include too:
 $ pdd --include glob
 ```
 
-Search only files whose name matches glob, using wildcard matching as described under ``--exclude``. 
-If contradictory ``--include`` and ``--exclude`` options are given, the last matching one wins. 
+Search only files whose name matches glob, using wildcard matching as described under ``--exclude``.
+If contradictory ``--include`` and ``--exclude`` options are given, the last matching one wins.
 If no ``--include`` or ``--exclude`` options are given, all files from working directory are included, example:
 
 ```bash
@@ -116,10 +116,10 @@ Example:
  * @todo #234:15m/DEV This is something to do later
  *  in one of the next releases. I can't figure out
  *  how to implement it now, that's why the puzzle.
- *  The text can be so long, as needed, just use 
+ *  The text can be so long, as needed, just use
  *  the same anount of spaces, as the second line.
- * This text will be not a part of the puzzle, as 
- * it has less spaces. 
+ * This text will be not a part of the puzzle, as
+ * it has less spaces.
  */
 void sendEmail() {
   throw new UnsupportedOperationException();
@@ -167,7 +167,7 @@ and put a dummy `#1` marker everywhere.
 ### Multiline examples
 
 For multiline puzzles there are two important things:
-- **prefix** - any optional text followed by space before puzzle keyword (todo). 
+- **prefix** - any optional text followed by space before puzzle keyword (todo).
 It should be the same for all lines of puzzle description.
 - \ symbol can be used to logically divide puzzle description.
 prefix should be presented with it.
@@ -175,24 +175,24 @@ prefix should be presented with it.
 Examples:
 
 ```xml
-<!-- 
+<!--
  ~ if comment should be started and closed by special symbols, then place them in
  ~ a separate lines
  ~ Any symbol can be used as a prefix, it will be excluded from the text.
  ~ But do not forget about the space before puzzle keyword.
  ~
  ~ @todo #34 Description can be as long as needed.
- ~  Just use at least the same amount of the spaces, as on the first line. 
+ ~  Just use at least the same amount of the spaces, as on the first line.
  ~  It will be added to description.
 -->
 ```
 
 ```java
 /**
- * @todo #36 Multiline text can use the same prefix in all lines or the same 
+ * @todo #36 Multiline text can use the same prefix in all lines or the same
  *  amount of spaces.
- *  So this will be added to the puzzle description. If you want to divide the 
- *  puzzle logically by empty line, just add a backspace to that line  
+ *  So this will be added to the puzzle description. If you want to divide the
+ *  puzzle logically by empty line, just add a backspace to that line
  *  \
  *  and continue the text after.
  *
@@ -288,8 +288,8 @@ For Mac:
 $ brew install libmagic
 ```
 
-Unfortunately, there is no easy way to install on Windows, try to use 
-[WSL](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux) or 
+Unfortunately, there is no easy way to install on Windows, try to use
+[WSL](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux) or
 [Docker](https://www.docker.com/).
 
 ## How to contribute

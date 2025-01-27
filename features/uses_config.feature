@@ -18,4 +18,3 @@ Feature: Using .pdd config file
     Then Exit code is zero
     And Stdout contains "Reading from root dir ."
     And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
-
