@@ -1,6 +1,6 @@
 ---
 name: codecov
-on:
+'on':
   push:
     branches:
       - master
@@ -9,15 +9,17 @@ on:
       - master
 jobs:
   codecov:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7'
-      - run: bundle update
+          ruby-version: 3.3
+          bundler-cache: true
+      - run: bundle config set --global path "$(pwd)/vendor/bundle"
+      - run: bundle install
       - run: bundle exec rake
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
