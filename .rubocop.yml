@@ -5,7 +5,6 @@ AllCops:
   TargetRubyVersion: 2.3
   NewCops: enable
   SuggestExtensions: false
-
 Gemspec/RequiredRubyVersion:
   Enabled: false
 Layout/EmptyLineAfterGuardClause:
@@ -30,3 +29,7 @@ Metrics/BlockLength:
   Max: 50
 Style/FrozenStringLiteralComment:
   Enabled: false
+required:
+  - rubocop-rake
+  - rubocop-minitest
+  - rubocop-performance
