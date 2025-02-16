@@ -218,7 +218,7 @@ GEM
     unicode-display_width (2.6.0)
     uri (1.0.2)
     useragent (0.16.11)
-    xcop (0.7.1)
+    xcop (0.7.2)
       differ (~> 0.1.2)
       nokogiri (~> 1.10)
       rainbow (~> 3.0)
@@ -248,7 +248,7 @@ DEPENDENCIES
   simplecov (= 0.22.0)
   simplecov-cobertura (~> 2.1)
   slop (= 4.9.2)
-  xcop (= 0.7.1)
+  xcop (> 0)
 
 BUNDLED WITH
    2.5.16
