@@ -35,4 +35,4 @@ gem 'rubocop-rspec', '>0', require: false
 gem 'simplecov', '0.22.0', require: false
 gem 'simplecov-cobertura', '~> 2.1'
 gem 'slop', '4.9.2', require: false
-gem 'xcop', '0.7.1', require: false
+gem 'xcop', '>0', require: false
