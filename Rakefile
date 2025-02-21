@@ -14,7 +14,7 @@ def version
   Gem::Specification.load(Dir['*.gemspec'].first).version
 end
 
-task default: %i[clean test features rubocop xcop copyright]
+task default: %i[clean test features rubocop xcop]
 
 require 'rake/testtask'
 desc 'Run all unit tests'
@@ -67,10 +67,3 @@ Cucumber::Rake::Task.new(:'features:json') do |t|
   t.profile = 'json_report'
 end
 
-task :copyright do
-  sh "grep -q -r '2014-#{Date.today.strftime('%Y')}' \
-    --include '*.rb' \
-    --include '*.txt' \
-    --include 'Rakefile' \
-    ."
-end
