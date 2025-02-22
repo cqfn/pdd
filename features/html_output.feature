@@ -1,3 +1,7 @@
+# (The MIT License)
+#
+# SPDX-FileCopyrightText: Copyright (c) 2014-2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
 Feature: HTML output
   As a source code writer I want to be able to
   call PDD as a command line tool, and retrieve an
