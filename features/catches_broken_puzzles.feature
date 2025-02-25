@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: Copyright (c) 2014-2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
 Feature: Catches Broken Puzzles
   As a source code writer I want to be sure that
   broken puzzles won't be processed and will

@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: Copyright (c) 2014-2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
 Feature: Avoiding Duplicate Puzzles
   As a source code writer I want to be sure that
   XML output doesn't contain any duplicates

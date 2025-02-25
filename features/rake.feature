@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: Copyright (c) 2014-2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
 Feature: Rake Task
   As a source code writer I want to be able to
   run PDD from Rakefile

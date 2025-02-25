@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: Copyright (c) 2014-2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
 Feature: Applies Post-Parsing Rules
   As a source code writer I want to be sure that
   certain post-parsing rules are applied

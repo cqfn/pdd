@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: Copyright (c) 2014-2025 Yegor Bugayenko
+# SPDX-License-Identifier: MIT
 Feature: Removing Puzzles
   As a source code writer I want to be able to
   remove PDD puzzles from source code
