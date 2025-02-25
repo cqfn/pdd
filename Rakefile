@@ -66,4 +66,3 @@ end
 Cucumber::Rake::Task.new(:'features:json') do |t|
   t.profile = 'json_report'
 end
-
