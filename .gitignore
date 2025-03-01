@@ -1,8 +1,8 @@
-coverage/**/*
-.idea/**/*
 *.gem
-.bundle/**/*
 .DS_Store
+.bundle/**/*
+.idea/**/*
+coverage/**/*
 rdoc/**/*
 tmp/**/*
 vendor/
