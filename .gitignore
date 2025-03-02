@@ -1,8 +1,15 @@
 *.gem
 .DS_Store
+.bundle/
 .bundle/**/*
+.idea/
 .idea/**/*
+.yardoc/
+coverage/
 coverage/**/*
+doc/
+node_modules/
+rdoc/
 rdoc/**/*
 tmp/**/*
 vendor/
