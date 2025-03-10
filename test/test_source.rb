@@ -256,7 +256,6 @@ class TestSource < Minitest::Test
   end
 
   def test_reads_git_author
-    skip if Gem.win_platform?
     Dir.mktmpdir 'test' do |dir|
       raise unless system("
         set -e
@@ -285,7 +284,6 @@ class TestSource < Minitest::Test
   end
 
   def test_skips_invalid_git_mail
-    skip if Gem.win_platform?
     Dir.mktmpdir 'test' do |dir|
       raise unless system("
         set -e
@@ -314,7 +312,6 @@ class TestSource < Minitest::Test
   end
 
   def test_uses_github_login
-    skip if Gem.win_platform?
     Dir.mktmpdir 'test' do |dir|
       raise unless system("
         cd '#{dir}'
@@ -336,7 +333,6 @@ class TestSource < Minitest::Test
   end
 
   def test_skips_uncommitted_changes
-    skip if Gem.win_platform?
     Dir.mktmpdir 'test' do |dir|
       raise unless system("
         cd '#{dir}'
