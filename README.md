@@ -1,24 +1,24 @@
 <img alt="pdd logo" src="https://avatars2.githubusercontent.com/u/24456188" width="92px" height="92px"/>
 
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
-[![DevOps By Rultor.com](http://www.rultor.com/b/cqfn/pdd)](http://www.rultor.com/p/cqfn/pdd)
+[![DevOps By Rultor.com](https://www.rultor.com/b/cqfn/pdd)](https://www.rultor.com/p/cqfn/pdd)
 [![We recommend RubyMine](https://www.elegantobjects.org/rubymine.svg)](https://www.jetbrains.com/ruby/)
 
 [![rake](https://github.com/cqfn/pdd/actions/workflows/rake.yml/badge.svg)](https://github.com/cqfn/pdd/actions/workflows/rake.yml)
-[![PDD status](http://www.0pdd.com/svg?name=cqfn/pdd)](http://www.0pdd.com/p?name=cqfn/pdd)
+[![PDD status](https://www.0pdd.com/svg?name=cqfn/pdd)](https://www.0pdd.com/p?name=cqfn/pdd)
 [![codecov](https://codecov.io/gh/yegor256/pdd/branch/master/graph/badge.svg)](https://codecov.io/gh/yegor/pdd)
 [![Hits-of-Code](https://hitsofcode.com/github/cqfn/pdd)](https://hitsofcode.com/view/github/cqfn/pdd)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/cqfn/pdd/blob/master/LICENSE.txt)
-[![Gem Version](https://badge.fury.io/rb/pdd.svg)](http://badge.fury.io/rb/pdd)
+[![Gem Version](https://badge.fury.io/rb/pdd.svg)](https://badge.fury.io/rb/pdd)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c8e46256fdd8ddc817e5/maintainability)](https://codeclimate.com/github/cqfn/pdd/maintainability)
-[![Yard Docs](http://img.shields.io/badge/yard-docs-blue.svg)](http://rubydoc.info/github/cqfn/pdd/master/frames)
+[![Yard Docs](https://img.shields.io/badge/yard-docs-blue.svg)](https://rubydoc.info/github/cqfn/pdd/master/frames)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/1792d42f96fb45448e8d495ebc4348aa)](https://www.codacy.com/gh/cqfn/pdd/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cqfn/pdd&amp;utm_campaign=Badge_Grade)
 
 Read this article about
 [_Puzzle Driven Development_](http://www.yegor256.com/2009/03/04/pdd.html).
 Check also patent application [US 12/840,306](http://www.google.com/patents/US20120023476)
 
-Also, check [0pdd.com](http://www.0pdd.com): a hosted service,
+Also, check [0pdd.com](https://www.0pdd.com): a hosted service,
 where this command line tool works for you.
 
 Read
@@ -126,7 +126,7 @@ void sendEmail() {
 }
 ```
 
-If you use it in combination with [0pdd](http://www.0pdd.com),
+If you use it in combination with [0pdd](https://www.0pdd.com),
 after processing this text, the issue titled
 "File.java:10-13: This is something to do later in one of ..." will be created.
 The specified markers will be included in the issues body
@@ -160,7 +160,7 @@ these puzzles are coming from.
 
 Markers are absolutely necessary for all puzzles, because they allow
 us to build a hierarchical dependency tree of all puzzles, like
-[this one](http://www.0pdd.com/p?name=yegor256/takes),
+[this one](https://www.0pdd.com/p?name=yegor256/takes),
 for example. Technically, of course, you can abuse the system
 and put a dummy `#1` marker everywhere.
 
@@ -238,7 +238,7 @@ See, how it is done in [yegor256/0pdd](https://github.com/yegor256/0pdd/blob/mas
 ## How to read XML
 
 The XML produced will look approximately like this (here is a
-[real example](http://www.0pdd.com/snapshot?name=yegor256/takes)):
+[real example](https://www.0pdd.com/snapshot?name=yegor256/takes)):
 
 ```xml
 <puzzles>
