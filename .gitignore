@@ -1,10 +1,10 @@
-*.gem
-.DS_Store
 .bundle/
 .bundle/**/*
+.DS_Store
 .idea/
 .idea/**/*
 .yardoc/
+*.gem
 coverage/
 coverage/**/*
 doc/
