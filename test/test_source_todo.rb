@@ -30,7 +30,7 @@ class TestSourceTodo < Minitest::Test
       error = assert_raises PDD::Error do
         stub_source_find_github_user(file, 'hey', &:puzzles)
       end
-      assert !error.message.index(error_msg).nil?
+      refute_nil error.message.index(error_msg)
     end
   end
 

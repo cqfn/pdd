@@ -34,9 +34,9 @@ class TestSource < Minitest::Test
         assert_equal 'привет, how are you doing?',
                      puzzle.props[:body]
         assert_equal '44', puzzle.props[:ticket]
-        assert puzzle.props[:author].nil?
-        assert puzzle.props[:email].nil?
-        assert puzzle.props[:time].nil?
+        assert_nil puzzle.props[:author]
+        assert_nil puzzle.props[:email]
+        assert_nil puzzle.props[:time]
       end
     end
   end
@@ -193,7 +193,7 @@ class TestSource < Minitest::Test
       error = assert_raises PDD::Error do
         stub_source_find_github_user(file, 'ff', &:puzzles)
       end
-      assert !error.to_s.index("\x40todo is not followed by").nil?
+      refute_nil error.to_s.index("\x40todo is not followed by")
     end
   end
 
@@ -219,7 +219,7 @@ class TestSource < Minitest::Test
       error = assert_raises PDD::Error do
         stub_source_find_github_user(file, 'hey', &:puzzles)
       end
-      assert !error.message.index('is not followed by a puzzle marker').nil?
+      refute_nil error.message.index('is not followed by a puzzle marker')
     end
   end
 
@@ -235,7 +235,7 @@ class TestSource < Minitest::Test
       error = assert_raises PDD::Error do
         stub_source_find_github_user(file, 'x', &:puzzles)
       end
-      assert !error.message.index("\x40todo must have a leading space").nil?
+      refute_nil error.message.index("\x40todo must have a leading space")
     end
   end
 
@@ -251,7 +251,7 @@ class TestSource < Minitest::Test
       error = assert_raises PDD::Error do
         stub_source_find_github_user(file, 'x', &:puzzles)
       end
-      assert !error.message.index('an unexpected space').nil?
+      refute_nil error.message.index('an unexpected space')
     end
   end
 

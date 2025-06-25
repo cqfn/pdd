@@ -16,7 +16,7 @@ class TestRoles < Minitest::Test
         '<puzzles><puzzle><role>D</role></puzzle></puzzles>'
       ), 'A,B,C'
     )
-    assert !rule.errors.empty?, 'why it is empty?'
+    refute_empty rule.errors, 'why it is empty?'
   end
 
   def test_correct_role
@@ -25,7 +25,7 @@ class TestRoles < Minitest::Test
         '<puzzles><puzzle><role>F</role></puzzle></puzzles>'
       ), 'F,E,G'
     )
-    assert rule.errors.empty?, 'why it is not empty?'
+    assert_empty rule.errors, 'why it is not empty?'
   end
 
   def test_empty_role
@@ -34,6 +34,6 @@ class TestRoles < Minitest::Test
         '<puzzles><puzzle></puzzle></puzzles>'
       ), 'T,R,L'
     )
-    assert !rule.errors.empty?, 'why it is empty?'
+    refute_empty rule.errors, 'why it is empty?'
   end
 end

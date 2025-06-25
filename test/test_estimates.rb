@@ -16,7 +16,7 @@ class TestEstimates < Minitest::Test
         '<puzzles><puzzle><estimate>15</estimate></puzzle></puzzles>'
       ), 30
     )
-    assert !rule.errors.empty?, 'why it is empty?'
+    refute_empty rule.errors, 'why it is empty?'
   end
 
   def test_max
@@ -25,6 +25,6 @@ class TestEstimates < Minitest::Test
         '<puzzles><puzzle><estimate>30</estimate></puzzle></puzzles>'
       ), 15
     )
-    assert !rule.errors.empty?, 'why it is empty?'
+    refute_empty rule.errors, 'why it is empty?'
   end
 end

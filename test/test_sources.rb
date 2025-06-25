@@ -101,7 +101,7 @@ class TestSources < Minitest::Test
       error = assert_raises PDD::Error do
         PDD::Sources.new(dir).fetch[0].puzzles
       end
-      assert error.message.start_with?('z1.txt; '), error.message
+      assert error.message.start_with?('z1.txt; '), "here: #{error.message}"
     end
   end
 

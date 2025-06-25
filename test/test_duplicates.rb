@@ -17,7 +17,7 @@ class TestMaxDuplicates < Minitest::Test
         <puzzle><body>test</body></puzzle></puzzles>'
       ), 1
     )
-    assert !rule.errors.empty?, 'why it is empty?'
+    refute_empty rule.errors, 'why it is empty?'
   end
 
   def test_max_duplicates_without_errors
@@ -26,6 +26,6 @@ class TestMaxDuplicates < Minitest::Test
         '<puzzles><puzzle><body>hello</body></puzzle></puzzles>'
       ), 1
     )
-    assert rule.errors.empty?, 'it has to be empty!'
+    assert_empty rule.errors, 'it has to be empty!'
   end
 end

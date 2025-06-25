@@ -1,4 +1,4 @@
-<img alt="pdd logo" src="https://avatars2.githubusercontent.com/u/24456188" width="92px" height="92px"/>
+# Collector of TODO Puzzles in Source Code
 
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
 [![DevOps By Rultor.com](https://www.rultor.com/b/cqfn/pdd)](https://www.rultor.com/p/cqfn/pdd)
@@ -16,7 +16,8 @@
 
 Read this article about
 [_Puzzle Driven Development_](http://www.yegor256.com/2009/03/04/pdd.html).
-Check also patent application [US 12/840,306](http://www.google.com/patents/US20120023476)
+Check also patent application
+[US 12/840,306](http://www.google.com/patents/US20120023476)
 
 Also, check [0pdd.com](https://www.0pdd.com): a hosted service,
 where this command line tool works for you.
@@ -25,55 +26,63 @@ Read
 [_PDD in Action_](http://www.yegor256.com/2017/04/05/pdd-in-action.html)
 and watch [this webinar](https://www.youtube.com/watch?v=nsYGC2aUwfQ).
 
-First, make sure Ruby 2.6+ and [`libmagic`](#how-to-install-libmagic) are installed. Then, install our gem:
+First, make sure Ruby 2.6+ and [`libmagic`](#how-to-install-libmagic)
+are installed. Then, install our gem:
 
 ```bash
-$ gem install pdd
+gem install pdd
 ```
 
 Run it locally and read its output:
 
 ```bash
-$ pdd --help
+pdd --help
 ```
 
 ## Usage
 
-You can exclude & include certain number of files from the search via these options:
+You can exclude & include certain number of files from the search
+via these options:
 
 ```bash
-$ pdd --exclude glob
+pdd --exclude glob
 ```
 
-You can skip any file(s) with a name suffix that matches the pattern glob, using wildcard matching;
-a name suffix is either the whole path and name, or reg expr, for example:
+You can skip any file(s) with a name suffix that matches the pattern glob,
+using wildcard matching; a name suffix is either the whole
+path and name, or reg expr, for example:
 
 ```bash
-$ pdd --exclude src/**/*.java --exclude target/**/*
-$ pdd --exclude src/**/*.java # exclude .java files in src/
-$ pdd --exclude src/**/* # exclude all files in src/
+pdd --exclude src/**/*.java --exclude target/**/*
+pdd --exclude src/**/*.java # exclude .java files in src/
+pdd --exclude src/**/* # exclude all files in src/
 ```
 
 You can include too:
 
 ```bash
-$ pdd --include glob
+pdd --include glob
 ```
 
-Search only files whose name matches glob, using wildcard matching as described under ``--exclude``.
-If contradictory ``--include`` and ``--exclude`` options are given, the last matching one wins.
-If no ``--include`` or ``--exclude`` options are given, all files from the working directory are included, example:
+Search only files whose name matches glob, using wildcard matching
+as described under ``--exclude``.
+If contradictory ``--include`` and ``--exclude`` options are given,
+the last matching one wins.
+If no ``--include`` or ``--exclude`` options are given, all files
+from the working directory are included, example:
 
 ```bash
-$ pdd --include src/**/*.py # include only .py files in src/
-$ pdd --include src/**/* # include all files in src/
+pdd --include src/**/*.py # include only .py files in src/
+pdd --include src/**/* # include all files in src/
 ```
 
 Full command format is (all parameters are optional):
+
 ```bash
-$ pdd [--verbose] [--quiet] [--remove] [--skip-gitignore] [--skip-errors] \
-      [--source <project_dir_path>] [--file puzzles_file.xml] [--include src/**/*.py] \
-      [--format xml|html] [--rule min-words:5] [--exclude src/**/*.java]
+pdd [--verbose] [--quiet] [--remove] [--skip-gitignore] [--skip-errors] \
+  [--source <project_dir_path>] [--file puzzles_file.xml] \
+  [--include src/**/*.py] \
+  [--format xml|html] [--rule min-words:5] [--exclude src/**/*.java]
 ```
 
 | Parameter               | Description                                                                           |
@@ -140,8 +149,8 @@ There are 3 supported keywords, one of which must precede the mandatory
 puzzle marker. They are `@todo`, `TODO` and `TODO:`.
 
 As an example, it starts with `@todo`, followed by a space and a mandatory
-puzzle **marker**. Possible formats of puzzle markers (it doesn't matter what the
-line starts with and where it is located,
+puzzle **marker**. Possible formats of puzzle markers
+(it doesn't matter what the line starts with and where it is located,
 as long as you have one of the 3 supported keywords right in front
 of the mandatory marker):
 
@@ -233,7 +242,8 @@ Here is a list of rules available now:
 
 :bulb: You can put all command line options into `.pdd` file. The options from the
 file will be used first. Command line options may be added on top of them.
-See, how it is done in [yegor256/0pdd](https://github.com/yegor256/0pdd/blob/master/.pdd).
+See, how it is done in
+[yegor256/0pdd](https://github.com/yegor256/0pdd/blob/master/.pdd).
 
 ## How to read XML
 
@@ -296,18 +306,20 @@ Unfortunately, there is no easy way to install on Windows, try to use
 
 Read [these guidelines](https://www.yegor256.com/2014/04/15/github-guidelines.html).
 Make sure your build is green before you contribute
-your pull request. You will need to have [Ruby](https://www.ruby-lang.org/en/) 2.7+ and
+your pull request. You will need to have
+[Ruby](https://www.ruby-lang.org/en/) 2.7+ and
 [Bundler](https://bundler.io/) installed. Then:
 
 ```bash
-$ bundle install
-$ bundle exec rake
+bundle install
+bundle exec rake
 ```
 
 Next, install and run overcommit to install hooks (required once)
+
 ```bash
-$ gem install overcommit -v '=0.58.0'
-$ overcommit --install
+gem install overcommit -v '=0.58.0'
+overcommit --install
 ```
 
 If it's clean and you don't see any error messages, submit your pull request.
@@ -315,11 +327,11 @@ If it's clean and you don't see any error messages, submit your pull request.
 This is how you run the tool locally to test how it works:
 
 ```bash
-$ ./bin/pdd --help
+./bin/pdd --help
 ```
 
 To run a single unit test:
 
 ```bash
-$ bundle exec ruby test/test_many.rb
+bundle exec ruby test/test_many.rb
 ```

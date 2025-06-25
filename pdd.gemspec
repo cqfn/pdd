@@ -25,9 +25,9 @@ Gem::Specification.new do |s|
   s.executables = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.rdoc_options = ['--charset=UTF-8']
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt']
-  s.add_runtime_dependency 'nokogiri', '~> 1.10'
-  s.add_runtime_dependency 'rainbow', '~> 3.0'
-  s.add_runtime_dependency 'ruby-filemagic', '~> 0.7.2'
-  s.add_runtime_dependency 'slop', '~> 4.6'
+  s.add_dependency 'nokogiri', '~> 1.10'
+  s.add_dependency 'rainbow', '~> 3.0'
+  s.add_dependency 'ruby-filemagic', '~> 0.7.2'
+  s.add_dependency 'slop', '~> 4.6'
   s.metadata['rubygems_mfa_required'] = 'true'
 end

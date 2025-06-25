@@ -17,6 +17,6 @@ class TestText < Minitest::Test
         <puzzle><body>body with four words</body></puzzle></puzzles>'
       ), 4
     )
-    assert rule.errors.size == 1
+    assert_equal 1, rule.errors.size
   end
 end
