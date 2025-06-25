@@ -154,7 +154,7 @@ puzzle **marker**. Possible formats of puzzle markers
 as long as you have one of the 3 supported keywords right in front
 of the mandatory marker):
 
-```
+```text
 // @todo #224 Puzzle description
 # @todo #55:45min Puzzle description
 @todo #67/DES Puzzle description
@@ -176,6 +176,7 @@ and put a dummy `#1` marker everywhere.
 ### Multiline examples
 
 For multiline puzzles there are two important things:
+
 - **prefix** - any optional text followed by space before puzzle keyword (todo).
 It should be the same for all lines of puzzle description.
 - \ symbol can be used to logically divide puzzle description.
@@ -216,7 +217,7 @@ You can specify post-parsing rules for your puzzles, in command line,
 for example:
 
 ```bash
-$ pdd --rule min-estimate:60 --rule max-estimate:120
+pdd --rule min-estimate:60 --rule max-estimate:120
 ```
 
 These two parameters will add two post-parsing rules `min-estimate`
@@ -266,6 +267,7 @@ The XML produced will look approximately like this (here is a
   </puzzle>
 </puzzles>
 ```
+
 NOTE: puzzles are saved with utf-8 encoding
 
 [XSD Schema](http://pdd-xsd.teamed.io/0.19.4.xsd) is here.
@@ -289,13 +291,13 @@ The most interesting parts of each puzzle are:
 For Debian/Ubuntu:
 
 ```bash
-$ apt install libmagic-dev
+apt install libmagic-dev
 ```
 
-For Mac:
+For macOS:
 
 ```bash
-$ brew install libmagic
+brew install libmagic
 ```
 
 Unfortunately, there is no easy way to install on Windows, try to use
