@@ -3,7 +3,9 @@
 ---
 AllCops:
   Exclude:
-    - "assets/**/*"
+    - 'bin/**/*'
+    - 'assets/**/*'
+    - 'vendor/**/**'
   DisplayCopNames: true
   TargetRubyVersion: 2.3
   NewCops: enable
