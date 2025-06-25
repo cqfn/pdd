@@ -56,7 +56,7 @@ class TestPDD < Minitest::Test
         echo '\x40todo #1 this is some puzzle' > '.это файл.txt'
         cd ../..
         git add -f .
-        git commit --quiet -am 'first version'
+        git commit --no-verify --quiet -am 'first version'
       ")
 
       matches(

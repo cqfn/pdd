@@ -8,6 +8,12 @@ AllCops:
   TargetRubyVersion: 2.3
   NewCops: enable
   SuggestExtensions: false
+plugins:
+  - rubocop-rake
+  - rubocop-minitest
+  - rubocop-performance
+Minitest/EmptyLineBeforeAssertionMethods:
+  Enabled: false
 Gemspec/RequiredRubyVersion:
   Enabled: false
 Layout/EmptyLineAfterGuardClause:
@@ -32,7 +38,3 @@ Metrics/BlockLength:
   Max: 50
 Style/FrozenStringLiteralComment:
   Enabled: false
-require:
-  - rubocop-rake
-  - rubocop-minitest
-  - rubocop-performance

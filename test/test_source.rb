@@ -266,7 +266,7 @@ class TestSource < Minitest::Test
         git config user.name test_unknown
         echo '\x40todo #1 this is the puzzle' > a.txt
         git add a.txt
-        git commit --quiet -am 'first version'
+        git commit --no-verify --quiet -am 'first version'
       ")
 
       stub_source_find_github_user(File.join(dir, 'a.txt')) do |source|
@@ -295,7 +295,7 @@ class TestSource < Minitest::Test
         git config user.name test
         echo '\x40todo #1 this is the puzzle' > a.txt
         git add a.txt
-        git commit --quiet -am 'first version'
+        git commit --no-verify --quiet -am 'first version'
       ")
 
       stub_source_find_github_user(File.join(dir, 'a.txt')) do |source|
@@ -323,7 +323,7 @@ class TestSource < Minitest::Test
         git config user.name test
         echo '\x40todo #1 this is the puzzle' > a.txt
         git add a.txt
-        git commit --quiet -am 'first version'
+        git commit --no-verify --quiet -am 'first version'
       ")
 
       stub_source_find_github_user(File.join(dir, 'a.txt')) do |source|
@@ -345,7 +345,7 @@ class TestSource < Minitest::Test
         git config user.name test
         echo 'hi' > a.txt
         git add a.txt
-        git commit --quiet -am 'first version'
+        git commit --no-verify --quiet -am 'first version'
         echo '\x40todo #1 this is a puzzle uncommitted' > a.txt
       ")
 
