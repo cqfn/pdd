@@ -62,7 +62,7 @@ $ pdd --include glob
 
 Search only files whose name matches glob, using wildcard matching as described under ``--exclude``.
 If contradictory ``--include`` and ``--exclude`` options are given, the last matching one wins.
-If no ``--include`` or ``--exclude`` options are given, all files from working directory are included, example:
+If no ``--include`` or ``--exclude`` options are given, all files from the working directory are included, example:
 
 ```bash
 $ pdd --include src/**/*.py # include only .py files in src/
@@ -84,14 +84,14 @@ $ pdd [--verbose] [--quiet] [--remove] [--skip-gitignore] [--skip-errors] \
 | --skip-gitignore        | Don't look into .gitignore for excludes                                               |
 | --skip-errors           | Suppress error as warning and skip badly formatted puzzles (do not skip broken rules) |
 | --source <project-path> | Source directory to parse ("." by default)                                            |
-| --file puzzles.xml      | File to save report into (xml of html) (displayed in console by default)              |
+| --file puzzles.xml      | File to save report into (xml or html) (displayed in console by default)              |
 | --include *.py          | Glob pattern to include (can be used several times)                                   |
 | --exclude *.java        | Glob pattern to exclude (can be used several times)                                   |
 | --format xml            | Format of the report xml or html  (xml is default)                                    |
 | --rule min-words:5      | Rule to apply (can be used several times), described later                            |
 
 :bulb: There is an option to create a .pdd file in your project and save all required parameters in it.
-File example you can see in this project.
+You can see a file example in this project.
 
 ## How to Format?
 
@@ -117,8 +117,8 @@ Example:
  *  in one of the next releases. I can't figure out
  *  how to implement it now, that's why the puzzle.
  *  The text can be so long, as needed, just use
- *  the same anount of spaces, as the second line.
- * This text will be not a part of the puzzle, as
+ *  the same amount of spaces, as the second line.
+ * This text will not be a part of the puzzle, as
  * it has less spaces.
  */
 void sendEmail() {
@@ -150,10 +150,10 @@ of the mandatory marker):
 # @todo #55:45min Puzzle description
 @todo #67/DES Puzzle description
 ;; @todo #678:40m/DEV Puzzle description
-// TODO: #TEST-21:30min Puzzle description
+// TODO #TEST-21:30min Puzzle description
 ```
 
-Here `DES` and `DEV` are the roles of people who must fix that puzzles;
+Here `DES` and `DEV` are the roles of people who must fix these puzzles;
 `45min` and `40m` is the amount of time the puzzle should take;
 `224`, `55`, `67`, `678` and `TEST-21` are the IDs of the tickets
 these puzzles are coming from.
@@ -176,7 +176,7 @@ Examples:
 
 ```xml
 <!--
- ~ if comment should be started and closed by special symbols, then place them in
+ ~ if comments should be started and closed by special symbols, then place them in
  ~ a separate lines
  ~ Any symbol can be used as a prefix, it will be excluded from the text.
  ~ But do not forget about the space before puzzle keyword.
