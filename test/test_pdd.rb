@@ -40,11 +40,9 @@ class TestPDD < Minitest::Test
   end
 
   def test_git_repo
-    skip if Gem.win_platform?
     Dir.mktmpdir 'test' do |dir|
       opts = opts(['-q', '-s', dir])
       raise unless system("
-        set -e
         cd '#{dir}'
         git init --quiet .
         git config user.email test@teamed.io
