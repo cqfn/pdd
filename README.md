@@ -92,7 +92,7 @@ pdd [--verbose] [--quiet] [--remove] [--skip-gitignore] [--skip-errors] \
 | --remove                | Remove all found puzzles from the source code                                         |
 | --skip-gitignore        | Don't look into .gitignore for excludes                                               |
 | --skip-errors           | Suppress error as warning and skip badly formatted puzzles (do not skip broken rules) |
-| --source <project-path> | Source directory to parse ("." by default)                                            |
+| --source project-path   | Source directory to parse ("." by default)                                            |
 | --file puzzles.xml      | File to save report into (xml or html) (displayed in console by default)              |
 | --include *.py          | Glob pattern to include (can be used several times)                                   |
 | --exclude *.java        | Glob pattern to exclude (can be used several times)                                   |
