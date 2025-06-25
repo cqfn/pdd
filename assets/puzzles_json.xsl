@@ -42,7 +42,7 @@
     <xsl:text>", </xsl:text>
     <xsl:text>
       "body": "</xsl:text>
-    <xsl:value-of select="translate(body, '&quot;', '&#x201C;')"/>
+    <xsl:value-of select="translate(body, '&quot;', '“')"/>
     <xsl:text>", </xsl:text>
     <xsl:text>
       "estimate": "</xsl:text>

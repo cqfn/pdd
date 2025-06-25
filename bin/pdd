@@ -4,6 +4,7 @@
 
 $stdout.sync = true
 
+require 'backtrace'
 require 'shellwords'
 require 'English'
 require 'find'
@@ -115,7 +116,7 @@ https://github.com/cqfn/pdd/blob/master/README.md"
       File.write(
         f,
         File.readlines(f).reject.each_with_index do |_t, i|
-          all.any? { |pair| i + 1.between?(pair[0], pair[1]) }
+          all.any? { |pair| i + (1.between?(pair[0], pair[1]) ? 1 : 0) }
         end.join
       )
       PDD.log.info "#{all.count} puzzles removed from #{src}"
@@ -136,6 +137,7 @@ more documentation: https://github.com/cqfn/pdd/blob/master/README.md."
   exit(1)
 rescue StandardError => e
   PDD.log.error "#{Rainbow('ERROR').red} (#{e.class.name}): #{e.message}"
+  PDD.log.error Backtrace.new(e).to_s
   PDD.log.info 'Exit code is 255'
   exit(255)
 end
