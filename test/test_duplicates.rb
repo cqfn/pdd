@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright (c) 2014-2025 Yegor Bugayenko
+# SPDX-FileCopyrightText: Copyright (c) 2014-2026 Yegor Bugayenko
 # SPDX-License-Identifier: MIT
 
 require 'minitest/autorun'
@@ -7,7 +7,7 @@ require_relative '../lib/pdd/rule/duplicates'
 
 # PDD::Rule::MaxDuplicates class test.
 # Author:: Yegor Bugayenko (yegor256@gmail.com)
-# Copyright:: Copyright (c) 2014-2025 Yegor Bugayenko
+# Copyright:: Copyright (c) 2014-2026 Yegor Bugayenko
 # License:: MIT
 class TestMaxDuplicates < Minitest::Test
   def test_max_duplicates
