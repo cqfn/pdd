@@ -15,3 +15,4 @@ Feature: Removing Puzzles
     When I run bin/pdd with "-v --remove -f /dev/null"
     Then Exit code is zero
     And Stdout contains "1 puzzles removed from a/test.txt"
+    And Text File "a/test.txt" contains "Hello"

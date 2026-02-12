@@ -1,10 +1,10 @@
 # SPDX-FileCopyrightText: Copyright (c) 2014-2026 Yegor Bugayenko
 # SPDX-License-Identifier: MIT
 
-require 'minitest/autorun'
 require 'nokogiri'
 require 'tmpdir'
 require 'slop'
+require_relative 'test__helper'
 require_relative '../lib/pdd'
 
 # PDD main module test.

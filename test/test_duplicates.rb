@@ -1,8 +1,8 @@
 # SPDX-FileCopyrightText: Copyright (c) 2014-2026 Yegor Bugayenko
 # SPDX-License-Identifier: MIT
 
-require 'minitest/autorun'
 require 'nokogiri'
+require_relative 'test__helper'
 require_relative '../lib/pdd/rule/duplicates'
 
 # PDD::Rule::MaxDuplicates class test.

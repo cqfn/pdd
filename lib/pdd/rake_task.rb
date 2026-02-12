@@ -3,7 +3,6 @@
 
 require 'rake'
 require 'rake/tasklib'
-require 'minitest/autorun'
 require 'nokogiri'
 require 'tmpdir'
 require 'slop'

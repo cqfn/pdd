@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: Copyright (c) 2014-2026 Yegor Bugayenko
 # SPDX-License-Identifier: MIT
 
-require 'minitest/autorun'
 require 'tmpdir'
 require_relative '../lib/pdd'
 require_relative '../lib/pdd/sources'

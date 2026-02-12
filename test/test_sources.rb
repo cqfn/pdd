@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: Copyright (c) 2014-2026 Yegor Bugayenko
 # SPDX-License-Identifier: MIT
 
-require 'minitest/autorun'
 require 'fileutils'
 require 'tmpdir'
 require_relative '../test/test__helper'
