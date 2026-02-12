@@ -18,13 +18,15 @@ class TestBin < Minitest::Test
   def test_removes_puzzle
     Dir.mktmpdir do |tmp|
       file = File.join(tmp, 'a.txt')
-      File.write(file, "hello!\n\x40todo #55 hello!")
+      File.write(file, "hello!\n\x40todo #55 haha \n\nbye!")
       stdout = qbash(
         "pdd --source #{Shellwords.escape(tmp)} --remove --verbose --file /dev/null",
         chdir: File.join(__dir__, '../bin')
       )
       assert_includes(stdout, 'removed')
       assert_includes(File.read(file), 'hello')
+      assert_includes(File.read(file), 'bye!')
+      refute_includes(File.read(file), 'haha')
     end
   end
 end

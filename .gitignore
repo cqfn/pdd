@@ -4,6 +4,7 @@
 *.gem
 .bundle/
 .bundle/**/*
+.claude/
 .DS_Store
 .idea/
 .idea/**/*
