@@ -6,7 +6,8 @@ gemspec
 
 gem 'aruba', '~>2.3', require: false
 gem 'cucumber', '~>10.0', require: false
-gem 'minitest', '~>5.16', require: false
+gem 'minitest', '~>6.0', require: false
+gem 'minitest-mock', '~>5.27', require: false
 gem 'minitest-reporters', '~>1.7', require: false
 gem 'rake', '~>13.0', require: false
 gem 'rdoc', '~>6.4', require: false
