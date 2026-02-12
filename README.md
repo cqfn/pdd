@@ -14,20 +14,17 @@
 [![Yard Docs](https://img.shields.io/badge/yard-docs-blue.svg)](https://rubydoc.info/github/cqfn/pdd/master/frames)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/1792d42f96fb45448e8d495ebc4348aa)](https://www.codacy.com/gh/cqfn/pdd/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cqfn/pdd&amp;utm_campaign=Badge_Grade)
 
-Read this article about
-[_Puzzle Driven Development_](http://www.yegor256.com/2009/03/04/pdd.html).
-Check also patent application
-[US 12/840,306](http://www.google.com/patents/US20120023476)
+Read this article about [_Puzzle Driven Development_][blog].
+Check also patent application [US 12/840,306][patent].
 
 Also, check [0pdd.com](https://www.0pdd.com): a hosted service,
 where this command line tool works for you.
 
-Read
-[_PDD in Action_](http://www.yegor256.com/2017/04/05/pdd-in-action.html)
-and watch [this webinar](https://www.youtube.com/watch?v=nsYGC2aUwfQ).
+Read [_PDD in Action_][in-action] and watch this [webinar].
 
-First, make sure Ruby 2.6+ and [`libmagic`](#how-to-install-libmagic)
-are installed. Then, install our gem:
+First, make sure Ruby 2.6+
+  and [`libmagic`](#how-to-install-libmagic) are installed.
+Then, install our gem:
 
 ```bash
 gem install pdd
@@ -65,47 +62,25 @@ pdd --include glob
 ```
 
 Search only files whose name matches glob, using wildcard matching
-as described under ``--exclude``.
+  as described under ``--exclude``.
 If contradictory ``--include`` and ``--exclude`` options are given,
-the last matching one wins.
+  the last matching one wins.
 If no ``--include`` or ``--exclude`` options are given, all files
-from the working directory are included, example:
+  from the working directory are included, example:
 
 ```bash
 pdd --include src/**/*.py # include only .py files in src/
 pdd --include src/**/* # include all files in src/
 ```
 
-Full command format is (all parameters are optional):
-
-```bash
-pdd [--verbose] [--quiet] [--remove] [--skip-gitignore] [--skip-errors] \
-  [--source <project_dir_path>] [--file puzzles_file.xml] \
-  [--include src/**/*.py] \
-  [--format xml|html] [--rule min-words:5] [--exclude src/**/*.java]
-```
-
-| Parameter               | Description                                                                           |
-|-------------------------|---------------------------------------------------------------------------------------|
-| --verbose               | Enable verbose (debug) mode. --file must be used in case of using this option         |
-| --quiet                 | Disable logs                                                                          |
-| --remove                | Remove all found puzzles from the source code                                         |
-| --skip-gitignore        | Don't look into .gitignore for excludes                                               |
-| --skip-errors           | Suppress error as warning and skip badly formatted puzzles (do not skip broken rules) |
-| --source project-path   | Source directory to parse ("." by default)                                            |
-| --file puzzles.xml      | File to save report into (xml or html) (displayed in console by default)              |
-| --include *.py          | Glob pattern to include (can be used several times)                                   |
-| --exclude *.java        | Glob pattern to exclude (can be used several times)                                   |
-| --format xml            | Format of the report xml or html  (xml is default)                                    |
-| --rule min-words:5      | Rule to apply (can be used several times), described later                            |
-
-:bulb: There is an option to create a .pdd file in your project and save all required parameters in it.
+There is an option to create a .pdd file in your project
+  and save all required parameters in it.
 You can see a file example in this project.
 
 ## How to Format?
 
-Every puzzle has to be formatted like this (pay attention
-to the leading space in every consecutive line):
+Every puzzle has to be formatted like this
+  (pay attention to the leading space in every consecutive line):
 
 ```java
 /**
@@ -136,23 +111,26 @@ void sendEmail() {
 ```
 
 If you use it in combination with [0pdd](https://www.0pdd.com),
-after processing this text, the issue titled
-"File.java:10-13: This is something to do later in one of ..." will be created.
+  after processing this text, the issue titled
+  "File.java:10-13: This is something to do later in one of ..."
+  will be created.
 The specified markers will be included in the issues body
-along with some predefined text. If your comment is longer
-than 40 characters, it will be truncated in the title.
+  along with some predefined text.
+If your comment is longer than 40 characters, it will be truncated in the title.
 
 Note: if you create several puzzle duplicates (same text after puzzle keyword),
-pdd will fail to parse puzzles and produce an error with duplicates list.
+  pdd may fail to parse puzzles and produce an error with duplicates list.
 
 There are 3 supported keywords, one of which must precede the mandatory
-puzzle marker. They are `@todo`, `TODO` and `TODO:`.
+  puzzle marker.
+They are `@todo`, `TODO` and `TODO:`.
 
 As an example, it starts with `@todo`, followed by a space and a mandatory
-puzzle **marker**. Possible formats of puzzle markers
-(it doesn't matter what the line starts with and where it is located,
-as long as you have one of the 3 supported keywords right in front
-of the mandatory marker):
+puzzle **marker**.
+Possible formats of puzzle markers
+  (it doesn't matter what the line starts with and where it is located,
+  as long as you have one of the 3 supported keywords right in front
+  of the mandatory marker):
 
 ```text
 // @todo #224 Puzzle description
@@ -337,3 +315,8 @@ To run a single unit test:
 ```bash
 bundle exec ruby test/test_many.rb
 ```
+
+[blog]: http://www.yegor256.com/2009/03/04/pdd.html
+[patent]: http://www.google.com/patents/US20120023476
+[in-action]: http://www.yegor256.com/2017/04/05/pdd-in-action.html
+[webinar]: https://www.youtube.com/watch?v=nsYGC2aUwfQ
