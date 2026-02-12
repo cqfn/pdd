@@ -60,8 +60,7 @@ begin
 
   if opts.help?
     puts opts
-    puts "This is our README to learn more: \
-https://github.com/cqfn/pdd/blob/master/README.md"
+    puts "This is our README to learn more: https://github.com/cqfn/pdd/blob/master/README.md"
     exit
   end
 

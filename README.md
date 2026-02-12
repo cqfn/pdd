@@ -15,7 +15,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/1792d42f96fb45448e8d495ebc4348aa)](https://www.codacy.com/gh/cqfn/pdd/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cqfn/pdd&amp;utm_campaign=Badge_Grade)
 
 Read this article about [_Puzzle Driven Development_][blog].
-Check also patent application [US 12/840,306][patent].
+Also, check the patent application [US 12/840,306][patent].
 
 Also, check [0pdd.com](https://www.0pdd.com): a hosted service,
 where this command line tool works for you.
@@ -38,7 +38,7 @@ pdd --help
 
 ## Usage
 
-You can exclude & include certain number of files from the search
+You can exclude & include a certain number of files from the search
 via these options:
 
 ```bash
@@ -47,7 +47,7 @@ pdd --exclude glob
 
 You can skip any file(s) with a name suffix that matches the pattern glob,
 using wildcard matching; a name suffix is either the whole
-path and name, or reg expr, for example:
+path and name, or a regex, for example:
 
 ```bash
 pdd --exclude src/**/*.java --exclude target/**/*
@@ -155,10 +155,10 @@ and put a dummy `#1` marker everywhere.
 
 For multiline puzzles there are two important things:
 
-- **prefix** - any optional text followed by space before puzzle keyword (todo).
-It should be the same for all lines of puzzle description.
-- \ symbol can be used to logically divide puzzle description.
-prefix should be presented with it.
+- **prefix** - any optional text followed by a space before puzzle keyword (todo).
+It should be the same for all lines of the puzzle description.
+- The `\` symbol can be used to logically divide the puzzle description.
+The prefix should be present with it.
 
 Examples:
 
@@ -170,7 +170,7 @@ Examples:
  ~ But do not forget about the space before puzzle keyword.
  ~
  ~ @todo #34 Description can be as long as needed.
- ~  Just use at least the same amount of the spaces, as on the first line.
+ ~  Just use at least the same amount of spaces as on the first line.
  ~  It will be added to description.
 -->
 ```
@@ -180,7 +180,7 @@ Examples:
  * @todo #36 Multiline text can use the same prefix in all lines or the same
  *  amount of spaces.
  *  So this will be added to the puzzle description. If you want to divide the
- *  puzzle logically by empty line, just add a backspace to that line
+ *  puzzle logically by an empty line, just add a backslash to that line
  *  \
  *  and continue the text after.
  *
