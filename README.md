@@ -284,11 +284,10 @@ Unfortunately, there is no easy way to install on Windows, try to use
 
 ## How to contribute
 
-Read [these guidelines](https://www.yegor256.com/2014/04/15/github-guidelines.html).
-Make sure your build is green before you contribute
-your pull request. You will need to have
-[Ruby](https://www.ruby-lang.org/en/) 2.7+ and
-[Bundler](https://bundler.io/) installed. Then:
+Read these [guidelines].
+Make sure your build is green before you contribute your pull request.
+You need to have [Ruby] 2.7+ and [Bundler] installed.
+Then:
 
 ```bash
 bundle install
@@ -320,3 +319,6 @@ bundle exec ruby test/test_many.rb
 [patent]: http://www.google.com/patents/US20120023476
 [in-action]: http://www.yegor256.com/2017/04/05/pdd-in-action.html
 [webinar]: https://www.youtube.com/watch?v=nsYGC2aUwfQ
+[Ruby]: https://www.ruby-lang.org/en/
+[Bundler]: https://bundler.io/
+[guidelines]: https://www.yegor256.com/2014/04/15/github-guidelines.html
