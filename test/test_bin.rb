@@ -14,4 +14,17 @@ class TestBin < Minitest::Test
     stdout = qbash('pdd --help', chdir: File.join(__dir__, '../bin'))
     assert_includes(stdout, 'Usage')
   end
+
+  def test_removes_puzzle
+    Dir.mktmpdir do |tmp|
+      file = File.join(tmp, 'a.txt')
+      File.write(file, "hello!\n\x40todo #55 hello!")
+      stdout = qbash(
+        "pdd --source #{Shellwords.escape(tmp)} --remove --verbose --file /dev/null",
+        chdir: File.join(__dir__, '../bin')
+      )
+      assert_includes(stdout, 'removed')
+      assert_includes(File.read(file), 'hello')
+    end
+  end
 end
