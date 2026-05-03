@@ -6,7 +6,7 @@
 
 [![rake](https://github.com/cqfn/pdd/actions/workflows/rake.yml/badge.svg)](https://github.com/cqfn/pdd/actions/workflows/rake.yml)
 [![PDD status](https://www.0pdd.com/svg?name=cqfn/pdd)](https://www.0pdd.com/p?name=cqfn/pdd)
-[![codecov](https://codecov.io/gh/yegor256/pdd/branch/master/graph/badge.svg)](https://codecov.io/gh/yegor/pdd)
+[![codecov](https://codecov.io/gh/yegor256/pdd/branch/master/graph/badge.svg)](https://codecov.io/gh/yegor256/pdd)
 [![Hits-of-Code](https://hitsofcode.com/github/cqfn/pdd)](https://hitsofcode.com/view/github/cqfn/pdd)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/cqfn/pdd/blob/master/LICENSE.txt)
 [![Gem Version](https://badge.fury.io/rb/pdd.svg)](https://badge.fury.io/rb/pdd)

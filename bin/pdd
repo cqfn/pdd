@@ -36,7 +36,7 @@ begin
       o.bool '-q', '--quiet', 'Enable quiet mode (almost no logging)'
       o.bool '--remove', 'Remove all found puzzles from the source code'
       o.bool '--skip-gitignore', 'Don\'t look into .gitignore for excludes'
-      o.bool '--skip-errors', 'Suppress error as warning and skip badly
+      o.bool '--skip-errors', 'Suppress errors as warnings and skip badly
                       formatted puzzles'
       o.bool '-i', '--version', 'Show current version' do
         puts PDD::VERSION
