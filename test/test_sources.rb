@@ -96,7 +96,7 @@ class TestSources < Minitest::Test
 
   def test_fails_with_verbose_output
     in_temp do |dir|
-      File.write(File.join(dir, 'z1.txt'), "\x40todobroken\n")
+      File.write(File.join(dir, 'z1.txt'), "\x40todo broken\n")
       error = assert_raises PDD::Error do
         PDD::Sources.new(dir).fetch[0].puzzles
       end
