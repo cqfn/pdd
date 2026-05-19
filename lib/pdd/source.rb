@@ -22,16 +22,16 @@ module PDD
 
     def match_markers(line)
       if line.downcase.include? 'todo'
-        /[^\s]\x40todo/.match(line) do |_|
+        /[^\s]\x40todo(?=\s)/.match(line) do |_|
           raise Error, get_no_leading_space_error("\x40todo")
         end
-        /\x40todo(?!\s+#)/.match(line) do |_|
+        /\x40todo(?=\s)(?!\s+#)/.match(line) do |_|
           raise Error, get_no_puzzle_marker_error("\x40todo")
         end
         /\x40todo\s+#\s/.match(line) do |_|
           raise Error, get_space_after_hash_error("\x40todo")
         end
-        /[^\s]TODO:?/.match(line) do |_|
+        /[^\s]TODO:?(?=\s)/.match(line) do |_|
           raise Error, get_no_leading_space_error('TODO')
         end
         /TODO(?=[:\s])(?!:?\s+#)/.match(line) do |_|
