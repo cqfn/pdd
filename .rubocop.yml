@@ -14,6 +14,7 @@ plugins:
   - rubocop-rake
   - rubocop-minitest
   - rubocop-performance
+  - rubocop-elegant
 Minitest/EmptyLineBeforeAssertionMethods:
   Enabled: false
 Gemspec/RequiredRubyVersion:
@@ -40,3 +41,45 @@ Metrics/BlockLength:
   Max: 50
 Style/FrozenStringLiteralComment:
   Enabled: false
+Elegant/NoClassInModule:
+  Exclude:
+    - 'lib/**/*'
+    - 'utils/**/*'
+    - '**/test_*.rb'
+    - '**/*Test.rb'
+Elegant/ClassInModule:
+  Exclude:
+    - 'lib/**/*'
+    - 'utils/**/*'
+    - '**/test_*.rb'
+    - '**/*Test.rb'
+Elegant/GoodMethodName:
+  Exclude:
+    - '**/test_*.rb'
+    - '**/*Test.rb'
+  AllowedNames:
+    - 'match_markers'
+    - 'get_no_leading_space_error'
+    - 'get_no_puzzle_marker_error'
+    - 'get_space_after_hash_error'
+    - 'puzzle_tail_prefix'
+    - 'puzzle_text?'
+    - 'puzzle_empty_line?'
+    - 'add_github_login'
+    - 'get_json'
+    - 'find_github_user'
+    - 'find_github_login'
+Elegant/GoodVariableName:
+  Exclude:
+    - '**/test_*.rb'
+    - '**/*Test.rb'
+Style/TopLevelMethodDefinition:
+  Exclude:
+    - 'Rakefile'
+    - '**/test_*.rb'
+Performance/ChainArrayAllocation:
+  Enabled: false
+Elegant/IndentationLadder:
+  Exclude:
+    - 'test/test_source.rb'
+    - 'test/test_source_todo.rb'

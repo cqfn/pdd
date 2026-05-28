@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MIT
 
 require 'nokogiri'
-require_relative 'test__helper'
 require_relative '../lib/pdd/rule/estimates'
+require_relative 'test__helper'
 
 # PDD::Rule::Estimate module tests.
 # Author:: Yegor Bugayenko (yegor256@gmail.com)
@@ -11,20 +11,24 @@ require_relative '../lib/pdd/rule/estimates'
 # License:: MIT
 class TestEstimates < Minitest::Test
   def test_min
-    rule = PDD::Rule::Estimate::Min.new(
-      Nokogiri::XML::Document.parse(
-        '<puzzles><puzzle><estimate>15</estimate></puzzle></puzzles>'
-      ), 30
+    refute_empty(
+      PDD::Rule::Estimate::Min.new(
+        Nokogiri::XML::Document.parse(
+          '<puzzles><puzzle><estimate>15</estimate></puzzle></puzzles>'
+        ), 30
+      ).errors,
+      'why it is empty?'
     )
-    refute_empty rule.errors, 'why it is empty?'
   end
 
   def test_max
-    rule = PDD::Rule::Estimate::Max.new(
-      Nokogiri::XML::Document.parse(
-        '<puzzles><puzzle><estimate>30</estimate></puzzle></puzzles>'
-      ), 15
+    refute_empty(
+      PDD::Rule::Estimate::Max.new(
+        Nokogiri::XML::Document.parse(
+          '<puzzles><puzzle><estimate>30</estimate></puzzle></puzzles>'
+        ), 15
+      ).errors,
+      'why it is empty?'
     )
-    refute_empty rule.errors, 'why it is empty?'
   end
 end

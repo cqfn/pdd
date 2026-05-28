@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MIT
 
 require 'nokogiri'
-require_relative 'test__helper'
 require_relative '../lib/pdd/rule/text'
+require_relative 'test__helper'
 
 # PDD::Rule::Text module tests.
 # Author:: Yegor Bugayenko (yegor256@gmail.com)
@@ -11,12 +11,14 @@ require_relative '../lib/pdd/rule/text'
 # License:: MIT
 class TestText < Minitest::Test
   def test_min_words
-    rule = PDD::Rule::Text::MinWords.new(
-      Nokogiri::XML::Document.parse(
-        '<puzzles><puzzle><body>short text</body></puzzle>
+    assert_equal(
+      1,
+      PDD::Rule::Text::MinWords.new(
+        Nokogiri::XML::Document.parse(
+          '<puzzles><puzzle><body>short text</body></puzzle>
         <puzzle><body>body with four words</body></puzzle></puzzles>'
-      ), 4
+        ), 4
+      ).errors.size
     )
-    assert_equal 1, rule.errors.size
   end
 end

@@ -8,42 +8,42 @@ require_relative 'test__helper'
 
 class TestSourceTodo < Minitest::Test
   def check_valid_puzzle(text, lines, body, ticket, count = 1)
-    Dir.mktmpdir 'test' do |dir|
+    Dir.mktmpdir('test') do |dir|
       file = File.join(dir, 'a.txt')
       File.write(file, text)
       stub_source_find_github_user(file, 'hey') do |source|
         list = source.puzzles
-        assert_equal count, list.size
+        assert_equal(count, list.size)
         puzzle = list.first
-        assert_equal lines, puzzle.props[:lines]
-        assert_equal body, puzzle.props[:body]
-        assert_equal ticket, puzzle.props[:ticket]
+        assert_equal(lines, puzzle.props[:lines])
+        assert_equal(body, puzzle.props[:body])
+        assert_equal(ticket, puzzle.props[:ticket])
       end
     end
   end
 
   def check_invalid_puzzle(text, error_msg)
-    Dir.mktmpdir 'test' do |dir|
+    Dir.mktmpdir('test') do |dir|
       file = File.join(dir, 'a.txt')
       File.write(file, text)
-      error = assert_raises PDD::Error do
-        stub_source_find_github_user(file, 'hey', &:puzzles)
-      end
-      refute_nil error.message.index(error_msg)
+      refute_nil(
+        assert_raises(PDD::Error) do
+          stub_source_find_github_user(file, 'hey', &:puzzles)
+        end.message.index(error_msg)
+      )
     end
   end
 
   def check_missing_puzzle(text)
-    Dir.mktmpdir 'test' do |dir|
+    Dir.mktmpdir('test') do |dir|
       file = File.join(dir, 'a.txt')
       File.write(file, text)
       begin
         stub_source_find_github_user(file, 'hey') do |source|
-          list = source.puzzles
-          assert_equal 0, list.size
+          assert_equal(0, source.puzzles.size)
         end
       rescue PDD::Error => e
-        assert_nil e, "Error is raised #{e.message}"
+        assert_nil(e, "Error is raised #{e.message}")
       end
     end
   end

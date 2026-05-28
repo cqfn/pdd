@@ -1,15 +1,15 @@
 # SPDX-FileCopyrightText: Copyright (c) 2014-2026 Yegor Bugayenko
 # SPDX-License-Identifier: MIT
 
-require 'nokogiri'
 require 'logger'
-require 'time'
+require 'nokogiri'
 require 'rainbow'
-require_relative 'pdd/version'
-require_relative 'pdd/rule/estimates'
-require_relative 'pdd/rule/text'
+require 'time'
 require_relative 'pdd/rule/duplicates'
+require_relative 'pdd/rule/estimates'
 require_relative 'pdd/rule/roles'
+require_relative 'pdd/rule/text'
+require_relative 'pdd/version'
 
 # PDD main module.
 # Author:: Yegor Bugayenko (yegor256@gmail.com)
@@ -36,16 +36,17 @@ module PDD
   def self.log
     unless defined?(@logger)
       @logger = Logger.new($stdout)
-      @logger.formatter = proc { |severity, _, _, msg|
-        case severity
-        when 'ERROR'
-          "#{Rainbow(severity).red}: #{msg}\n"
-        when 'WARN'
-          "#{Rainbow(severity).orange}: #{msg}\n"
-        else
-          "#{msg}\n"
+      @logger.formatter =
+        proc do |severity, _, _, msg|
+          case severity
+          when 'ERROR'
+            "#{Rainbow(severity).red}: #{msg}\n"
+          when 'WARN'
+            "#{Rainbow(severity).orange}: #{msg}\n"
+          else
+            "#{msg}\n"
+          end
         end
-      }
       @logger.level = Logger::WARN
     end
     @logger
@@ -65,15 +66,15 @@ module PDD
       PDD.opts = opts
       PDD.log.level = Logger::INFO if @opts[:verbose]
       PDD.log.level = Logger::ERROR if @opts[:quiet]
-      PDD.log.info "My version is #{PDD::VERSION}"
-      PDD.log.info "Ruby version is #{RUBY_VERSION} at #{RUBY_PLATFORM}"
+      PDD.log.info("My version is #{PDD::VERSION}")
+      PDD.log.info("Ruby version is #{RUBY_VERSION} at #{RUBY_PLATFORM}")
     end
 
     # Generate XML.
     def xml
       dir = @opts[:source] || Dir.pwd
-      PDD.log.info "Reading from root dir #{dir}"
-      require_relative 'pdd/sources'
+      PDD.log.info("Reading from root dir #{dir}")
+      require_relative('pdd/sources')
       sources = Sources.new(File.expand_path(dir))
       sources.exclude((@opts[:exclude] || []) + (@opts['skip-gitignore'] || []))
       sources.include(@opts[:include])
@@ -84,10 +85,12 @@ module PDD
             xml.puzzles(attrs) do
               sources.fetch.each do |source|
                 source.puzzles.each do |puzzle|
-                  PDD.log.info "Puzzle #{puzzle.props[:id]} " \
-                               "#{puzzle.props[:estimate]}/#{puzzle.props[:role]} " \
-                               "at #{puzzle.props[:file]}"
-                  render puzzle, xml
+                  PDD.log.info(
+                    "Puzzle #{puzzle.props[:id]} " \
+                    "#{puzzle.props[:estimate]}/#{puzzle.props[:role]} " \
+                    "at #{puzzle.props[:file]}"
+                  )
+                  render(puzzle, xml)
                 end
               end
             end
@@ -119,7 +122,7 @@ module PDD
       props = puzzle.props
       xml.puzzle do
         props.map do |k, v|
-          xml.send(:"#{k}", v)
+          xml.public_send(:"#{k}", v)
         end
       end
     end
@@ -129,33 +132,29 @@ module PDD
       total = 0
       list = @opts[:rule] || []
       unless list.none? { |r| r.start_with?('max-duplicates:') }
-        raise PDD::Error, 'You can\'t modify max-duplicates, it\'s always 1'
+        raise(PDD::Error, 'You can\'t modify max-duplicates, it\'s always 1')
       end
-
       list.push('max-duplicates:1').map do |r|
         name, value = r.split(':')
         rule = RULES[name]
-        raise "Rule '#{name}' doesn't exist" if rule.nil?
-
+        raise(PDD::Error, "Rule '#{name}' doesn't exist") if rule.nil?
         rule.new(doc, value).errors.each do |e|
-          PDD.log.error e
+          PDD.log.error(e)
           total += 1
         end
       end
-      raise PDD::Error, "#{total} errors, see log above" unless total.zero?
-
+      raise(PDD::Error, "#{total} errors, see log above") unless total.zero?
       xml
     end
 
     def sanitize(xml)
-      xsd = Nokogiri::XML::Schema(
-        File.read(File.join(File.dirname(__FILE__), '../assets/puzzles.xsd'))
-      )
-      errors = xsd.validate(Nokogiri::XML(xml)).map(&:message)
-      errors.each { |e| PDD.log.error e }
+      errors =
+        Nokogiri::XML::Schema(
+          File.read(File.join(File.dirname(__FILE__), '../assets/puzzles.xsd'))
+        ).validate(Nokogiri::XML(xml)).map(&:message)
+      errors.each { |e| PDD.log.error(e) }
       PDD.log.error(xml) unless errors.empty?
-      raise SchemaError, errors.join('; ') unless errors.empty?
-
+      raise(SchemaError, errors.join('; ')) unless errors.empty?
       xml
     end
   end

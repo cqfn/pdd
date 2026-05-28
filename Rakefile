@@ -1,10 +1,10 @@
 # SPDX-FileCopyrightText: Copyright (c) 2014-2026 Yegor Bugayenko
 # SPDX-License-Identifier: MIT
 
-require 'rubygems'
 require 'rake'
-require 'rdoc'
 require 'rake/clean'
+require 'rdoc'
+require 'rubygems'
 
 def name
   @name ||= File.basename(Dir['*.gemspec'].first, '.*')
@@ -42,14 +42,14 @@ end
 
 require 'xcop/rake_task'
 desc 'Validate all XML/XSL/XSD/HTML files for formatting'
-Xcop::RakeTask.new :xcop do |task|
+Xcop::RakeTask.new(:xcop) do |task|
   task.includes = ['**/*.xml', '**/*.xsl', '**/*.xsd', '**/*.html']
   task.excludes = ['target/**/*', 'coverage/**/*', 'vendor/**/*']
 end
 
 require 'pdd/rake_task'
 desc 'Collecting and parsing all puzzles in project'
-PDD::RakeTask.new :pdd do |task|
+PDD::RakeTask.new(:pdd) do |task|
   task.includes = ['**/*']
 end
 

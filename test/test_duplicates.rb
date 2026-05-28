@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MIT
 
 require 'nokogiri'
-require_relative 'test__helper'
 require_relative '../lib/pdd/rule/duplicates'
+require_relative 'test__helper'
 
 # PDD::Rule::MaxDuplicates class test.
 # Author:: Yegor Bugayenko (yegor256@gmail.com)
@@ -11,21 +11,25 @@ require_relative '../lib/pdd/rule/duplicates'
 # License:: MIT
 class TestMaxDuplicates < Minitest::Test
   def test_max_duplicates
-    rule = PDD::Rule::MaxDuplicates.new(
-      Nokogiri::XML::Document.parse(
-        '<puzzles><puzzle><body>test</body></puzzle>
+    refute_empty(
+      PDD::Rule::MaxDuplicates.new(
+        Nokogiri::XML::Document.parse(
+          '<puzzles><puzzle><body>test</body></puzzle>
         <puzzle><body>test</body></puzzle></puzzles>'
-      ), 1
+        ), 1
+      ).errors,
+      'why it is empty?'
     )
-    refute_empty rule.errors, 'why it is empty?'
   end
 
   def test_max_duplicates_without_errors
-    rule = PDD::Rule::MaxDuplicates.new(
-      Nokogiri::XML::Document.parse(
-        '<puzzles><puzzle><body>hello</body></puzzle></puzzles>'
-      ), 1
+    assert_empty(
+      PDD::Rule::MaxDuplicates.new(
+        Nokogiri::XML::Document.parse(
+          '<puzzles><puzzle><body>hello</body></puzzle></puzzles>'
+        ), 1
+      ).errors,
+      'it has to be empty!'
     )
-    assert_empty rule.errors, 'it has to be empty!'
   end
 end

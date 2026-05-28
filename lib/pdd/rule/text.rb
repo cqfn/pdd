@@ -10,14 +10,13 @@ module PDD
         # +xml+:: XML with puzzles
         def initialize(xml, min)
           @xml = xml
-          @min = min.to_i
+          @min = Integer(min)
         end
 
         def errors
           @xml.xpath('//puzzle').map do |p|
             words = p.xpath('body/text()').to_s.split.size
             next nil if words >= @min
-
             "Puzzle #{p.xpath('file/text()')}:#{p.xpath('lines/text()')} " \
               "has a very short description of just #{words} words while " \
               "a minimum of #{@min} is required"

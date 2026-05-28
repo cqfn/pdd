@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 require 'nokogiri'
-require 'tmpdir'
 require 'slop'
-require_relative 'test__helper'
+require 'tmpdir'
 require_relative '../lib/pdd'
+require_relative 'test__helper'
 
 # PDD main module test.
 # Author:: Yegor Bugayenko (yegor256@gmail.com)
@@ -13,11 +13,19 @@ require_relative '../lib/pdd'
 # License:: MIT
 class TestPDD < Minitest::Test
   def test_basic
-    Dir.mktmpdir 'test' do |dir|
-      opts = opts(['-q', '-s', dir, '-e', '**/*.png', '-r', 'max-estimate:15'])
+    Dir.mktmpdir('test') do |dir|
       File.write(File.join(dir, 'a.txt'), "\x40todo #55 hello!")
       matches(
-        Nokogiri::XML(PDD::Base.new(opts).xml),
+        Nokogiri::XML(
+          PDD::Base.new(
+            opts(
+              [
+                '-q', '-s', dir, '-e', '**/*.png', '-r',
+                'max-estimate:15'
+              ]
+            )
+          ).xml
+        ),
         [
           '/processing-instruction("xml-stylesheet")[contains(.,".xsl")]',
           '/puzzles/@version',
@@ -30,10 +38,10 @@ class TestPDD < Minitest::Test
   end
 
   def test_rules_failure
-    Dir.mktmpdir 'test' do |dir|
+    Dir.mktmpdir('test') do |dir|
       opts = opts(['-q', '-s', dir, '-e', '**/*.png', '-r', 'min-estimate:30'])
       File.write(File.join(dir, 'a.txt'), "\x40todo #90 hello!")
-      assert_raises PDD::Error do
+      assert_raises(PDD::Error) do
         PDD::Base.new(opts).xml
       end
     end
@@ -41,9 +49,9 @@ class TestPDD < Minitest::Test
 
   def test_git_repo
     skip if Gem.win_platform?
-    Dir.mktmpdir 'test' do |dir|
-      opts = opts(['-q', '-s', dir])
-      raise unless system("
+    Dir.mktmpdir('test') do |dir|
+      raise unless system(
+        "
         set -e
         cd '#{dir}'
         git init --quiet .
@@ -57,10 +65,10 @@ class TestPDD < Minitest::Test
         cd ../..
         git add -f .
         git commit --no-verify --quiet -am 'first version'
-      ")
-
+      "
+      )
       matches(
-        Nokogiri::XML(PDD::Base.new(opts).xml),
+        Nokogiri::XML(PDD::Base.new(opts(['-q', '-s', dir])).xml),
         [
           '/puzzles[count(puzzle)=1]',
           '/puzzles/puzzle[id]',
@@ -76,19 +84,20 @@ class TestPDD < Minitest::Test
   private
 
   def opts(args)
-    Slop.parse args do |o|
-      o.bool '-v', '--verbose'
-      o.bool '-q', '--quiet'
-      o.bool '--skip-errors'
-      o.string '-s', '--source'
-      o.array '-e', '--exclude'
-      o.array '-r', '--rule'
+    Slop.parse(args) do |o|
+      o.bool('-v', '--verbose')
+      o.bool('-q', '--quiet')
+      o.bool('--skip-errors')
+      o.string('-s', '--source')
+      o.array('-e', '--exclude')
+      o.array('-r', '--rule')
     end
   end
 
   def matches(xml, xpaths)
     xpaths.each do |xpath|
-      raise "doesn't match '#{xpath}': #{xml}" unless xml.xpath(xpath).size == 1
+      raise(StandardError, "doesn't match '#{xpath}': #{xml}") \
+        unless xml.xpath(xpath).size == 1
     end
   end
 end

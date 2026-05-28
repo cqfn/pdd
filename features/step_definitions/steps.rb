@@ -1,10 +1,10 @@
 # SPDX-FileCopyrightText: Copyright (c) 2014-2026 Yegor Bugayenko
 # SPDX-License-Identifier: MIT
 
-require 'nokogiri'
-require 'tmpdir'
-require 'slop'
 require 'English'
+require 'nokogiri'
+require 'slop'
+require 'tmpdir'
 require_relative '../../lib/pdd'
 
 Before do
@@ -12,11 +12,12 @@ Before do
   @dir = Dir.mktmpdir('test')
   FileUtils.mkdir_p(@dir)
   Dir.chdir(@dir)
-  @opts = Slop.parse ['-q', '-s', @dir] do |o|
-    o.bool '-v', '--verbose'
-    o.bool '-q', '--quiet'
-    o.string '-s', '--source'
-  end
+  @opts =
+    Slop.parse(['-q', '-s', @dir]) do |o|
+      o.bool('-v', '--verbose')
+      o.bool('-q', '--quiet')
+      o.string('-s', '--source')
+    end
 end
 
 After do
@@ -40,7 +41,8 @@ When(/^I run pdd$/) do
 end
 
 Then(/^XML matches "([^"]+)"$/) do |xpath|
-  raise "XML doesn't match \"#{xpath}\":\n#{@xml}" if @xml.xpath(xpath).empty?
+  raise(StandardError, "XML doesn't match \"#{xpath}\":\n#{@xml}") \
+    if @xml.xpath(xpath).empty?
 end
 
 When(/^I run pdd it fails with "([^"]*)"$/) do |txt|
@@ -49,10 +51,13 @@ When(/^I run pdd it fails with "([^"]*)"$/) do |txt|
     passed = true
   rescue PDD::Error => e
     unless e.message.include?(txt)
-      raise "PDD failed but exception doesn't contain \"#{txt}\": #{e.message}"
+      raise(
+        StandardError,
+        "PDD failed but exception doesn't contain \"#{txt}\": #{e.message}"
+      )
     end
   end
-  raise "PDD didn't fail" if passed
+  raise(StandardError, "PDD didn't fail") if passed
 end
 
 When(%r{^I run bin/pdd with "([^"]*)"$}) do |arg|
@@ -62,36 +67,36 @@ When(%r{^I run bin/pdd with "([^"]*)"$}) do |arg|
 end
 
 Then(/^Stdout contains "([^"]*)"$/) do |txt|
-  raise 'STDOUT is empty!' if @stdout.empty?
-  raise "STDOUT doesn't contain '#{txt}':\n#{@stdout}" unless @stdout.include?(txt)
+  raise(StandardError, 'STDOUT is empty!') if @stdout.empty?
+  raise(StandardError, "STDOUT doesn't contain '#{txt}':\n#{@stdout}") \
+    unless @stdout.include?(txt)
 end
 
 Then(/^Stdout is empty$/) do
-  raise "STDOUT is not empty:\n#{@stdout}" unless @stdout == ''
+  raise(StandardError, "STDOUT is not empty:\n#{@stdout}") unless @stdout == ''
 end
 
 Then(/^XML file "([^"]+)" matches "([^"]+)"$/) do |file, xpath|
-  raise "File #{file} doesn't exit" unless File.exist?(file)
-
+  raise(StandardError, "File #{file} doesn't exit") unless File.exist?(file)
   xml = Nokogiri::XML.parse(File.read(file))
   xml.remove_namespaces!
-  raise "XML file #{file} doesn't match \"#{xpath}\":\n#{xml}" if xml.xpath(xpath).empty?
+  raise(StandardError, "XML file #{file} doesn't match \"#{xpath}\":\n#{xml}") \
+    if xml.xpath(xpath).empty?
 end
 
 Then(/^Text File "([^"]+)" contains "([^"]+)"$/) do |file, substring|
-  raise "File #{file} doesn't exist" unless File.exist?(file)
-
+  raise(StandardError, "File #{file} doesn't exist") unless File.exist?(file)
   content = File.read(file)
-  raise "File #{file} doesn't contain \"#{substring}\":\n#{content}" \
+  raise(StandardError, "File #{file} doesn't contain \"#{substring}\":\n#{content}") \
     if content.index(substring).nil?
 end
 
 Then(/^Exit code is zero$/) do
-  raise "Non-zero exit code #{@exitstatus}" unless @exitstatus.zero?
+  raise(StandardError, "Non-zero exit code #{@exitstatus}") unless @exitstatus.zero?
 end
 
 Then(/^Exit code is not zero$/) do
-  raise 'Zero exit code' if @exitstatus.zero?
+  raise(StandardError, 'Zero exit code') if @exitstatus.zero?
 end
 
 When(/^I run bash with$/) do |text|

@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MIT
 
 require 'nokogiri'
-require_relative 'test__helper'
 require_relative '../lib/pdd/rule/roles'
+require_relative 'test__helper'
 
 # PDD::Rule::Role module tests.
 # Author:: Yegor Bugayenko (yegor256@gmail.com)
@@ -11,29 +11,35 @@ require_relative '../lib/pdd/rule/roles'
 # License:: MIT
 class TestRoles < Minitest::Test
   def test_incorrect_role
-    rule = PDD::Rule::Roles::Available.new(
-      Nokogiri::XML::Document.parse(
-        '<puzzles><puzzle><role>D</role></puzzle></puzzles>'
-      ), 'A,B,C'
+    refute_empty(
+      PDD::Rule::Roles::Available.new(
+        Nokogiri::XML::Document.parse(
+          '<puzzles><puzzle><role>D</role></puzzle></puzzles>'
+        ), 'A,B,C'
+      ).errors,
+      'why it is empty?'
     )
-    refute_empty rule.errors, 'why it is empty?'
   end
 
   def test_correct_role
-    rule = PDD::Rule::Roles::Available.new(
-      Nokogiri::XML::Document.parse(
-        '<puzzles><puzzle><role>F</role></puzzle></puzzles>'
-      ), 'F,E,G'
+    assert_empty(
+      PDD::Rule::Roles::Available.new(
+        Nokogiri::XML::Document.parse(
+          '<puzzles><puzzle><role>F</role></puzzle></puzzles>'
+        ), 'F,E,G'
+      ).errors,
+      'why it is not empty?'
     )
-    assert_empty rule.errors, 'why it is not empty?'
   end
 
   def test_empty_role
-    rule = PDD::Rule::Roles::Available.new(
-      Nokogiri::XML::Document.parse(
-        '<puzzles><puzzle></puzzle></puzzles>'
-      ), 'T,R,L'
+    refute_empty(
+      PDD::Rule::Roles::Available.new(
+        Nokogiri::XML::Document.parse(
+          '<puzzles><puzzle></puzzle></puzzles>'
+        ), 'T,R,L'
+      ).errors,
+      'why it is empty?'
     )
-    refute_empty rule.errors, 'why it is empty?'
   end
 end
