@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MIT
 
 require 'digest/md5'
-require 'json'
 require 'net/http'
+require 'json'
 require 'shellwords'
 require_relative '../pdd'
 require_relative '../pdd/puzzle'
@@ -21,28 +21,27 @@ module PDD
     end
 
     def match_markers(line)
-      if line.downcase.include?('todo')
-        /[^\s]\x40todo/.match(line) do |_|
-          raise(Error, get_no_leading_space_error("\x40todo"))
+      if line.downcase.include? 'todo'
+        /[^\s]\x40todo(?=\s)/.match(line) do |_|
+          raise Error, get_no_leading_space_error("\x40todo")
         end
-        /\x40todo(?!\s+#)/.match(line) do |_|
-          raise(Error, get_no_puzzle_marker_error("\x40todo"))
+        /\x40todo(?=\s)(?!\s+#)/.match(line) do |_|
+          raise Error, get_no_puzzle_marker_error("\x40todo")
         end
         /\x40todo\s+#\s/.match(line) do |_|
-          raise(Error, get_space_after_hash_error("\x40todo"))
+          raise Error, get_space_after_hash_error("\x40todo")
         end
-        /[^\s]TODO:?/.match(line) do |_|
-          raise(Error, get_no_leading_space_error('TODO'))
+        /[^\s]TODO:?(?=\s)/.match(line) do |_|
+          raise Error, get_no_leading_space_error('TODO')
         end
         /TODO(?=[:\s])(?!:?\s+#)/.match(line) do |_|
-          raise(Error, get_no_puzzle_marker_error('TODO'))
+          raise Error, get_no_puzzle_marker_error('TODO')
         end
         /TODO:?\s+#\s/.match(line) do |_|
-          raise(Error, get_space_after_hash_error('TODO'))
+          raise Error, get_space_after_hash_error('TODO')
         end
-        [
-          %r{(.*(?:^|\s))(?:\x40todo|TODO:|TODO)\s+#([\w\-.:/]+)\s+(.+)}.match(line)
-        ].compact
+        a = [%r{(.*(?:^|\s))(?:\x40todo|TODO:|TODO)\s+#([\w\-.:/]+)\s+(.+)}.match(line)]
+        a.compact
       else
         []
       end
@@ -50,7 +49,7 @@ module PDD
 
     # Fetch all puzzles.
     def puzzles
-      PDD.log.info("Reading #{@path} ...")
+      PDD.log.info "Reading #{@path} ..."
       puzzles = []
       lines = File.readlines(@file, encoding: 'UTF-8')
       lines.each_with_index do |line, idx|
@@ -60,7 +59,7 @@ module PDD
           end
         rescue Error, ArgumentError => e
           message = "#{e.class} at #{@path}:#{idx + 1}: #{e.message}"
-          raise(Error, message) unless PDD.opts && PDD.opts['skip-errors']
+          raise Error, message unless PDD.opts && PDD.opts['skip-errors']
         end
       end
       puzzles
@@ -69,25 +68,26 @@ module PDD
     private
 
     def get_no_leading_space_error(todo)
-      "#{todo} must have a leading space to become " \
-        'a puzzle, as this page explains: https://github.com/cqfn/pdd#how-to-format'
+      "#{todo} must have a leading space to become \
+a puzzle, as this page explains: https://github.com/cqfn/pdd#how-to-format"
     end
 
     def get_no_puzzle_marker_error(todo)
-      "#{todo} found, but puzzle can't be parsed, " \
-        "most probably because #{todo} is not followed by a puzzle marker, " \
-        'as this page explains: https://github.com/cqfn/pdd#how-to-format'
+      "#{todo} found, but puzzle can't be parsed, \
+most probably because #{todo} is not followed by a puzzle marker, \
+as this page explains: https://github.com/cqfn/pdd#how-to-format"
     end
 
     def get_space_after_hash_error(todo)
-      "#{todo} found, but there is an unexpected space " \
-        'after the hash sign, it should not be there, ' \
-        'see https://github.com/cqfn/pdd#how-to-format'
+      "#{todo} found, but there is an unexpected space \
+after the hash sign, it should not be there, \
+see https://github.com/cqfn/pdd#how-to-format"
     end
 
     # Fetch puzzle
     def puzzle(lines, match, idx)
-      tail = tail(lines, match[1], match[0].length - match[0].lstrip.length)
+      col_idx = match[0].length - match[0].lstrip.length
+      tail = tail(lines, match[1], col_idx)
       body = "#{match[3]} #{tail.join(' ')}".gsub(/\s+/, ' ').strip
       body = body.chomp('*/-->').strip
       marker = marker(match[2])
@@ -103,13 +103,11 @@ module PDD
 
     # Parse a marker.
     def marker(text)
-      match = %r{([\w\-.]+)(?::(\d+)(?:(m|h)[a-z]*)?)?(?:/([A-Z]+))?}.match(text)
+      re = %r{([\w\-.]+)(?::(\d+)(?:(m|h)[a-z]*)?)?(?:/([A-Z]+))?}
+      match = re.match(text)
       if match.nil?
-        raise(
-          ArgumentError,
-          "Invalid puzzle marker \"#{text}\", most probably formatted " \
-          'against the rules explained here: https://github.com/cqfn/pdd#how-to-format'
-        )
+        raise "Invalid puzzle marker \"#{text}\", most probably formatted \
+against the rules explained here: https://github.com/cqfn/pdd#how-to-format"
       end
       {
         ticket: match[1],
@@ -128,15 +126,14 @@ module PDD
     # Fetch puzzle tail (all lines after the first one)
     def tail(lines, prefix, start)
       return [] if lines.empty?
-      prefix = " #{' ' * start}" if prefix.empty?
-      tail = puzzle_tail_prefix(lines, prefix)
-      tail =
-        lines
-        .take_while { |t| puzzle_text?(t, tail, prefix) }
-        .map do |t|
-          content = t[tail.length, t.length]&.lstrip
-          puzzle_empty_line?(content, '') ? '' : content
-        end
+      prefix = " #{' ' * start}" if prefix.empty? # fallback to space indentation
+      tail_prefix = puzzle_tail_prefix(lines, prefix)
+      tail = lines
+             .take_while { |t| puzzle_text?(t, tail_prefix, prefix) }
+             .map do |t|
+               content = t[tail_prefix.length, t.length]&.lstrip
+               puzzle_empty_line?(content, '') ? '' : content
+             end
       tail.pop if tail[-1].eql?('')
       tail
     end
@@ -169,25 +166,27 @@ module PDD
 
     # Git information at the line
     def git(pos)
+      dir = Shellwords.escape(File.dirname(@file))
       name = Shellwords.escape(File.basename(@file))
-      git = "cd #{Shellwords.escape(File.dirname(@file))} && git"
+      git = "cd #{dir} && git"
       if `#{git} rev-parse --is-inside-work-tree 2>/dev/null`.strip == 'true'
         cmd = "#{git} blame -L #{pos},#{pos} --porcelain #{name}"
-        add_github_login(
-          `#{cmd}`.split("\n").map do |line|
-            case line
-            when /^author /
-              [:author, line.sub(/^author /, '')]
-            when /^author-mail [^@]+@[^.]+\..+/
-              [:email, line.sub(/^author-mail <(.+)>$/, '\1')]
-            when /^author-time /
-              [
-                :time,
-                Time.at(Integer(line.sub(/^author-time ([0-9]+)$/, '\1'), 10)).utc.iso8601
-              ]
-            end
-          end.compact.to_h
-        )
+        login = `#{cmd}`.split("\n").map do |line|
+          case line
+          when /^author /
+            [:author, line.sub(/^author /, '')]
+          when /^author-mail [^@]+@[^.]+\..+/
+            [:email, line.sub(/^author-mail <(.+)>$/, '\1')]
+          when /^author-time /
+            [
+              :time,
+              Time.at(
+                line.sub(/^author-time ([0-9]+)$/, '\1').to_i
+              ).utc.iso8601
+            ]
+          end
+        end.compact.to_h
+        add_github_login(login)
       else
         {}
       end
@@ -205,25 +204,31 @@ module PDD
       http.use_ssl = uri.scheme == 'https'
       req = Net::HTTP::Get.new(uri.request_uri)
       req.set_content_type('application/json')
-      JSON.parse(http.request(req).body)
+      res = http.request(req)
+      JSON.parse res.body
     end
 
     def find_github_user(info)
       email, author = info.values_at(:email, :author)
+      # if email is not defined, changes have not been committed
       return if email.nil?
-      base = 'https://api.github.com/search/users?per_page=1'
-      query = base + "&q=#{email}+in:email"
-      json = get_json(query)
+
+      base_uri = 'https://api.github.com/search/users?per_page=1'
+      query = base_uri + "&q=#{email}+in:email"
+      json = get_json query
+      # find user by name instead since users can make github email private
       unless json['total_count'].positive?
         return if author.nil?
-        query = base + "&q=#{author}+in:fullname"
-        json = get_json(query)
+
+        query = base_uri + "&q=#{author}+in:fullname"
+        json = get_json query
       end
       json['items'].first
     end
 
     def find_github_login(info)
-      find_github_user(info)['login']
+      user = find_github_user info
+      user['login']
     rescue StandardError
       ''
     end
@@ -243,7 +248,7 @@ module PDD
     def puzzles
       @source.puzzles
     rescue Error => e
-      raise(Error, "#{@file}; #{e.message}")
+      raise Error, "#{@file}; #{e.message}"
     end
   end
 end

@@ -274,4 +274,45 @@ class TestSourceTodo < Minitest::Test
       "
     )
   end
+
+  def test_todo_markers_with_comma_are_not_puzzles
+    check_missing_puzzle(
+      "
+      TODO,
+      @todo,
+      "
+    )
+  end
+
+  def test_todo_inside_larger_token_is_not_a_puzzle
+    check_missing_puzzle(
+      "
+      METHOD_TODOS=$PWD
+      "
+    )
+  end
+
+  def test_todo_inside_a_string_literal_is_not_a_puzzle
+    check_missing_puzzle(
+      '
+      NAME="TODOS"
+      '
+    )
+  end
+
+  def test_standalone_todo_inside_a_string_literal_is_not_a_puzzle
+    check_missing_puzzle(
+      '
+      NAME="TODO"
+      '
+    )
+  end
+
+  def test_standalone_at_todo_inside_a_string_literal_is_not_a_puzzle
+    check_missing_puzzle(
+      '
+      NAME="@todo"
+      '
+    )
+  end
 end
