@@ -81,5 +81,6 @@ Performance/ChainArrayAllocation:
   Enabled: false
 Elegant/IndentationLadder:
   Exclude:
+    - 'lib/pdd/source.rb'
     - 'test/test_source.rb'
     - 'test/test_source_todo.rb'
