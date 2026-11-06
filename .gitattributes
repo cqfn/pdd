@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright (c) 2025 Yegor Bugayenko
+# SPDX-FileCopyrightText: Copyright (c) 2026 Yegor Bugayenko
 # SPDX-License-Identifier: MIT
 
 # Check out all text files in UNIX format, with LF as end of line
@@ -6,10 +6,5 @@
 # submit a separate issue about it and we'll discuss.
 
 * text=auto eol=lf
-*.java ident
+*.rb ident
 *.xml ident
-*.jpg binary
-*.png binary
-*.pdf binary
-*.woff binary
-*.ico binary
