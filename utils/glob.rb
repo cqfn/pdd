@@ -13,11 +13,12 @@ module PDD
     # rubocop:disable Metrics/CyclomaticComplexity
     def to_regexp
       chars = @string.gsub(%r{(\*\*/\*)|(\*\*)}, '*').chars
-      curlies = 0, escaping = false
+      curlies = 0
+      escaping = false
       chars.map do |char|
         if escaping
           escaping = false
-          return char
+          next char
         end
         case char
         when '*'
@@ -32,9 +33,9 @@ module PDD
         when '}'
           if curlies.positive?
             curlies -= 1
-            return ')'
+            next ')'
           end
-          return char
+          next char
         when ','
           curlies.positive? ? '|' : char
         when '\\'
