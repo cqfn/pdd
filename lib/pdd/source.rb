@@ -89,7 +89,7 @@ see https://github.com/cqfn/pdd#how-to-format"
     def puzzle(lines, match, idx)
       tail = tail(lines, match[1], match[0].length - match[0].lstrip.length)
       body = "#{match[3]} #{tail.join(' ')}".gsub(/\s+/, ' ').strip
-      body = body.chomp('*/-->').strip
+      body = body.chomp('-->').chomp('*/').strip
       marker = marker(match[2])
       Puzzle.new(
         marker.merge(

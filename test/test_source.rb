@@ -87,6 +87,38 @@ class TestSource < Minitest::Test
     end
   end
 
+  def test_strips_trailing_c_block_comment_close
+    Dir.mktmpdir('test') do |dir|
+      file = File.join(dir, 'a.txt')
+      File.write(
+        file,
+        "/* \x40todo #TEST-14 Make it work */\n"
+      )
+      stub_source_find_github_user(file, 'hey') do |source|
+        PDD.opts = nil
+        list = source.puzzles
+        assert_equal(1, list.size)
+        assert_equal('Make it work', list.first.props[:body])
+      end
+    end
+  end
+
+  def test_strips_trailing_html_comment_close
+    Dir.mktmpdir('test') do |dir|
+      file = File.join(dir, 'a.txt')
+      File.write(
+        file,
+        "<!-- \x40todo #TEST-15 Make it work -->\n"
+      )
+      stub_source_find_github_user(file, 'hey') do |source|
+        PDD.opts = nil
+        list = source.puzzles
+        assert_equal(1, list.size)
+        assert_equal('Make it work', list.first.props[:body])
+      end
+    end
+  end
+
   def test_space_indented_multiline_puzzle_block
     Dir.mktmpdir('test') do |dir|
       file = File.join(dir, 'a.txt')
