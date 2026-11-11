@@ -10,7 +10,7 @@ module PDD
       @string = string
     end
 
-    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable-next Metrics/CyclomaticComplexity
     def to_regexp
       chars = @string.gsub(%r{(\*\*/\*)|(\*\*)}, '*').chars
       curlies = 0
@@ -46,6 +46,5 @@ module PDD
         end
       end.join
     end
-    # rubocop:enable Metrics/CyclomaticComplexity
   end
 end
