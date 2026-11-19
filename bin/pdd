@@ -75,6 +75,8 @@ begin
     extra = body.split(/\s+/).map(&:strip)
     opts['skip-gitignore'] = extra
     PDD.log.info "Found #{body.split("\n").length} lines in #{File.absolute_path(cfg)}"
+  elsif opts['skip-gitignore']
+    opts['skip-gitignore'] = []
   end
 
   Encoding.default_external = Encoding::UTF_8

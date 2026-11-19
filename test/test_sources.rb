@@ -63,6 +63,12 @@ class TestSources < Minitest::Test
     end
   end
 
+  def test_excludes_in_dir_with_regexp_chars
+    in_temp(['a+b/first.txt', 'a+b/c/second.txt']) do |dir|
+      assert_equal(1, PDD::Sources.new(File.join(dir, 'a+b')).exclude('c/**').fetch.size)
+    end
+  end
+
   def test_excludes_recursively
     in_temp(['a/first.txt', 'b/c/second.txt', 'b/c/d/third.txt']) do |dir|
       assert_equal(0, PDD::Sources.new(dir).exclude('**/*').fetch.size)
