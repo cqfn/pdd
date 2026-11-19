@@ -42,7 +42,7 @@ module PDD
           escaping = true
           '\\'
         else
-          char
+          Regexp.escape(char)
         end
       end.join
     end

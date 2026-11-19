@@ -106,6 +106,20 @@ Feature: Command Line Processing
     And XML file "out.xml" matches "/puzzles/puzzle[./ticket='44']"
     And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
 
+  Scenario: Skipping gitignore when there is no .gitignore file
+    Given I have a "a/b/c/test.txt" file with content:
+    """
+    ~~ @todo #44 some puzzle to be excluded
+    """
+    And I have a "f/g/h/hello.md" file with content:
+    """
+    ~~ @todo #45 some puzzle to be found
+    """
+    When I run bin/pdd with "--skip-gitignore --exclude a/**/* > out.xml"
+    Then Exit code is zero
+    And XML file "out.xml" matches "/puzzles/puzzle[./ticket='45']"
+    And XML file "out.xml" matches "/puzzles[count(puzzle)=1]"
+
   Scenario: Files from .gitignore is not excluded by default
     Given I have a "a/b/c/test.txt" file with content:
     """
